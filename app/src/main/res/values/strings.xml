@@ -19,4 +19,6 @@
     <string name="foreign">Zagraniczne</string>
     <string name="settings">Ustawienia</string>
     <string name="communicate">Communicate</string>
+    <string name="title_placeholder">Title placeholder</string>
+    <string name="artist_placeholder">Artist placeholder</string>
 </resources>

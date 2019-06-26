@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Entity(tableName = "song_table",
         foreignKeys = @ForeignKey(entity = Artist.class,
         parentColumns = "id",
-        childColumns = "artist_id")        )
+        childColumns = "artist_id"))
 public class Song {
 
     @PrimaryKey(autoGenerate = true)
