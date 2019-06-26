@@ -1,0 +1,41 @@
+package com.example.guitarsongbook;
+
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.example.guitarsongbook.model.Artist;
+import com.example.guitarsongbook.model.Song;
+import com.example.guitarsongbook.repositories.ArtistRepository;
+import com.example.guitarsongbook.repositories.SongRepository;
+
+import java.util.List;
+
+public class GuitarSongbookViewModel extends AndroidViewModel {
+
+    private ArtistRepository mArtistRepository;
+    private SongRepository mSongRepository;
+
+    private LiveData<List<Artist>> mAllArtists;
+    private LiveData<List<Song>> mAllSongs;
+
+    public GuitarSongbookViewModel(@NonNull Application application) {
+        super(application);
+        mArtistRepository = new ArtistRepository(application);
+        mAllArtists = mArtistRepository.getAllArtists();
+
+        mSongRepository = new SongRepository(application);
+        mAllSongs = mSongRepository.getmAllSongs();
+
+    }
+
+    public LiveData<List<Artist>> getAllArtists() { return mAllArtists; }
+    public LiveData<List<Song>> getAllSOngs() { return mAllSongs; }
+
+    public LiveData<Artist> getArtistbyId(Long id) { return mArtistRepository.getArtistById(id); }
+
+    public void insertArtist(Artist artist) { mArtistRepository.insert(artist); }
+    public void insertSong(Song song) { mSongRepository.insert(song); }
+}
