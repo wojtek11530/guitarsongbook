@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import static com.example.guitarsongbook.model.Kind.POLISH;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
-@Database(entities = {Artist.class, Song.class}, version = 1, exportSchema = false)
+@Database(entities = {Artist.class, Song.class}, version = 2, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 

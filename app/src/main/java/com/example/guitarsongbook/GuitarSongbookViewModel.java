@@ -32,9 +32,10 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Artist>> getAllArtists() { return mAllArtists; }
-    public LiveData<List<Song>> getAllSOngs() { return mAllSongs; }
+    public LiveData<List<Song>> getAllSongs() { return mAllSongs; }
 
     public LiveData<Artist> getArtistbyId(Long id) { return mArtistRepository.getArtistById(id); }
+    public LiveData<Song> getSongbyId(Long id) { return mSongRepository.getSongById(id); }
 
     public void insertArtist(Artist artist) { mArtistRepository.insert(artist); }
     public void insertSong(Song song) { mSongRepository.insert(song); }

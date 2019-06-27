@@ -47,14 +47,16 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            //FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.popBackStack();
 
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        SongListFragment songListFragment = SongListFragment.newInstance();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                .commit();
+            SongListFragment songListFragment = SongListFragment.newInstance();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
+        }
 
     }
 

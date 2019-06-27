@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Song {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "song_id")
     private Long mId;
 
     @ColumnInfo(name = "title")
@@ -38,7 +38,7 @@ public class Song {
     private ArrayList<String> mChords;
 
     public Song(Long mId, String mTitle, Long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords) {
-        this.mArtistId = mId;
+        this.mId = mId;
         this.mTitle = mTitle;
         this.mArtistId = mArtistId;
         this.mKind = mKind;
