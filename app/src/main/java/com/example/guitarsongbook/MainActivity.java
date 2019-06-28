@@ -60,6 +60,15 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                     .commit();
+        }else{
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                toggle.setDrawerIndicatorEnabled(false);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            } else {
+                toggle.setDrawerIndicatorEnabled(true);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                toggle.syncState();
+            }
         }
 
         // Set back button
@@ -108,9 +117,16 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_foreign) {
 
-        } else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_rock) {
+
+        }else if (id == R.id.nav_pop) {
+
+        }else if (id == R.id.nav_folk) {
+
+        }else if (id == R.id.nav_setting) {
 
         }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

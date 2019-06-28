@@ -12,12 +12,31 @@
             android:title="@string/foreign" />
     </group>
 
-    <item android:title="@string/communicate">
+    <item android:title="@string/music_genre">
         <menu>
+        <group android:checkableBehavior="single">
             <item
-                android:id="@+id/nav_settings"
-                android:title="@string/settings" />
+                android:id="@+id/nav_rock"
+                android:title="@string/rock" />
+            <item
+                android:id="@+id/nav_pop"
+                android:title="@string/pop" />
+            <item
+                android:id="@+id/nav_folk"
+                android:title="@string/folk" />
+        </group>
         </menu>
     </item>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_setting"
+            android:title="@string/settings" />
+    </group>
+
+
+
 
 </menu>
