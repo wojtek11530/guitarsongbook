@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.SongViewHolder> {
 
@@ -68,12 +69,12 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
         public void bindTo(int position) {
             if (mSong != null) {
-                mLyricsLineTextView.setText(mLyrics.get(position));
+                mLyricsLineTextView.setText(Html.fromHtml(mLyrics.get(position)));
                 mChordsLineTextView.setText(mChords.get(position));
 
             } else {
                 // Covers the case of data not being ready yet.
-                mLyricsLineTextView.setText("No Song");
+                mLyricsLineTextView.setText(context.getString(R.string.no_song_label));
             }
         }
     }
