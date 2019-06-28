@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 
 import com.example.guitarsongbook.GuitarSongbookRoomDatabase;
 import com.example.guitarsongbook.daos.SongDao;
+import com.example.guitarsongbook.model.Kind;
+import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
@@ -32,6 +34,14 @@ public class SongRepository {
 
     public LiveData<Song> getSongById(Long id) {
         return mSongDao.getSongById(id);
+    }
+
+    public LiveData<List<Song>> getSongsByKind(Kind kind) {
+        return mSongDao.getSongsByKind(kind);
+    }
+
+    public LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre) {
+        return mSongDao.getSongByMusicGenre(genre);
     }
 
     private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {

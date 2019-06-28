@@ -19,7 +19,9 @@ import com.example.guitarsongbook.model.Song;
 
 import java.util.ArrayList;
 
+import static com.example.guitarsongbook.model.Kind.FOREIGN;
 import static com.example.guitarsongbook.model.Kind.POLISH;
+import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
 @Database(entities = {Artist.class, Song.class}, version = 2, exportSchema = false)
@@ -64,7 +66,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         private final SongDao mSongDao;
         private final ArtistDao mArtistDao;
 
-        String[] artists = {"Happysad", "Wilki", "Big Cyc", "Stare Dobre Małżeństwo", "Perfect", "T.Love"};
+        String[] artists = {"Happysad", "Wilki", "Big Cyc", "Stare Dobre Małżeństwo", "Perfect",
+                "T.Love", "Vance Joy", "Beatles", "Oasis"};
 
         PopulateDbAsync(GuitarSongbookRoomDatabase db) {
             mSongDao = db.songDao();
@@ -195,6 +198,18 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
             song = new Song("Nie nie nie",
                     mArtistDao.getArtistByName("T.Love").getMId(),POLISH, ROCK, null, null);
+            mSongDao.insert(song);
+
+            song = new Song("Riptide",
+                    mArtistDao.getArtistByName("Vance Joy").getMId(),FOREIGN, POP, null, null);
+            mSongDao.insert(song);
+
+            song = new Song("Let it be",
+                    mArtistDao.getArtistByName("Beatles").getMId(),FOREIGN, ROCK, null, null);
+            mSongDao.insert(song);
+
+            song = new Song("Don't look back in anger",
+                    mArtistDao.getArtistByName("Oasis").getMId(),FOREIGN, ROCK, null, null);
             mSongDao.insert(song);
             return null;
         }
