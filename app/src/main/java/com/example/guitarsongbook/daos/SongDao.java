@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.guitarsongbook.model.Kind;
+import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
@@ -24,4 +26,10 @@ public interface SongDao {
 
     @Query("SELECT * FROM song_table WHERE song_id = :id LIMIT 1")
     LiveData<Song> getSongById(Long id);
+
+    @Query("SELECT * FROM song_table WHERE kind = :kind ORDER BY title ASC")
+    LiveData<List<Song>> getSongsByKind(Kind kind);
+
+    @Query("SELECT * FROM song_table WHERE music_genre = :genre ORDER BY title ASC")
+    LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre);
 }

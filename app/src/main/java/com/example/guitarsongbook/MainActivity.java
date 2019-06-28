@@ -3,6 +3,8 @@ package com.example.guitarsongbook;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.SongListFragment;
+import com.example.guitarsongbook.model.Kind;
+import com.example.guitarsongbook.model.MusicGenre;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -52,11 +54,8 @@ public class MainActivity extends AppCompatActivity
         fragmentManager = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
-
-            //FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.popBackStack();
-
-            SongListFragment songListFragment = SongListFragment.newInstance();
+            SongListFragment songListFragment = SongListFragment.newInstance(null, null);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                     .commit();
@@ -75,14 +74,14 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    toggle.setDrawerIndicatorEnabled(false);
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else {
-                    toggle.setDrawerIndicatorEnabled(true);
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                    toggle.syncState();
-                }
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                toggle.setDrawerIndicatorEnabled(false);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            } else {
+                toggle.setDrawerIndicatorEnabled(true);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                toggle.syncState();
+            }
             }
         });
 
@@ -113,15 +112,41 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_polish_songs) {
-            // Handle the camera action
+        if (id == R.id.nav_all_songs) {
+            SongListFragment songListFragment = SongListFragment.newInstance(null, null);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
+
+        }else if (id == R.id.nav_polish_songs) {
+            SongListFragment songListFragment = SongListFragment.newInstance(Kind.POLISH, null);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
+
         } else if (id == R.id.nav_foreign) {
+            SongListFragment songListFragment = SongListFragment.newInstance(Kind.FOREIGN, null);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
 
         } else if (id == R.id.nav_rock) {
+            SongListFragment songListFragment = SongListFragment.newInstance(null, MusicGenre.ROCK);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
 
         }else if (id == R.id.nav_pop) {
+            SongListFragment songListFragment = SongListFragment.newInstance(null, MusicGenre.POP);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
 
         }else if (id == R.id.nav_folk) {
+            SongListFragment songListFragment = SongListFragment.newInstance(null, MusicGenre.FOLK);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
 
         }else if (id == R.id.nav_setting) {
 

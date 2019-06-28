@@ -18,6 +18,8 @@ import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.SongListAdapter;
 import com.example.guitarsongbook.model.Artist;
+import com.example.guitarsongbook.model.Kind;
+import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
@@ -31,8 +33,19 @@ public class SongListFragment extends Fragment {
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
-    public static SongListFragment newInstance() {
+    public static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
+    public static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
+
+
+    public static SongListFragment newInstance(Kind kind, MusicGenre genre) {
         SongListFragment fragment = new SongListFragment();
+        Bundle arguments = new Bundle();
+        if (kind != null) {
+            arguments.putSerializable(SONGS_KIND_KEY, kind);
+        } else if(genre != null) {
+            arguments.putSerializable(SONGS_GENRE_KEY, genre);
+        }
+        fragment.setArguments(arguments);
         return fragment;
     }
 
@@ -54,13 +67,38 @@ public class SongListFragment extends Fragment {
         songListRecyclerView.setAdapter(adapter);
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        Kind kind = null;
+        MusicGenre genre = null;
 
-        mGuitarSongbookViewModel.getAllSongs().observe(this, new Observer<List<Song>>() {
-            @Override
-            public void onChanged(@Nullable final List<Song> songs) {
-                adapter.setSongs(songs);
-            }
-        });
+        if (getArguments().containsKey(SONGS_KIND_KEY)) {
+            kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
+        }else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
+            genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
+        }
+
+        if (kind!=null){
+            mGuitarSongbookViewModel.getSongsByKind(kind).observe(this, new Observer<List<Song>>() {
+                @Override
+                public void onChanged(@Nullable final List<Song> songs) {
+                    adapter.setSongs(songs);
+                }
+            });
+
+        }else if (genre!=null){
+            mGuitarSongbookViewModel.getSongByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+                @Override
+                public void onChanged(@Nullable final List<Song> songs) {
+                    adapter.setSongs(songs);
+                }
+            });
+        }else {
+            mGuitarSongbookViewModel.getAllSongs().observe(this, new Observer<List<Song>>() {
+                @Override
+                public void onChanged(@Nullable final List<Song> songs) {
+                    adapter.setSongs(songs);
+                }
+            });
+        }
 
         mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
             @Override
