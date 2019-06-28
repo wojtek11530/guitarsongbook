@@ -45,8 +45,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         if (mSongs != null) {
             Song current = mSongs.get(position);
             holder.mTitleTextView.setText(current.getMTitle());
-            //System.out.println(current.getMArtistId());
-            System.out.println("Current id: " + String.valueOf(current.getMArtistId()));
+
 
             Artist artist = findArtistById(current.getMArtistId());
             if (artist != null) {
