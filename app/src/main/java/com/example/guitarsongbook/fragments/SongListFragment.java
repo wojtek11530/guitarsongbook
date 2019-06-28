@@ -55,7 +55,7 @@ public class SongListFragment extends Fragment {
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        mGuitarSongbookViewModel.getAllSOngs().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getAllSongs().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -68,6 +68,7 @@ public class SongListFragment extends Fragment {
                 adapter.setArtists(artists);
             }
         });
+
         return view;
     }
 

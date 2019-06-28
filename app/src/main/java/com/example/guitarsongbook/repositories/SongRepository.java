@@ -30,6 +30,10 @@ public class SongRepository {
         new SongRepository.insertAsyncTask(mSongDao).execute(song);
     }
 
+    public LiveData<Song> getSongById(Long id) {
+        return mSongDao.getSongById(id);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {
 
         private SongDao mAsyncTaskDao;

@@ -32,8 +32,6 @@ public class ArtistRepository{
     }
 
     public LiveData<Artist> getArtistById(Long id) {
-        //new getArtistByIdAsyncTask(mArtistDao).execute(id);
-        //return artistToReturn;
         return mArtistDao.findArtistById(id);
     }
 

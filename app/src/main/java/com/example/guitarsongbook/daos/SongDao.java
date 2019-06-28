@@ -22,5 +22,6 @@ public interface SongDao {
     @Query("SELECT * from song_table ORDER BY title ASC")
     LiveData<List<Song>> getAllSongs();
 
-
+    @Query("SELECT * FROM song_table WHERE song_id = :id LIMIT 1")
+    LiveData<Song> getSongById(Long id);
 }

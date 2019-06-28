@@ -12,7 +12,9 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
+import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
+import com.example.guitarsongbook.fragments.SongDisplayFragment;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Song;
 
@@ -45,7 +47,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             holder.mTitleTextView.setText(current.getMTitle());
             //System.out.println(current.getMArtistId());
             System.out.println("Current id: " + String.valueOf(current.getMArtistId()));
-            holder.mArtistTextView.setText(findArtistById(current.getMArtistId()).getMName());
+
+            Artist artist = findArtistById(current.getMArtistId());
+            if (artist != null) {
+                holder.mArtistTextView.setText(artist.getMName());
+            }
         } else {
             // Covers the case of data not being ready yet.
             holder.mTitleTextView.setText("No Song");
@@ -71,6 +77,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         mArtists = artists;
         notifyDataSetChanged();
     }
+
     @Override
     public int getItemCount() {
         if (mSongs != null)
@@ -78,7 +85,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         else return 0;
     }
 
-    public class SongViewHolder extends RecyclerView.ViewHolder {
+    public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView mTitleTextView;
         private final TextView mArtistTextView;
@@ -87,6 +94,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             super(itemView);
             mTitleTextView = itemView.findViewById(R.id.song_title_txt_);
             mArtistTextView = itemView.findViewById(R.id.artist_txt_);
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+
+            Song songToDisplay = mSongs.get(position);
+            Long songId = songToDisplay.getMId();
+            Long artistId = songToDisplay.getMArtistId();
+
+            SongDisplayFragment songDisplayFragment = SongDisplayFragment.newInstance(songId, artistId);
+            ((MainActivity) context).getSupportFragmentManager().beginTransaction().
+                    replace(R.id.fragment_container_fl_, songDisplayFragment).addToBackStack(null).commit();
         }
     }
 }

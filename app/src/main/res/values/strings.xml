@@ -19,4 +19,7 @@
     <string name="foreign">Zagraniczne</string>
     <string name="settings">Ustawienia</string>
     <string name="communicate">Communicate</string>
+    <string name="title_placeholder">title placeholder</string>
+    <string name="artist_placeholder">artist placeholder</string>
+    <string name="no_song_label">No Song</string>
 </resources>
