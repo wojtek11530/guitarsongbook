@@ -1,5 +1,8 @@
 package com.example.guitarsongbook;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.SongListFragment;
@@ -8,8 +11,10 @@ import com.example.guitarsongbook.model.MusicGenre;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuInflater;
 import android.view.View;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -53,7 +58,11 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
-        if (savedInstanceState == null) {
+        Intent intent = getIntent();
+        if (intent !=null && Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //doMySearch(query);
+        }else if (savedInstanceState == null) {
             fragmentManager.popBackStack();
             SongListFragment songListFragment = SongListFragment.newInstance(null, null);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -93,6 +102,8 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+
 
     @Override
     public void onBackPressed() {
