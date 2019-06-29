@@ -28,4 +28,6 @@ public interface ArtistDao {
     @Query("SELECT * FROM artist_table WHERE name = :name")
     Artist getArtistByName(String name);
 
+    @Query("SELECT * FROM artist_table WHERE name LIKE :query ORDER BY name ASC")
+    LiveData<List<Artist>> getArtistsByQuery(String query);
 }

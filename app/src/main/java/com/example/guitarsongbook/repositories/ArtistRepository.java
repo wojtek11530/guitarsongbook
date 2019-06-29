@@ -15,7 +15,6 @@ public class ArtistRepository{
 
     private ArtistDao mArtistDao;
     private LiveData<List<Artist>> mAllArtists;
-    private  Artist artistToReturn;
 
     public ArtistRepository(Application application) {
         GuitarSongbookRoomDatabase db = GuitarSongbookRoomDatabase.getDatabase(application);
@@ -35,6 +34,11 @@ public class ArtistRepository{
         return mArtistDao.findArtistById(id);
     }
 
+    public LiveData<List<Artist>> getArtistsByQuery(String query) {
+        query = "%" + query + "%";
+        return mArtistDao.getArtistsByQuery(query);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Artist, Void, Void> {
 
         private ArtistDao mAsyncTaskDao;
@@ -49,28 +53,4 @@ public class ArtistRepository{
             return null;
         }
     }
-
-    /*
-    private class getArtistByIdAsyncTask extends AsyncTask<Long, Void, Artist>{
-        private ArtistDao mAsyncTaskDao;
-
-        public getArtistByIdAsyncTask(ArtistDao mArtistDao) {
-            mAsyncTaskDao = mArtistDao;
-        }
-
-
-        @Override
-        protected Artist doInBackground(Long... longs) {
-            return mAsyncTaskDao.findArtistById(longs[0]);
-
-        }
-
-        protected void onPostExecute(Artist artist) {
-            //super.onPostExecute(artist);
-            //System.out.println(artist);
-            artistToReturn = artist;
-        }
-    }
-
-    */
 }

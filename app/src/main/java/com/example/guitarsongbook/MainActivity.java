@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.ArtistListFragment;
+import com.example.guitarsongbook.fragments.SearchResultFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-
         // Set back button
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity
         }else{
             fragmentManager.popBackStack();
         }
-        SongListFragment songListFragment = SongListFragment.newInstance(query);
+        SearchResultFragment searchResultFragment = SearchResultFragment.newInstance(query);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment);
+        fragmentTransaction.replace(R.id.fragment_container_fl_, searchResultFragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
 

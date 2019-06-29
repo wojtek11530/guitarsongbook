@@ -23,4 +23,5 @@
     <string name="search_hint">Szukaj piosenki, artysty…</string>
     <string name="search_fragment_tag">SearchFragmentTag</string>
     <string name="artists">Artyści</string>
+    <string name="songs">Piosenki</string>
 </resources>
