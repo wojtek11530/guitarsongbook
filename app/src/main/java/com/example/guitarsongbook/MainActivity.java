@@ -3,6 +3,7 @@ package com.example.guitarsongbook;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.SongListFragment;
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     FragmentManager fragmentManager;
 
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile = "com.example.guitarsongbook";
+    private final String SEARCH_KEY = "SEARCH_KEY";
+
+    private boolean mSearching;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +64,7 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
-        Intent intent = getIntent();
-        if (intent !=null && Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //doMySearch(query);
-        }else if (savedInstanceState == null) {
+        if (savedInstanceState == null) {
             fragmentManager.popBackStack();
             SongListFragment songListFragment = SongListFragment.newInstance(null, null);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity
                 toggle.syncState();
             }
         }
+
 
         // Set back button
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
@@ -101,8 +104,39 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        mSearching = mPreferences.getBoolean(SEARCH_KEY, false);
+
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private boolean handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);
+            return true;
+        }
+        return false;
+    }
+
+    private void doMySearch(String query) {
+
+        if (!mSearching) {
+            mSearching = true;
+        }else{
+            fragmentManager.popBackStack();
+        }
+        SongListFragment songListFragment = SongListFragment.newInstance(query);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment);
+        fragmentTransaction.addToBackStack(null).commit();
+    }
 
 
     @Override
@@ -111,6 +145,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.getBackStackEntryCount() > 0) {
+            mSearching = false;
             fragmentManager.popBackStack();
         } else {
             super.onBackPressed();
@@ -166,5 +201,13 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putBoolean(SEARCH_KEY, mSearching);
+        preferencesEditor.apply();
     }
 }

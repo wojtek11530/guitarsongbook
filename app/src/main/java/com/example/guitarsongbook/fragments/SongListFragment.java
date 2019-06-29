@@ -42,7 +42,7 @@ public class SongListFragment extends Fragment {
 
     public static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
     public static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
-
+    public static final String QUERY_KEY = "QUERY_KEY";
 
     public static SongListFragment newInstance(Kind kind, MusicGenre genre) {
         SongListFragment fragment = new SongListFragment();
@@ -52,6 +52,14 @@ public class SongListFragment extends Fragment {
         } else if(genre != null) {
             arguments.putSerializable(SONGS_GENRE_KEY, genre);
         }
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    public static SongListFragment newInstance(String query) {
+        SongListFragment fragment = new SongListFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString(QUERY_KEY, query);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -82,11 +90,14 @@ public class SongListFragment extends Fragment {
 
         Kind kind = null;
         MusicGenre genre = null;
+        String query = null;
 
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
         }else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
             genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
+        }else if (getArguments().containsKey(QUERY_KEY)) {
+            query = getArguments().getString(QUERY_KEY);
         }
 
         if (kind!=null){
@@ -98,6 +109,13 @@ public class SongListFragment extends Fragment {
             });
         }else if (genre!=null){
             mGuitarSongbookViewModel.getSongByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+                @Override
+                public void onChanged(@Nullable final List<Song> songs) {
+                    adapter.setSongs(songs);
+                }
+            });
+        }else if (query!=null){
+            mGuitarSongbookViewModel.getSongByQuery(query).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
@@ -124,21 +142,6 @@ public class SongListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        // Define the listener
-        MenuItem.OnActionExpandListener expandListener = new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Do something when action item collapses
-                return true;  // Return true to collapse action view
-            }
-
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                //toggle.setDrawerIndicatorEnabled(false);
-                return true;  // Return true to expand action view
-            }
-        };
 
         inflater.inflate(R.menu.main, menu);
         // Get the SearchView and set the searchable configuration

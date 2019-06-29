@@ -20,5 +20,6 @@
     <string name="folk">Folk</string>
     <string name="settings">Ustawienia</string>
     <string name="all_songs">Wszystkie piosenki</string>
-    <string name="search_hint">Szukaj piosenki, artysty...</string>
+    <string name="search_hint">Szukaj piosenki, artysty…</string>
+    <string name="search_fragment_tag">SearchFragmentTag</string>
 </resources>

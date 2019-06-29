@@ -57,7 +57,6 @@ public class SongDisplayFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
     }
@@ -75,7 +74,6 @@ public class SongDisplayFragment extends Fragment {
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
         final SongDisplayAdapter adapter = new SongDisplayAdapter(getContext());
-
 
 
         Long songId = null;
