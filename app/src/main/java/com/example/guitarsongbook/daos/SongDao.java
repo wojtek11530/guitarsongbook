@@ -32,4 +32,7 @@ public interface SongDao {
 
     @Query("SELECT * FROM song_table WHERE music_genre = :genre ORDER BY title ASC")
     LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre);
+
+    @Query("SELECT * FROM song_table WHERE title LIKE :query ORDER BY title ASC")
+    LiveData<List<Song>> getSongByQuery(String query);
 }

@@ -36,16 +36,25 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     public LiveData<List<Artist>> getAllArtists() { return mAllArtists; }
     public LiveData<List<Song>> getAllSongs() { return mAllSongs; }
 
-    public LiveData<List<Song>> getSongsByKind(Kind kind) { return mSongRepository.getSongsByKind(kind); }
+    public LiveData<List<Song>> getSongsByKind(Kind kind) {
+        return mSongRepository.getSongsByKind(kind);
+    }
     public LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre) {
         return mSongRepository.getSongByMusicGenre(genre);
     }
+    public LiveData<List<Song>> getSongByQuery(String query) {
+        return mSongRepository.getSongByQuery(query);
+    }
 
-    public LiveData<Artist> getArtistbyId(Long id) { return mArtistRepository.getArtistById(id); }
-    public LiveData<Song> getSongbyId(Long id) { return mSongRepository.getSongById(id); }
+    public LiveData<Song> getSongbyId(Long id) {
+        return mSongRepository.getSongById(id); }
+    public LiveData<Artist> getArtistbyId(Long id) {
+        return mArtistRepository.getArtistById(id); }
+
 
     public void insertArtist(Artist artist) { mArtistRepository.insert(artist); }
     public void insertSong(Song song) { mSongRepository.insert(song); }
+
 
 
 }

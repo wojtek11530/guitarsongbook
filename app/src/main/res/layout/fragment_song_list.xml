@@ -6,9 +6,14 @@
     tools:context=".fragments.SongListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:id="@+id/song_list_rv_"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        ></androidx.recyclerview.widget.RecyclerView>
+
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>

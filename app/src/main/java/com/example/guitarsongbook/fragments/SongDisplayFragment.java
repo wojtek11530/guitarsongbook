@@ -56,6 +56,12 @@ public class SongDisplayFragment extends Fragment {
 
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -68,7 +74,6 @@ public class SongDisplayFragment extends Fragment {
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
         final SongDisplayAdapter adapter = new SongDisplayAdapter(getContext());
-
 
 
         Long songId = null;

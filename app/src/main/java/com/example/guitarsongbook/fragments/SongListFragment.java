@@ -1,9 +1,12 @@
 package com.example.guitarsongbook.fragments;
 
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -11,6 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,6 +29,7 @@ import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +42,7 @@ public class SongListFragment extends Fragment {
 
     public static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
     public static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
-
+    public static final String QUERY_KEY = "QUERY_KEY";
 
     public static SongListFragment newInstance(Kind kind, MusicGenre genre) {
         SongListFragment fragment = new SongListFragment();
@@ -49,8 +56,22 @@ public class SongListFragment extends Fragment {
         return fragment;
     }
 
+    public static SongListFragment newInstance(String query) {
+        SongListFragment fragment = new SongListFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString(QUERY_KEY, query);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
     public SongListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
 
@@ -69,11 +90,14 @@ public class SongListFragment extends Fragment {
 
         Kind kind = null;
         MusicGenre genre = null;
+        String query = null;
 
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
         }else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
             genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
+        }else if (getArguments().containsKey(QUERY_KEY)) {
+            query = getArguments().getString(QUERY_KEY);
         }
 
         if (kind!=null){
@@ -83,9 +107,15 @@ public class SongListFragment extends Fragment {
                     adapter.setSongs(songs);
                 }
             });
-
         }else if (genre!=null){
             mGuitarSongbookViewModel.getSongByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+                @Override
+                public void onChanged(@Nullable final List<Song> songs) {
+                    adapter.setSongs(songs);
+                }
+            });
+        }else if (query!=null){
+            mGuitarSongbookViewModel.getSongByQuery(query).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
@@ -109,5 +139,22 @@ public class SongListFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.main, menu);
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setSubmitButtonEnabled(true);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
 
 }

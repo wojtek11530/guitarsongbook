@@ -43,6 +43,10 @@ public class SongRepository {
     public LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre) {
         return mSongDao.getSongByMusicGenre(genre);
     }
+    public LiveData<List<Song>> getSongByQuery(String query) {
+        query = query + "%";
+        return mSongDao.getSongByQuery(query);
+    }
 
     private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {
 
