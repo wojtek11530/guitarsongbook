@@ -1,9 +1,13 @@
 package com.example.guitarsongbook.fragments;
 
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -11,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -33,6 +39,8 @@ public class SearchResultFragment extends SearchViewFragment {
 
     private TextView mFoundSongsHeader;
     private TextView mFoundArtistsHeader;
+    private TextView mNoSongsCommunicateTextView;
+    private TextView mNoArtistsCommunicateTextView;
     private RecyclerView mFoundSongsRecyclerView;
     private RecyclerView mFoundArtistsRecyclerView;
 
@@ -62,6 +70,8 @@ public class SearchResultFragment extends SearchViewFragment {
         mFoundArtistsRecyclerView  = view.findViewById(R.id.found_artists_rv_);
         mFoundSongsHeader = view.findViewById(R.id.found_songs_header_txt_);
         mFoundArtistsHeader = view.findViewById(R.id.found_artists_header_txt_);
+        mNoSongsCommunicateTextView = view.findViewById(R.id.no_songs_txt_);
+        mNoArtistsCommunicateTextView = view.findViewById(R.id.no_artists_txt_);
 
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
@@ -83,6 +93,10 @@ public class SearchResultFragment extends SearchViewFragment {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     songListAdapter.setSongs(songs);
+                    if (songs.isEmpty()){
+                        mFoundSongsRecyclerView.setVisibility(View.GONE);
+                        mNoSongsCommunicateTextView.setVisibility(View.VISIBLE);
+                    }
                 }
             });
 
@@ -90,6 +104,7 @@ public class SearchResultFragment extends SearchViewFragment {
                 @Override
                 public void onChanged(@Nullable final List<Artist> artists) {
                     songListAdapter.setArtists(artists);
+
                 }
             });
 
@@ -97,11 +112,16 @@ public class SearchResultFragment extends SearchViewFragment {
                 @Override
                 public void onChanged(@Nullable final List<Artist> artists) {
                     artistListAdapter.setArtists(artists);
+                    if (artists.isEmpty()){
+                        mFoundArtistsRecyclerView.setVisibility(View.GONE);
+                        mNoArtistsCommunicateTextView.setVisibility(View.VISIBLE);
+                    }
                 }
             });
         }
 
         return view;
     }
+
 
 }

@@ -24,4 +24,6 @@
     <string name="search_fragment_tag">SearchFragmentTag</string>
     <string name="artists">Artyści</string>
     <string name="songs">Piosenki</string>
+    <string name="no_songs_communicate">Nie znaleziono żadnej piosenki.</string>
+    <string name="no_artists_communicate">Nie znaleziono żadnych artystów.</string>
 </resources>

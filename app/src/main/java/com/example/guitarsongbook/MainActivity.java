@@ -120,11 +120,12 @@ public class MainActivity extends AppCompatActivity
 
     private void doMySearch(String query) {
 
+        /*
         if (!mSearching) {
             mSearching = true;
         }else{
             fragmentManager.popBackStack();
-        }
+        }*/
         SearchResultFragment searchResultFragment = SearchResultFragment.newInstance(query);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container_fl_, searchResultFragment);
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.getBackStackEntryCount() > 0) {
-            mSearching = false;
+            //mSearching = false;
             fragmentManager.popBackStack();
         } else {
             super.onBackPressed();
@@ -155,8 +156,8 @@ public class MainActivity extends AppCompatActivity
 
         }else{
             Fragment fragment = null;
-            fragmentManager.popBackStack();
-            mSearching = false;
+            //fragmentManager.popBackStack();
+            //mSearching = false;
             if (id == R.id.nav_all_songs) {
                 fragment = SongListFragment.newInstance(null, null);
             }else if (id == R.id.nav_artists) {

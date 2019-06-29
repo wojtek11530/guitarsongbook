@@ -29,7 +29,7 @@ public abstract class SearchViewFragment extends Fragment {
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setIconifiedByDefault(true);
+        //searchView.setIconifiedByDefault(true);
         searchView.setSubmitButtonEnabled(true);
 
         super.onCreateOptionsMenu(menu, inflater);
