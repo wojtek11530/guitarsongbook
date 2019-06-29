@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtistListFragment extends Fragment {
+public class ArtistListFragment extends SearchViewFragment {
 
     private RecyclerView artistListRecyclerView;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
@@ -41,12 +41,13 @@ public class ArtistListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-
+    */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

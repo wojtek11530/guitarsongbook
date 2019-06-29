@@ -34,7 +34,7 @@ import java.util.zip.Inflater;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongListFragment extends Fragment {
+public class SongListFragment extends SearchViewFragment {
 
     private RecyclerView songListRecyclerView;
 
@@ -77,11 +77,13 @@ public class SongListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+    */
 
 
     @Override
@@ -159,6 +161,7 @@ public class SongListFragment extends Fragment {
         return view;
     }
 
+    /*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
@@ -173,6 +176,7 @@ public class SongListFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu, inflater);
     }
+    */
 
 
 

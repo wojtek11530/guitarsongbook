@@ -1,7 +1,6 @@
 package com.example.guitarsongbook;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,13 +9,10 @@ import com.example.guitarsongbook.fragments.ArtistListFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import android.view.MenuInflater;
 import android.view.View;
 
-import androidx.appcompat.widget.SearchView;
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -28,11 +24,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
-
-import android.view.Menu;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fragmentManager;
 
     private SharedPreferences mPreferences;
-    private String sharedPrefFile = "com.example.guitarsongbook";
+    private final String sharedPrefFile = "com.example.guitarsongbook";
     private final String SEARCH_KEY = "SEARCH_KEY";
 
     private boolean mSearching;
@@ -117,13 +111,11 @@ public class MainActivity extends AppCompatActivity
         handleIntent(intent);
     }
 
-    private boolean handleIntent(Intent intent) {
+    private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             doMySearch(query);
-            return true;
         }
-        return false;
     }
 
     private void doMySearch(String query) {
@@ -155,54 +147,36 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_all_songs) {
-            SongListFragment songListFragment = SongListFragment.newInstance(null, null);
+        if (id == R.id.nav_setting) {
+
+        }else{
+            Fragment fragment = null;
+            fragmentManager.popBackStack();
+            mSearching = false;
+            if (id == R.id.nav_all_songs) {
+                fragment = SongListFragment.newInstance(null, null);
+            }else if (id == R.id.nav_artists) {
+                fragment = ArtistListFragment.newInstance();
+            }else if (id == R.id.nav_polish_songs) {
+                fragment = SongListFragment.newInstance(Kind.POLISH, null);
+            } else if (id == R.id.nav_foreign) {
+                fragment = SongListFragment.newInstance(Kind.FOREIGN, null);
+            } else if (id == R.id.nav_rock) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.ROCK);
+            }else if (id == R.id.nav_pop) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.POP);
+            }else if (id == R.id.nav_folk) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.FOLK);
+            }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
-
-        }else if (id == R.id.nav_artists) {
-            ArtistListFragment artistListFragment = ArtistListFragment.newInstance();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, artistListFragment)
-                    .commit();
-
-        }else if (id == R.id.nav_polish_songs) {
-            SongListFragment songListFragment = SongListFragment.newInstance(Kind.POLISH, null);
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
-
-        } else if (id == R.id.nav_foreign) {
-            SongListFragment songListFragment = SongListFragment.newInstance(Kind.FOREIGN, null);
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
-
-        } else if (id == R.id.nav_rock) {
-            SongListFragment songListFragment = SongListFragment.newInstance(null, MusicGenre.ROCK);
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
-
-        }else if (id == R.id.nav_pop) {
-            SongListFragment songListFragment = SongListFragment.newInstance(null, MusicGenre.POP);
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
-
-        }else if (id == R.id.nav_folk) {
-            SongListFragment songListFragment = SongListFragment.newInstance(null, MusicGenre.FOLK);
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
-
-        }else if (id == R.id.nav_setting) {
-
+            if (fragment!=null) {
+                fragmentTransaction.replace(R.id.fragment_container_fl_, fragment)
+                        .commit();
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
