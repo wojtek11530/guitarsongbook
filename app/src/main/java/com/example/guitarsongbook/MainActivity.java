@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.ArtistListFragment;
+import com.example.guitarsongbook.fragments.SearchResultFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-
         // Set back button
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
@@ -120,14 +120,15 @@ public class MainActivity extends AppCompatActivity
 
     private void doMySearch(String query) {
 
+        /*
         if (!mSearching) {
             mSearching = true;
         }else{
             fragmentManager.popBackStack();
-        }
-        SongListFragment songListFragment = SongListFragment.newInstance(query);
+        }*/
+        SearchResultFragment searchResultFragment = SearchResultFragment.newInstance(query);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment);
+        fragmentTransaction.replace(R.id.fragment_container_fl_, searchResultFragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
 
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.getBackStackEntryCount() > 0) {
-            mSearching = false;
+            //mSearching = false;
             fragmentManager.popBackStack();
         } else {
             super.onBackPressed();
@@ -155,8 +156,8 @@ public class MainActivity extends AppCompatActivity
 
         }else{
             Fragment fragment = null;
-            fragmentManager.popBackStack();
-            mSearching = false;
+            //fragmentManager.popBackStack();
+            //mSearching = false;
             if (id == R.id.nav_all_songs) {
                 fragment = SongListFragment.newInstance(null, null);
             }else if (id == R.id.nav_artists) {

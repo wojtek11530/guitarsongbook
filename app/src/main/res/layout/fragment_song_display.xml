@@ -19,9 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/title_placeholder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/title_placeholder" />
 
         <TextView
             android:id="@+id/displayed_song_artist_txt_"
@@ -30,9 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:text="@string/artist_placeholder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/displayed_song_title_txt_" />
+            android:text="@string/artist_placeholder" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lyrics_rv_"
@@ -40,11 +36,7 @@
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/displayed_song_artist_txt_" />
+            android:layout_marginBottom="12dp" />
     </LinearLayout>
 
 
