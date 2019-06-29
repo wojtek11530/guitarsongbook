@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SongListFragment">
+    tools:context=".fragments.ArtistListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:clipToPadding="false"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:id="@+id/song_list_rv_"
+        android:id="@+id/artist_list_rv_"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </FrameLayout>

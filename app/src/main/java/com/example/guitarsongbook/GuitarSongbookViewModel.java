@@ -45,6 +45,9 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     public LiveData<List<Song>> getSongByQuery(String query) {
         return mSongRepository.getSongByQuery(query);
     }
+    public LiveData<List<Song>> getSongByArtistId(Long artistId) {
+        return mSongRepository.getSongByArtistId(artistId);
+    }
 
     public LiveData<Song> getSongbyId(Long id) {
         return mSongRepository.getSongById(id); }

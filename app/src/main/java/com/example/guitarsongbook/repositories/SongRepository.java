@@ -44,8 +44,12 @@ public class SongRepository {
         return mSongDao.getSongByMusicGenre(genre);
     }
     public LiveData<List<Song>> getSongByQuery(String query) {
-        query = query + "%";
+        query = "%" + query + "%";
         return mSongDao.getSongByQuery(query);
+    }
+
+    public LiveData<List<Song>> getSongByArtistId(Long artistId) {
+        return mSongDao.getSongByArtistId(artistId);
     }
 
     private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {
