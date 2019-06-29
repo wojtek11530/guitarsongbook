@@ -35,4 +35,7 @@ public interface SongDao {
 
     @Query("SELECT * FROM song_table WHERE title LIKE :query ORDER BY title ASC")
     LiveData<List<Song>> getSongByQuery(String query);
+
+    @Query("SELECT * FROM song_table WHERE artist_id = :artistId")
+    LiveData<List<Song>> getSongByArtistId(Long artistId);
 }

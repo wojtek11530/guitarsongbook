@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.guitarsongbook.fragments.ArtistListFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -162,6 +163,12 @@ public class MainActivity extends AppCompatActivity
             SongListFragment songListFragment = SongListFragment.newInstance(null, null);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
+
+        }else if (id == R.id.nav_artists) {
+            ArtistListFragment artistListFragment = ArtistListFragment.newInstance();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_fl_, artistListFragment)
                     .commit();
 
         }else if (id == R.id.nav_polish_songs) {

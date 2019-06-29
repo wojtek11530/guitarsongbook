@@ -43,6 +43,7 @@ public class SongListFragment extends Fragment {
     public static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
     public static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
     public static final String QUERY_KEY = "QUERY_KEY";
+    public static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
 
     public static SongListFragment newInstance(Kind kind, MusicGenre genre) {
         SongListFragment fragment = new SongListFragment();
@@ -60,6 +61,14 @@ public class SongListFragment extends Fragment {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         arguments.putString(QUERY_KEY, query);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    public static SongListFragment newInstance(Long artistId) {
+        SongListFragment fragment = new SongListFragment();
+        Bundle arguments = new Bundle();
+        arguments.putLong(ARTIST_ID_KEY, artistId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -91,6 +100,7 @@ public class SongListFragment extends Fragment {
         Kind kind = null;
         MusicGenre genre = null;
         String query = null;
+        Long artistId = null;
 
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
@@ -98,6 +108,8 @@ public class SongListFragment extends Fragment {
             genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
         }else if (getArguments().containsKey(QUERY_KEY)) {
             query = getArguments().getString(QUERY_KEY);
+        }else if (getArguments().containsKey(ARTIST_ID_KEY)) {
+            artistId = getArguments().getLong(ARTIST_ID_KEY);
         }
 
         if (kind!=null){
@@ -116,6 +128,13 @@ public class SongListFragment extends Fragment {
             });
         }else if (query!=null){
             mGuitarSongbookViewModel.getSongByQuery(query).observe(this, new Observer<List<Song>>() {
+                @Override
+                public void onChanged(@Nullable final List<Song> songs) {
+                    adapter.setSongs(songs);
+                }
+            });
+        }else if (artistId!=null){
+            mGuitarSongbookViewModel.getSongByArtistId(artistId).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);

@@ -22,4 +22,5 @@
     <string name="all_songs">Wszystkie piosenki</string>
     <string name="search_hint">Szukaj piosenki, artysty…</string>
     <string name="search_fragment_tag">SearchFragmentTag</string>
+    <string name="artists">Artyści</string>
 </resources>
