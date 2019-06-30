@@ -1,21 +1,127 @@
 [
   {
     "mTitle":"W piwnicy u dziadka",
-    "MArtist": "Happysad",
+    "mArtistName": "Happysad",
     "mKind":"POLISH",
     "mMusicGenre":"ROCK",
     "mLyrics":[
-      "Pamiętasz...",
-      "Panowała jesień"
+      "Pamiętasz to miejsce", " w piwnicy u dziadka",
+      "Kiedy przychodziła jesień", "zrzucali tam węgiel i jabłka",
+      "I tam całowaliśmy się pierwszy raz",
+      "",
+      "Brałem wtedy Twoje ręce",
+      "I kładłem je sobie na twarz",
+      "A skronie pulsowały gęściej",
+      "Gdy dłonie masowały lędźwia",
+      "No a na górze szalała burza",
+      "I wiatr z miejsca na miejsce przeganiał piach",
+      "Kałuże wypiły podwórze do cna",
+      "A buda ganiała psa",
+      "No gdzie było nam tak bezpiecznie jak tam",
+      "",
+      "A kiedy przychodziła zima",
+      "I w mig czarno-biały robił się świat",
+      "Lizaliśmy paprocie na szybach",
+      "A mróz trzaskał jak bat",
+      "No a jeśli wychylaliśmy nosa",
+      "To tylko na moment na staw",
+      "A coby rybom podać tlen",
+      "Ale póki jeszcze był dzień wracaliśmy pod dach",
+      "No gdzie było nam tak bezpiecznie jak tam",
+      "",
+      "A na wiosnę i letnie dni radosne",
+      "Pędziliśmy co świt na sad",
+      "I zwykle chichraliśmy się w głos",
+      "Kiedy rosa łaskotała nas po stopach",
+      "Podsadzałem Cię wtedy na wiśnie",
+      "I stamtąd strzelaliśmy do wron",
+      "Tak, pestki to była nasza broń",
+      "Pestki to była nasza broń",
+      "Pestki to była nasza broń",
+      "A dom to schron był nasz",
+      "No gdzie było nam tak bezpiecznie jak tam",
+      "",
+      "A teraz, teraz to jest wojna",
+      "I dzień za dniem coraz bardziej kończy się świat",
+      "Kolejna armia bogobojna",
+      "nie wiedzieć czemu upatrzyła sobie nas",
+      "Strzelają do nas jak do wron",
+      "Tyle że z ostrej broni ze wszystkich stron",
+      "Kwiaty we włosach potargał wiatr",
+      "Jak smród po gaciach latał za nami strach",
+      "",
+      "A my, a my to się nie znamy już prawie",
+      "Czasem napiszesz coś zza oceanu",
+      "Jakieś myśli ledwie poukładane",
+      "Wrzucisz mi do skrzynki ze spamem",
+      "Ale któregoś pięknego dnia",
+      "Zaraz przed tym jak wszystko trafi szlag",
+      "Sięgnę do pamięci dna",
+      "I stamtąd wyciągnę ten ślad",
+      "",
+      "Bo gdzie było nam tak bezpiecznie jak tam?!"
     ],
     "mChords":[
-      "C C",
-      "D D"
+      "C","Am",
+      "C","Am",
+      "Dm G C",
+      "",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "Dm G C",
+      "",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "Dm G C",
+      "",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "Dm G C",
+      "",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am C",
+      "",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "C",
+      "Am",
+      "",
+      "Dm G C"
     ]
   },
   {
     "mTitle":"Baśka",
-    "mArtist": "Wilki",
+    "mArtistName": "Wilki",
     "mKind":"POLISH",
     "mMusicGenre":"ROCK",
     "mLyrics":[
@@ -76,6 +182,116 @@
       "a e",
       "C G",
       "a e"
+    ]
+  },
+  {
+    "mTitle":"Kołysanka dla nieznajomej",
+    "mArtistName": "Perfect",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Nie płacz Ewka",
+    "mArtistName": "Perfect",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Blues o czwartej nad ranem",
+    "mArtistName": "Stare dobre małżeństwo",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Majka",
+    "mArtistName": "Stare dobre małżeństwo",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Jak",
+    "mArtistName": "Stare dobre małżeństwo",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Makumba",
+    "mArtistName": "Big Cyc",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Warszawa",
+    "mArtistName": "T.Love",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Nie nie nie",
+    "mArtistName": "T.Love",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Don't look back in anger",
+    "mArtistName": "Oasis",
+    "mKind":"FOREIGN",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Let it be",
+    "mArtistName": "Beatles",
+    "mKind":"FOREIGN",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+    ],
+    "mChords":[
+    ]
+  },
+  {
+    "mTitle":"Riptide",
+    "mArtistName": "Vance Joy",
+    "mKind":"FOREIGN",
+    "mMusicGenre":"POP",
+    "mLyrics":[
+    ],
+    "mChords":[
     ]
   }
 ]

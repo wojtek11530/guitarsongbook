@@ -37,6 +37,9 @@ public class Song {
     @ColumnInfo(name = "chords")
     private ArrayList<String> mChords;
 
+    @Ignore
+    private String mArtistName;
+
     public Song(Long mId, String mTitle, Long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords) {
         this.mId = mId;
         this.mTitle = mTitle;
@@ -48,13 +51,14 @@ public class Song {
     }
 
     @Ignore
-    public Song(String mTitle, Long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords) {
+    public Song(String mTitle, Long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, String mArtistName) {
         this.mTitle = mTitle;
         this.mArtistId = mArtistId;
         this.mKind = mKind;
         this.mMusicGenre = mMusicGenre;
         this.mLyrics = mLyrics;
         this.mChords = mChords;
+        this.mArtistName = mArtistName;
     }
 
     public Long getMId() {
@@ -111,5 +115,13 @@ public class Song {
 
     public void setmChords(ArrayList<String> mChords) {
         this.mChords = mChords;
+    }
+
+    public String getmArtistName() {
+        return mArtistName;
+    }
+
+    public void setmArtistName(String mArtistName) {
+        this.mArtistName = mArtistName;
     }
 }
