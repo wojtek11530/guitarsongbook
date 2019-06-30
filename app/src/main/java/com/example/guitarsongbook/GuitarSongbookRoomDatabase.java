@@ -16,7 +16,19 @@ import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Converters;
 import com.example.guitarsongbook.model.Song;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static com.example.guitarsongbook.model.Kind.FOREIGN;
@@ -31,6 +43,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
     public abstract ArtistDao artistDao();
     public abstract SongDao songDao();
 
+
     private static GuitarSongbookRoomDatabase INSTANCE;
 
     public static GuitarSongbookRoomDatabase getDatabase(final Context context) {
@@ -41,7 +54,14 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
                             .fallbackToDestructiveMigration()
-                            .addCallback(sRoomDatabaseCallback)
+                            .addCallback(new Callback() {
+                                @Override
+                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                                    super.onOpen(db);
+                                    new PopulateDbAsync(INSTANCE, context).execute();
+
+                                }
+                            })
                             .build();
                 }
             }
@@ -49,6 +69,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    /*
     private static RoomDatabase.Callback sRoomDatabaseCallback =
         new RoomDatabase.Callback(){
 
@@ -58,6 +79,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                 new PopulateDbAsync(INSTANCE).execute();
             }
         };
+    */
 
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
@@ -65,13 +87,15 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
         private final SongDao mSongDao;
         private final ArtistDao mArtistDao;
+        private Context context;
 
         String[] artists = {"Happysad", "Wilki", "Big Cyc", "Stare Dobre Małżeństwo", "Perfect",
                 "T.Love", "Vance Joy", "Beatles", "Oasis"};
 
-        PopulateDbAsync(GuitarSongbookRoomDatabase db) {
+        PopulateDbAsync(GuitarSongbookRoomDatabase db, Context context) {
             mSongDao = db.songDao();
             mArtistDao = db.artistDao();
+            this.context = context;
         }
 
         @Override
@@ -88,6 +112,38 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             }
 
 
+            InputStream is = context.getResources().openRawResource(R.raw.json_data);
+            Writer writer = new StringWriter();
+            char[] buffer = new char[1024];
+            try {
+                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            String jsonString = writer.toString();
+
+            Type songsListType = new TypeToken<ArrayList<Song>>() {}.getType();
+            Gson gson = new GsonBuilder().create();
+            ArrayList<Song> songsArray = gson.fromJson(jsonString, songsListType);
+
+
+
+
+
+            /*
             ArrayList<String > lyrics = new ArrayList<>();
             lyrics.add("Pamiętasz...");
             lyrics.add("Panowała jesień");
@@ -98,8 +154,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
             Song song = new Song("W piwnicy u dziadka",
                     mArtistDao.getArtistByName("Happysad").getMId(),POLISH, ROCK, lyrics, chords);
-
             mSongDao.insert(song);
+
 
             lyrics = new ArrayList<>();
             chords = new ArrayList<>();
@@ -168,6 +224,12 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                     mArtistDao.getArtistByName("Wilki").getMId(),POLISH, ROCK, lyrics, chords);
             mSongDao.insert(song);
 
+            Gson gson = new Gson();
+            String json = gson.toJson(song);
+
+            System.out.println(json);
+
+
             song = new Song("Kołysanka dla nieznajomej",
                     mArtistDao.getArtistByName("Perfect").getMId(),POLISH, ROCK, null, null);
             mSongDao.insert(song);
@@ -211,6 +273,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             song = new Song("Don't look back in anger",
                     mArtistDao.getArtistByName("Oasis").getMId(),FOREIGN, ROCK, null, null);
             mSongDao.insert(song);
+            */
             return null;
         }
     }

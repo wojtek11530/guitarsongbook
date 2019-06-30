@@ -1,0 +1,81 @@
+[
+  {
+    "mTitle":"W piwnicy u dziadka",
+    "MArtist": "Happysad",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+      "Pamiętasz...",
+      "Panowała jesień"
+    ],
+    "mChords":[
+      "C C",
+      "D D"
+    ]
+  },
+  {
+    "mTitle":"Baśka",
+    "mArtist": "Wilki",
+    "mKind":"POLISH",
+    "mMusicGenre":"ROCK",
+    "mLyrics":[
+      "\u003cb\u003eZwrotka 1\u003c/b\u003e",
+      "Baśka miała fajny biust",
+      "Ania styl, a Zośka coś, co lubię",
+      "Ela całowała cudnie","Nawet tuż po swoim ślubie",
+      "Z Kaśką można było konie kraść",
+      "Chociaż wiem, że chciała przeżyć",
+      "Magda – zło, Jolka mnie zagłaskałaby na śmierć",
+      "A Agnieszka zdradzała mnie",
+      "\u003cb\u003eRefren\u003c/b\u003e",
+      "Piękne jak okręt",
+      "Pod pełnymi żaglami",
+      "Jak konie w galopie",
+      "Jak niebo nad nami",
+      "\u003cb\u003eZwrotka 2\u003c/b\u003e",
+      "Karolina w Hollywood",
+      "Z Aśką nigdy nie było tak samo ",
+      "Ewelina zimna jak lód",
+      "Więc na noc umówiłem się z Alą",
+      "Wszystko mógłbym Izie dać",
+      "Tak jak Oli, ale one wcale nie chciały brać",
+      "Małgorzata – jeden grzech aż onieśmielała mnie",
+      "A Monika była okej",
+      "\u003cb\u003eRefren\u003c/b\u003e",
+      "Piękne jak okręt",
+      "Pod pełnymi żaglami",
+      "Jak konie w galopie",
+      "Jak niebo nad nami"
+    ],
+    "mChords":[
+      "",
+      "G a",
+      "C G",
+      "G a",
+      "C G",
+      "G a",
+      "C G",
+      "G a",
+      "C G",
+      "",
+      "C G",
+      "a e",
+      "C G",
+      "a e",
+      "",
+      "G a",
+      "C G",
+      "G a",
+      "C G",
+      "G a",
+      "C G",
+      "G a",
+      "C G",
+      "",
+      "C G",
+      "a e",
+      "C G",
+      "a e"
+    ]
+  }
+]
