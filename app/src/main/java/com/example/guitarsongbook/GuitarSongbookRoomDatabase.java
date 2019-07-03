@@ -2,7 +2,10 @@ package com.example.guitarsongbook;
 
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -15,10 +18,20 @@ import com.example.guitarsongbook.daos.ArtistDao;
 import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Converters;
+import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.Song;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,7 +71,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                                 @Override
                                 public void onOpen(@NonNull SupportSQLiteDatabase db) {
                                     super.onOpen(db);
-                                    new PopulateDbAsync(INSTANCE, context).execute();
+                                    new PopulateDbAsync(INSTANCE, context.getResources()).execute();
 
                                 }
                             })
@@ -81,21 +94,47 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         };
     */
 
+    /*
+    private class SongDeserialiser implements JsonDeserializer<Song> {
+        @Override
+        public Song deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            String title = json.getAsJsonObject().get("mTitle").getAsString();
+            Kind king = (Kind) json.getAsJsonObject().get("mKind").getAsString();
+
+            ArrayList<String> lyrics = new ArrayList<>();
+            JsonArray lyricsJsonArray = json.getAsJsonObject().get("mLyrics").getAsJsonArray();
+            for (JsonElement lyricJsonObject:lyricsJsonArray){
+                lyrics.add(lyricJsonObject.getAsString());
+            }
+
+            ArrayList<String> chords = new ArrayList<>();
+            JsonArray chordsJsonArray = json.getAsJsonObject().get("mChords").getAsJsonArray();
+            for (JsonElement chordsJsonObject:lyricsJsonArray){
+                chords.add(chordsJsonObject.getAsString());
+            }
+
+            Song song = new Song();
+            return song;
+        }
+    }
+    */
+
+
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
-
         private final SongDao mSongDao;
         private final ArtistDao mArtistDao;
-        private Context context;
+        //private Context context;
+        Resources resources;
 
         String[] artists = {"Happysad", "Wilki", "Big Cyc", "Stare Dobre Małżeństwo", "Perfect",
                 "T.Love", "Vance Joy", "Beatles", "Oasis"};
 
-        PopulateDbAsync(GuitarSongbookRoomDatabase db, Context context) {
+        PopulateDbAsync(GuitarSongbookRoomDatabase db, Resources resources) {
             mSongDao = db.songDao();
             mArtistDao = db.artistDao();
-            this.context = context;
+            this.resources = resources;
         }
 
         @Override
@@ -106,13 +145,14 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             mSongDao.deleteAll();
             mArtistDao.deleteAll();
 
+            /*
             for (int i = 0; i <= artists.length - 1; i++) {
                 Artist artist = new Artist(artists[i]);
                 mArtistDao.insert(artist);
             }
+            */
 
-
-            InputStream is = context.getResources().openRawResource(R.raw.json_data);
+            InputStream is = resources.openRawResource(R.raw.json_data);
             Writer writer = new StringWriter();
             char[] buffer = new char[1024];
             try {
@@ -139,9 +179,18 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             Gson gson = new GsonBuilder().create();
             ArrayList<Song> songsArray = gson.fromJson(jsonString, songsListType);
 
-
-
-
+            for (Song song:songsArray){
+                Long id;
+                String artistName = song.getmArtistName();
+                Artist artist = mArtistDao.getArtistByName(artistName);
+                if (artist == null){
+                    id = mArtistDao.insert(new Artist(artistName));
+                }else{
+                    id = artist.getMId();
+                }
+                song.setmArtistId(id);
+                mSongDao.insert(song);
+            }
 
             /*
             ArrayList<String > lyrics = new ArrayList<>();
