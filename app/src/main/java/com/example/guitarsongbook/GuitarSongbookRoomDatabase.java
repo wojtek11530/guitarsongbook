@@ -15,6 +15,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.guitarsongbook.daos.ArtistDao;
+import com.example.guitarsongbook.daos.ChordDao;
 import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Converters;
@@ -55,7 +56,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     public abstract ArtistDao artistDao();
     public abstract SongDao songDao();
-
+    public abstract ChordDao chordDao();
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
@@ -125,7 +126,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
         private final SongDao mSongDao;
         private final ArtistDao mArtistDao;
-        //private Context context;
+        private final ChordDao mChordDao;
+
         Resources resources;
 
         String[] artists = {"Happysad", "Wilki", "Big Cyc", "Stare Dobre Małżeństwo", "Perfect",
@@ -134,6 +136,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         PopulateDbAsync(GuitarSongbookRoomDatabase db, Resources resources) {
             mSongDao = db.songDao();
             mArtistDao = db.artistDao();
+            mChordDao = db.chordDao();
             this.resources = resources;
         }
 
@@ -144,6 +147,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             // when it is first created
             mSongDao.deleteAll();
             mArtistDao.deleteAll();
+            mChordDao.deleteAll();
 
             /*
             for (int i = 0; i <= artists.length - 1; i++) {
