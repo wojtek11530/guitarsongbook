@@ -17,13 +17,13 @@ public class Song {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "song_id")
-    private Long mId;
+    private long mId;
 
     @ColumnInfo(name = "title")
     private String mTitle;
 
     @ColumnInfo(name = "artist_id")
-    private Long mArtistId;
+    private long mArtistId;
 
     @ColumnInfo(name = "kind")
     private Kind mKind;
@@ -40,7 +40,7 @@ public class Song {
     @Ignore
     private String mArtistName;
 
-    public Song(Long mId, String mTitle, Long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords) {
+    public Song(long mId, String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords) {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mArtistId = mArtistId;
@@ -51,7 +51,7 @@ public class Song {
     }
 
     @Ignore
-    public Song(String mTitle, Long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, String mArtistName) {
+    public Song(String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, String mArtistName) {
         this.mTitle = mTitle;
         this.mArtistId = mArtistId;
         this.mKind = mKind;
@@ -61,11 +61,11 @@ public class Song {
         this.mArtistName = mArtistName;
     }
 
-    public Long getMId() {
+    public long getMId() {
         return mId;
     }
 
-    public void setMId(Long mId) {
+    public void setMId(long mId) {
         this.mId = mId;
     }
 
@@ -77,11 +77,11 @@ public class Song {
         this.mTitle = mTitle;
     }
 
-    public Long getMArtistId() {
+    public long getMArtistId() {
         return mArtistId;
     }
 
-    public void setmArtistId(Long mArtistId) {
+    public void setmArtistId(long mArtistId) {
         this.mArtistId = mArtistId;
     }
 

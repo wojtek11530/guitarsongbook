@@ -18,8 +18,13 @@ import android.widget.TextView;
 import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.SongDisplayAdapter;
+import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.model.Artist;
+import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Song;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,15 +84,27 @@ public class SongDisplayFragment extends Fragment {
         }
 
         if (songId != null) {
+            final Long finalSongId = songId;
+
+
             mGuitarSongbookViewModel.getSongById(songId).observe(this, new Observer<Song>() {
                 @Override
                 public void onChanged(@Nullable final Song song) {
                     mSongToDisplay = song;
                     mSongTitleTextView.setText(mSongToDisplay.getMTitle());
-
                     adapter.setSong(song);
                 }
             });
+
+
+            mGuitarSongbookViewModel.getChordsBySongId2(finalSongId).observe(this, new Observer<List<SongChordJoinDao.ChordInSong>>() {
+                @Override
+                public void onChanged(@Nullable final List<SongChordJoinDao.ChordInSong> chords) {
+                    adapter.setSpecyficChords(chords);
+                }
+            });
+
+
         }
 
         Long artistId = null;

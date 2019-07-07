@@ -150,6 +150,8 @@ public class SongListFragment extends SearchViewFragment {
             }
         });
 
+
+
         return view;
     }
 

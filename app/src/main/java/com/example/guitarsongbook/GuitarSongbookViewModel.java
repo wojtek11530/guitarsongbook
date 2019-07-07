@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Kind;
@@ -75,8 +76,8 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     public LiveData<List<Chord>> getChordsBySongId(Long songId) {
         return mChordRepository.getChordsBySongId(songId);
     }
-    public LiveData<List<Chord>> getChordsBySongIdByLineNumber(Long songId, int lineNumber) {
-        return mChordRepository.getChordsBySongIdByLineNumber(songId, lineNumber);
+    public LiveData<List<SongChordJoinDao.ChordInSong>> getChordsBySongId2(Long songId) {
+        return mChordRepository.getChordsBySongId2(songId);
     }
 
     public void insertArtist(Artist artist) { mArtistRepository.insert(artist); }

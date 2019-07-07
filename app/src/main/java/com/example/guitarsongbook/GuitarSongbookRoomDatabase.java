@@ -53,7 +53,7 @@ import static com.example.guitarsongbook.model.Kind.POLISH;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 5, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 9, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
@@ -131,6 +131,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         private final SongDao mSongDao;
         private final ArtistDao mArtistDao;
         private final ChordDao mChordDao;
+        private final SongChordJoinDao mSongChordJoinDao;
 
         Resources resources;
 
@@ -141,6 +142,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             mSongDao = db.songDao();
             mArtistDao = db.artistDao();
             mChordDao = db.chordDao();
+            mSongChordJoinDao = db.songChordJoinDao();
             this.resources = resources;
         }
 
@@ -152,6 +154,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             mSongDao.deleteAll();
             mArtistDao.deleteAll();
             mChordDao.deleteAll();
+            mSongChordJoinDao.deleteAll();
 
             /*
             for (int i = 0; i <= artists.length - 1; i++) {
@@ -181,7 +184,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                     e.printStackTrace();
                 }
             }
-
             String chordsJsonString = writer.toString();
 
             Type chordsListType = new TypeToken<ArrayList<Chord>>() {}.getType();
@@ -195,17 +197,14 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             for (Chord chord:chordsArray){
                 Chord currentChordFromDb = mChordDao.getChordBySymbol(chord.getMSymbol());
 
-                Chord previosChord = mChordDao.getChordBySymbol(currentChordFromDb.getMPreviousChordSymbol());
+                Chord previousChord = mChordDao.getChordBySymbol(currentChordFromDb.getMPreviousChordSymbol());
                 Chord nextChord = mChordDao.getChordBySymbol(currentChordFromDb.getMNextChordSymbol());
 
-                currentChordFromDb.setMPreviousChordId(previosChord.getMId());
+                currentChordFromDb.setMPreviousChordId(previousChord.getMId());
                 currentChordFromDb.setMNextChordId(nextChord.getMId());
 
                 mChordDao.insert(currentChordFromDb);
             }
-
-
-            Chord currentChordFromDb = mChordDao.getChordBySymbol("C");
 
 
 
@@ -229,8 +228,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                     e.printStackTrace();
                 }
             }
-
-
             String jsonString = writer.toString();
 
             Type songsListType = new TypeToken<ArrayList<Song>>() {}.getType();
@@ -247,7 +244,28 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                     id = artist.getMId();
                 }
                 song.setmArtistId(id);
-                mSongDao.insert(song);
+                long songId = mSongDao.insert(song);
+
+                int lineNumber = 0;
+                for (String chordsLine:song.getMChords()){
+                    String[] chordsSymbols = chordsLine.split(" ");
+
+                    for (int i=0; i<chordsSymbols.length; i++){
+                        Chord currentChord = mChordDao.getChordBySymbol(chordsSymbols[i]);
+                        if (currentChord!=null){
+                            mSongChordJoinDao.insert(
+                                    new SongChordJoin(
+                                        songId,
+                                        currentChord.getMId(),
+                                        lineNumber,
+                                        i
+                                    )
+                            );
+                        }
+                    }
+                    lineNumber++;
+                }
+
             }
 
             /*
