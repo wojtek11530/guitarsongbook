@@ -1,0 +1,185 @@
+[
+  {
+    "mPreviousChordSymbol": "H",
+    "mSymbol": "C",
+    "mNextChordSymbol": "Cis"
+  },
+  {
+    "mPreviousChordSymbol": "C",
+    "mSymbol": "Cis",
+    "mNextChordSymbol": "D"
+  },
+  {
+    "mPreviousChordSymbol": "Cis",
+    "mSymbol": "D",
+    "mNextChordSymbol": "Dis"
+  },
+  {
+    "mPreviousChordSymbol": "D",
+    "mSymbol": "Dis",
+    "mNextChordSymbol": "E"
+  },
+  {
+  "mPreviousChordSymbol": "Dis",
+  "mSymbol": "E",
+  "mNextChordSymbol": "F"
+  },
+  {
+    "mPreviousChordSymbol": "E",
+    "mSymbol": "F",
+    "mNextChordSymbol": "Fis"
+  },
+  {
+    "mPreviousChordSymbol": "F",
+    "mSymbol": "Fis",
+    "mNextChordSymbol": "G"
+  },
+  {
+    "mPreviousChordSymbol": "Fis",
+    "mSymbol": "G",
+    "mNextChordSymbol": "Gis"
+  },
+  {
+    "mPreviousChordSymbol": "G",
+    "mSymbol": "Gis",
+    "mNextChordSymbol": "A"
+  },
+  {
+    "mPreviousChordSymbol": "Gis",
+    "mSymbol": "A",
+    "mNextChordSymbol": "B"
+  },
+  {
+    "mPreviousChordSymbol": "A",
+    "mSymbol": "B",
+    "mNextChordSymbol": "H"
+  },
+  {
+    "mPreviousChordSymbol": "B",
+    "mSymbol": "H",
+    "mNextChordSymbol": "C"
+  },
+
+
+  {
+    "mPreviousChordSymbol": "h",
+    "mSymbol": "c",
+    "mNextChordSymbol": "cis"
+  },
+  {
+    "mPreviousChordSymbol": "c",
+    "mSymbol": "cis",
+    "mNextChordSymbol": "d"
+  },
+  {
+    "mPreviousChordSymbol": "cis",
+    "mSymbol": "d",
+    "mNextChordSymbol": "dis"
+  },
+  {
+    "mPreviousChordSymbol": "d",
+    "mSymbol": "dis",
+    "mNextChordSymbol": "e"
+  },
+  {
+    "mPreviousChordSymbol": "dis",
+    "mSymbol": "e",
+    "mNextChordSymbol": "f"
+  },
+  {
+    "mPreviousChordSymbol": "e",
+    "mSymbol": "f",
+    "mNextChordSymbol": "fis"
+  },
+  {
+    "mPreviousChordSymbol": "f",
+    "mSymbol": "fis",
+    "mNextChordSymbol": "g"
+  },
+  {
+    "mPreviousChordSymbol": "fis",
+    "mSymbol": "g",
+    "mNextChordSymbol": "gis"
+  },
+  {
+    "mPreviousChordSymbol": "g",
+    "mSymbol": "gis",
+    "mNextChordSymbol": "a"
+  },
+  {
+    "mPreviousChordSymbol": "gis",
+    "mSymbol": "a",
+    "mNextChordSymbol": "b"
+  },
+  {
+    "mPreviousChordSymbol": "a",
+    "mSymbol": "b",
+    "mNextChordSymbol": "h"
+  },
+  {
+    "mPreviousChordSymbol": "b",
+    "mSymbol": "h",
+    "mNextChordSymbol": "c"
+  },
+
+  {
+    "mPreviousChordSymbol": "H7",
+    "mSymbol": "C7",
+    "mNextChordSymbol": "Cis7"
+  },
+  {
+    "mPreviousChordSymbol": "C7",
+    "mSymbol": "Cis7",
+    "mNextChordSymbol": "D7"
+  },
+  {
+    "mPreviousChordSymbol": "Cis7",
+    "mSymbol": "D7",
+    "mNextChordSymbol": "Dis7"
+  },
+  {
+    "mPreviousChordSymbol": "D7",
+    "mSymbol": "Dis7",
+    "mNextChordSymbol": "E7"
+  },
+  {
+    "mPreviousChordSymbol": "Dis7",
+    "mSymbol": "E7",
+    "mNextChordSymbol": "F7"
+  },
+  {
+    "mPreviousChordSymbol": "E7",
+    "mSymbol": "F7",
+    "mNextChordSymbol": "Fis7"
+  },
+  {
+    "mPreviousChordSymbol": "F7",
+    "mSymbol": "Fis7",
+    "mNextChordSymbol": "G7"
+  },
+  {
+    "mPreviousChordSymbol": "Fis7",
+    "mSymbol": "G7",
+    "mNextChordSymbol": "Gis7"
+  },
+  {
+    "mPreviousChordSymbol": "G7",
+    "mSymbol": "Gis7",
+    "mNextChordSymbol": "A7"
+  },
+  {
+    "mPreviousChordSymbol": "Gis7",
+    "mSymbol": "A7",
+    "mNextChordSymbol": "B7"
+  },
+  {
+    "mPreviousChordSymbol": "A7",
+    "mSymbol": "B7",
+    "mNextChordSymbol": "H7"
+  },
+  {
+    "mPreviousChordSymbol": "B7",
+    "mSymbol": "H7",
+    "mNextChordSymbol": "C7"
+  }
+]

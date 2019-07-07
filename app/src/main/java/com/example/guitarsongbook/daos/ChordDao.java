@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface ChordDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Chord chord);
 
     @Query("DELETE FROM chord_table")

@@ -1,7 +1,6 @@
 package com.example.guitarsongbook.fragments;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -21,8 +20,6 @@ import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.SongDisplayAdapter;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Song;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,7 +79,7 @@ public class SongDisplayFragment extends Fragment {
         }
 
         if (songId != null) {
-            mGuitarSongbookViewModel.getSongbyId(songId).observe(this, new Observer<Song>() {
+            mGuitarSongbookViewModel.getSongById(songId).observe(this, new Observer<Song>() {
                 @Override
                 public void onChanged(@Nullable final Song song) {
                     mSongToDisplay = song;
@@ -99,7 +96,7 @@ public class SongDisplayFragment extends Fragment {
         }
 
         if (artistId != null) {
-            mGuitarSongbookViewModel.getArtistbyId(artistId).observe(this, new Observer<Artist>() {
+            mGuitarSongbookViewModel.getArtistById(artistId).observe(this, new Observer<Artist>() {
                 @Override
                 public void onChanged(@Nullable final Artist artist) {
                     mSongArtistTextView.setText(artist.getMName());

@@ -27,22 +27,33 @@ public class Chord {
     @ColumnInfo(name = "symbol")
     private String mSymbol;
 
+    @ColumnInfo(name = "next_chord_symbol")
+    private String mNextChordSymbol;
+
     @ColumnInfo(name = "next_chord_id")
     private Long mNextChordId;
+
+    @ColumnInfo(name = "previous_chord_symbol")
+    private String mPreviousChordSymbol;
 
     @ColumnInfo(name = "previous_chord_id")
     private Long mPreviousChordId;
 
-    public Chord(Long mId, String mSymbol, Long mNextChordId, Long mPreviousChordId) {
+
+    public Chord(Long mId, String mSymbol, String mNextChordSymbol, Long mNextChordId, String mPreviousChordSymbol, Long mPreviousChordId) {
         this.mId = mId;
         this.mSymbol = mSymbol;
+        this.mNextChordSymbol = mNextChordSymbol;
         this.mNextChordId = mNextChordId;
+        this.mPreviousChordSymbol = mPreviousChordSymbol;
         this.mPreviousChordId = mPreviousChordId;
     }
 
     @Ignore
-    public Chord(String mSymbol) {
+    public Chord(String mSymbol, String mNextChordSymbol, String mPreviousChordSymbol) {
         this.mSymbol = mSymbol;
+        this.mNextChordSymbol = mNextChordSymbol;
+        this.mPreviousChordSymbol = mPreviousChordSymbol;
     }
 
     public Long getMId() {
@@ -75,5 +86,21 @@ public class Chord {
 
     public void setMPreviousChordId(Long mPreviousChordId) {
         this.mPreviousChordId = mPreviousChordId;
+    }
+
+    public String getMNextChordSymbol() {
+        return mNextChordSymbol;
+    }
+
+    public void setMNextChordSymbol(String mNextChordSymbol) {
+        this.mNextChordSymbol = mNextChordSymbol;
+    }
+
+    public String getMPreviousChordSymbol() {
+        return mPreviousChordSymbol;
+    }
+
+    public void setMPreviousChordSymbol(String mPreviousChordSymbol) {
+        this.mPreviousChordSymbol = mPreviousChordSymbol;
     }
 }

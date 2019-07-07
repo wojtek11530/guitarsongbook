@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.guitarsongbook.GuitarSongbookRoomDatabase;
 import com.example.guitarsongbook.daos.ChordDao;
+import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.model.Chord;
 
 import java.util.List;
@@ -14,12 +15,14 @@ import java.util.List;
 public class ChordRepository {
 
     private ChordDao mChordDao;
+    private SongChordJoinDao mSongChordJoinDao;
     private LiveData<List<Chord>> mAllChords;
 
     public ChordRepository(Application application) {
         GuitarSongbookRoomDatabase db = GuitarSongbookRoomDatabase.getDatabase(application);
         mChordDao = db.chordDao();
         mAllChords = mChordDao.getAlChords();
+        mSongChordJoinDao = db.songChordJoinDao();
     }
 
     public LiveData<List<Chord>> getAllChords() {
@@ -34,9 +37,17 @@ public class ChordRepository {
         return mChordDao.findChordById(id);
     }
 
-    public LiveData<List<Chord>> getArtistsByQuery(String query) {
+    public LiveData<List<Chord>> getChordsByQuery(String query) {
         query = "%" + query + "%";
         return mChordDao.getChordsByQuery(query);
+    }
+
+    public LiveData<List<Chord>> getChordsBySongId(Long songId) {
+        return mSongChordJoinDao.getChordsForSong(songId);
+    }
+
+    public LiveData<List<Chord>> getChordsBySongIdByLineNumber(Long songId, int lineNumber) {
+        return mSongChordJoinDao.getChordsForSongByLineNumber(songId, lineNumber);
     }
 
     private static class insertAsyncTask extends AsyncTask<Chord, Void, Void> {
