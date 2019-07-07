@@ -15,11 +15,15 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.guitarsongbook.daos.ArtistDao;
+import com.example.guitarsongbook.daos.ChordDao;
+import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
+import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Converters;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.Song;
+import com.example.guitarsongbook.model.SongChordJoin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -49,13 +53,14 @@ import static com.example.guitarsongbook.model.Kind.POLISH;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
-@Database(entities = {Artist.class, Song.class}, version = 2, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 5, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     public abstract ArtistDao artistDao();
     public abstract SongDao songDao();
-
+    public abstract ChordDao chordDao();
+    public abstract SongChordJoinDao songChordJoinDao();
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
@@ -125,7 +130,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
         private final SongDao mSongDao;
         private final ArtistDao mArtistDao;
-        //private Context context;
+        private final ChordDao mChordDao;
+
         Resources resources;
 
         String[] artists = {"Happysad", "Wilki", "Big Cyc", "Stare Dobre Małżeństwo", "Perfect",
@@ -134,6 +140,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         PopulateDbAsync(GuitarSongbookRoomDatabase db, Resources resources) {
             mSongDao = db.songDao();
             mArtistDao = db.artistDao();
+            mChordDao = db.chordDao();
             this.resources = resources;
         }
 
@@ -144,6 +151,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             // when it is first created
             mSongDao.deleteAll();
             mArtistDao.deleteAll();
+            mChordDao.deleteAll();
 
             /*
             for (int i = 0; i <= artists.length - 1; i++) {
@@ -152,7 +160,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             }
             */
 
-            InputStream is = resources.openRawResource(R.raw.json_data);
+            //Chords data populating
+            InputStream is = resources.openRawResource(R.raw.chords_data);
             Writer writer = new StringWriter();
             char[] buffer = new char[1024];
             try {
@@ -173,10 +182,59 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                 }
             }
 
+            String chordsJsonString = writer.toString();
+
+            Type chordsListType = new TypeToken<ArrayList<Chord>>() {}.getType();
+            Gson gson = new GsonBuilder().create();
+            ArrayList<Chord> chordsArray = gson.fromJson(chordsJsonString, chordsListType);
+
+            for (Chord chord:chordsArray){
+                mChordDao.insert(chord);
+            }
+
+            for (Chord chord:chordsArray){
+                Chord currentChordFromDb = mChordDao.getChordBySymbol(chord.getMSymbol());
+
+                Chord previosChord = mChordDao.getChordBySymbol(currentChordFromDb.getMPreviousChordSymbol());
+                Chord nextChord = mChordDao.getChordBySymbol(currentChordFromDb.getMNextChordSymbol());
+
+                currentChordFromDb.setMPreviousChordId(previosChord.getMId());
+                currentChordFromDb.setMNextChordId(nextChord.getMId());
+
+                mChordDao.insert(currentChordFromDb);
+            }
+
+
+            Chord currentChordFromDb = mChordDao.getChordBySymbol("C");
+
+
+
+            is = resources.openRawResource(R.raw.json_data);
+            writer = new StringWriter();
+            buffer = new char[1024];
+            try {
+                Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
             String jsonString = writer.toString();
 
             Type songsListType = new TypeToken<ArrayList<Song>>() {}.getType();
-            Gson gson = new GsonBuilder().create();
+            gson = new GsonBuilder().create();
             ArrayList<Song> songsArray = gson.fromJson(jsonString, songsListType);
 
             for (Song song:songsArray){
