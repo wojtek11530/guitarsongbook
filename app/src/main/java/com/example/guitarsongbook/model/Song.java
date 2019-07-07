@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ import java.util.ArrayList;
 @Entity(tableName = "song_table",
         foreignKeys = @ForeignKey(entity = Artist.class,
         parentColumns = "id",
-        childColumns = "artist_id"))
+        childColumns = "artist_id"),
+        indices = {@Index("artist_id")})
 public class Song {
 
     @PrimaryKey(autoGenerate = true)

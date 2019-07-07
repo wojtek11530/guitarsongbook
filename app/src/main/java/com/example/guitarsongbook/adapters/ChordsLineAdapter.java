@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,14 +59,21 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         public ChordsLineHolder(@NonNull View itemView) {
             super(itemView);
             mChordInLineTextView = itemView.findViewById(R.id.chord_in_line_txt_);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Toast toast = Toast.makeText(context, mChordsInLine.get(position).getMSymbol(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
         }
 
         public void bindTo(int position) {
             mChord = mChordsInLine.get(position);
             if (mChord!=null) {
                 mChordInLineTextView.setText(mChord.getMSymbol());
-            }else{
-                mChordInLineTextView.setText(" ");
             }
         }
     }

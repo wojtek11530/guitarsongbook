@@ -1,7 +1,9 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.R;
@@ -75,14 +76,9 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
                 int chordNumber = specyficChord.getChordNumber();
                 Chord chord = specyficChord.getChord();
                 mChords.get(lineNumber).add(chord);
-                mChords.get(lineNumber).add(null);
             }
 
-            for(ArrayList<Chord> chordsInLine:mChords){
-                if (!chordsInLine.isEmpty()){
-                    chordsInLine.remove(chordsInLine.size()-1);
-                }
-            }
+
         }
     }
 
@@ -121,6 +117,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         public void bindTo(int position) {
             if (mSong != null) {
                 mLyricsLineTextView.setText(Html.fromHtml(mLyrics.get(position)));
+                //mChordsLineTextView.setText(mChordsString.get(position));
 
                 /*
                 StringBuilder chordsStringBuilder = new StringBuilder();
@@ -143,12 +140,44 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
                 int columnsNumber = mChordsLineAdapter.getItemCount() == 0 ? 1 : mChordsLineAdapter.getItemCount();
                 mChordsLineRecyclerView.setLayoutManager(new GridLayoutManager(context, columnsNumber));
 
-                //mChordsLineTextView.setText(mChordsString.get(position));
+                int spaceInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                        context.getResources().getDimension(R.dimen.space_between_chords),
+                        context.getResources().getDisplayMetrics());
 
+                mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
+                /*mChordsLineRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                    @Override
+                    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                        super.getItemOffsets(outRect, view, parent, state);
+                        outRect.bottom=0;
+                        outRect.right=0;
+                        outRect.left=0;
+                        outRect.top=0;
+                    }
+                });
+                */
             } else {
                 // Covers the case of data not being ready yet.
                 mLyricsLineTextView.setText(context.getString(R.string.no_song_label));
             }
+        }
+    }
+
+    private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            int position = parent.getChildAdapterPosition(view);
+            outRect.left = space;
+            outRect.right = space;
+            //int length = parent.getAdapter().getItemCount();
+            /*if (position != 0) {
+                outRect.left = space;
+            }*/
         }
     }
 }

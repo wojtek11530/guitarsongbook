@@ -53,7 +53,7 @@ import static com.example.guitarsongbook.model.Kind.POLISH;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 9, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 10, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
