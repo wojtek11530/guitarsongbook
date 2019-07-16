@@ -16,7 +16,7 @@ import java.util.List;
 public interface SongDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Song song);
+    long insert(Song song);
 
     @Query("DELETE FROM song_table")
     void deleteAll();

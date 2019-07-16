@@ -5,14 +5,18 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "song_chord_join",
-        primaryKeys = {"song_id", "chord_id"},
         foreignKeys = {
         @ForeignKey(entity = Song.class,
                     parentColumns = "song_id",
-                    childColumns = "song_id"),
+                    childColumns = "song_id",
+                    onUpdate = ForeignKey.CASCADE,
+                    onDelete = ForeignKey.CASCADE),
+
         @ForeignKey(entity = Chord.class,
                 parentColumns = "chord_id",
                 childColumns = "chord_id"),
@@ -21,11 +25,13 @@ import androidx.room.Index;
         )
 public class SongChordJoin {
 
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private long mId;
+
     @ColumnInfo(name = "song_id")
     private Long mSongId;
 
-    @NonNull
     @ColumnInfo(name = "chord_id")
     private Long mChordId;
 
@@ -35,11 +41,28 @@ public class SongChordJoin {
     @ColumnInfo(name = "chord_number")
     private int mChordNumber;
 
+    public SongChordJoin(long mId, Long mSongId, Long mChordId, int mLineNumber, int mChordNumber) {
+        this.mId = mId;
+        this.mSongId = mSongId;
+        this.mChordId = mChordId;
+        this.mLineNumber = mLineNumber;
+        this.mChordNumber = mChordNumber;
+    }
+
+    @Ignore
     public SongChordJoin(Long mSongId, Long mChordId, int mLineNumber, int mChordNumber) {
         this.mSongId = mSongId;
         this.mChordId = mChordId;
         this.mLineNumber = mLineNumber;
         this.mChordNumber = mChordNumber;
+    }
+
+    public long getMId() {
+        return mId;
+    }
+
+    public void setMId(long mId) {
+        this.mId = mId;
     }
 
     public Long getMSongId() {

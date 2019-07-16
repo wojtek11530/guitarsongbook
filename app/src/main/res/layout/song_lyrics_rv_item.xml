@@ -12,13 +12,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toStartOf="@+id/song_chord_line_txt_"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="placeholder text" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/song_chord_line_txt_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="@+id/song_lyric_line_txt_"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/song_lyric_line_txt_" />
+
+    <!--
     <TextView
         android:id="@+id/song_chord_line_txt_"
         style="@style/ChordOfDisplayedSong"
@@ -29,4 +39,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/song_lyric_line_txt_"
         tools:text="placeholder text" />
+        -->
 </androidx.constraintlayout.widget.ConstraintLayout>

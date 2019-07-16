@@ -7,12 +7,10 @@
     <string name="action_settings">Settings</string>
 
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="polish">Polskie</string>
     <string name="foreign">Zagraniczne</string>
-    <string name="communicate">Communicate</string>
-    <string name="title_placeholder">title placeholder</string>
-    <string name="artist_placeholder">artist placeholder</string>
+    <string name="title_placeholder"></string>
+    <string name="artist_placeholder"></string>
     <string name="no_song_label">No Song</string>
     <string name="music_genre">Gatunek</string>
     <string name="rock">Rock</string>

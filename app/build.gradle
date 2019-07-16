@@ -38,4 +38,5 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
 
     implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.bignerdranch.android:simple-item-decoration:1.0.0'
 }
