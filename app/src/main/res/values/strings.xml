@@ -25,4 +25,5 @@
     <string name="no_songs_communicate">Nie znaleziono żadnej piosenki.</string>
     <string name="no_artists_communicate">Nie znaleziono żadnych artystów.</string>
     <string name="chord_pic_descrpition">Chord</string>
+    <string name="chord">Akord</string>
 </resources>

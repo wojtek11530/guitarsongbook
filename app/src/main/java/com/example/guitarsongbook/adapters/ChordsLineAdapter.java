@@ -56,6 +56,14 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         return mChordsInLine.size();
     }
 
+    public int getCharAmountOfAllChords() {
+        int numberOfChars = 0;
+        for (Chord chord:mChordsInLine){
+            numberOfChars += chord.getMSymbol().length();
+        }
+        return numberOfChars;
+    }
+
     public class ChordsLineHolder extends RecyclerView.ViewHolder {
 
         private final TextView mChordInLineTextView;
@@ -77,15 +85,14 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
                     View dialogView = mInflater.inflate(R.layout.dialog_chord_pics, null);
 
                     TextView chordSymbolTextView = dialogView.findViewById(R.id.chord_in_dialog_symbol_txt_);
-                    chordSymbolTextView.setText(chordToDisplay.getMSymbol());
+                    String chordDialogTitle = context.getString(R.string.chord) + " " + chordToDisplay.getMSymbol();
+                    chordSymbolTextView.setText(chordDialogTitle);
 
                     ImageView chordPictureImageView = dialogView.findViewById(R.id.chord_picture_img_);
-                    int chordDiagramId = context.getResources().getIdentifier("c_diagram", "drawable", context.getPackageName());
+                    String pictureFileName= chordToDisplay.getMSymbol().toLowerCase() + "_diagram_1";
+                    int chordDiagramId = context.getResources().getIdentifier(pictureFileName, "drawable", context.getPackageName());
 
-                    RequestOptions requestOptions = new RequestOptions()
-                            .fitCenter()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL);
-                    Glide.with(context).load(chordDiagramId).apply(requestOptions).into(chordPictureImageView);
+                    chordPictureImageView.setImageDrawable(context.getDrawable(chordDiagramId));
 
                     builder.setView(dialogView);
                     Dialog chordDialog = builder.create();
