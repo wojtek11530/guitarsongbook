@@ -135,27 +135,30 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
                 mChordsLineTextView.setText(chordsString);
                 */
 
-                mChordsLineAdapter.setChordsInLine(mChords.get(position));
+                final ArrayList<Chord> chordsInLine = mChords.get(position);
+                mChordsLineAdapter.setChordsInLine(chordsInLine);
 
-                int columnsNumber = mChordsLineAdapter.getItemCount() == 0 ? 1 : mChordsLineAdapter.getItemCount();
-                mChordsLineRecyclerView.setLayoutManager(new GridLayoutManager(context, columnsNumber));
+                //int columnsNumber = mChordsLineAdapter.getItemCount() == 0 ? 1 : mChordsLineAdapter.getItemCount();
+                int columnsNumber = mChordsLineAdapter.getCharAmountOfAllChords() == 0 ? 1 : mChordsLineAdapter.getCharAmountOfAllChords();
+
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, columnsNumber);
+                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        //define span size for this position
+                        //for example, if you have 2 column per row, you can implement something like that:
+                        return  chordsInLine.get(position).getMSymbol().length();
+                    }
+                });
+
+                mChordsLineRecyclerView.setLayoutManager(gridLayoutManager);
 
                 int spaceInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                         context.getResources().getDimension(R.dimen.space_between_chords),
                         context.getResources().getDisplayMetrics());
 
                 mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
-                /*mChordsLineRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-                    @Override
-                    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                        super.getItemOffsets(outRect, view, parent, state);
-                        outRect.bottom=0;
-                        outRect.right=0;
-                        outRect.left=0;
-                        outRect.top=0;
-                    }
-                });
-                */
+
             } else {
                 // Covers the case of data not being ready yet.
                 mLyricsLineTextView.setText(context.getString(R.string.no_song_label));

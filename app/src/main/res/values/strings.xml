@@ -10,7 +10,7 @@
     <string name="polish">Polskie</string>
     <string name="foreign">Zagraniczne</string>
     <string name="title_placeholder"></string>
-    <string name="artist_placeholder"></string>
+    <string name="artist_placeholder">Placeholder</string>
     <string name="no_song_label">No Song</string>
     <string name="music_genre">Gatunek</string>
     <string name="rock">Rock</string>
@@ -24,4 +24,6 @@
     <string name="songs">Piosenki</string>
     <string name="no_songs_communicate">Nie znaleziono żadnej piosenki.</string>
     <string name="no_artists_communicate">Nie znaleziono żadnych artystów.</string>
+    <string name="chord_pic_descrpition">Chord</string>
+    <string name="chord">Akord</string>
 </resources>
