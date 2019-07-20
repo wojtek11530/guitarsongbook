@@ -122,8 +122,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
                 mChordsLineRecyclerView.setLayoutManager(gridLayoutManager);
 
-                mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration(
-                        (int) context.getResources().getDimension(R.dimen.space_between_chords)));
+                //mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration(
+                 //       (int) context.getResources().getDimension(R.dimen.space_between_chords)));
 
             } else {
                 mLyricsLineTextView.setText(context.getString(R.string.no_song_label));
