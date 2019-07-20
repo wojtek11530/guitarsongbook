@@ -77,7 +77,6 @@ public class SongDisplayFragment extends Fragment {
 
         final SongDisplayAdapter adapter = new SongDisplayAdapter(getContext());
 
-
         Long songId = null;
         if (getArguments().containsKey(SONG_ID_KEY)) {
             songId = getArguments().getLong(SONG_ID_KEY);

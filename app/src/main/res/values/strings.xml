@@ -26,4 +26,7 @@
     <string name="no_artists_communicate">Nie znaleziono żadnych artystów.</string>
     <string name="chord_pic_descrpition">Chord</string>
     <string name="chord">Akord</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

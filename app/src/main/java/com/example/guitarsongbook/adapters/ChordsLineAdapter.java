@@ -1,26 +1,22 @@
 package com.example.guitarsongbook.adapters;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
+import com.example.guitarsongbook.dialogs.ChordDialogFragment;
 import com.example.guitarsongbook.model.Chord;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.ChordsLineHolder>{
 
@@ -81,6 +77,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
 
                     Chord chordToDisplay = mChordsInLine.get(position);
 
+                    /*
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     View dialogView = mInflater.inflate(R.layout.dialog_chord_pics, null);
 
@@ -88,15 +85,65 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
                     String chordDialogTitle = context.getString(R.string.chord) + " " + chordToDisplay.getMSymbol();
                     chordSymbolTextView.setText(chordDialogTitle);
 
+
                     ImageView chordPictureImageView = dialogView.findViewById(R.id.chord_picture_img_);
                     String pictureFileName= chordToDisplay.getMSymbol().toLowerCase() + "_diagram_1";
                     int chordDiagramId = context.getResources().getIdentifier(pictureFileName, "drawable", context.getPackageName());
 
+
                     chordPictureImageView.setImageDrawable(context.getDrawable(chordDiagramId));
+
+                    String chordSymbolInLowerCase = chordToDisplay.getMSymbol().toLowerCase();
+                    Resources resources = context.getResources();
+                    String packageName = context.getPackageName();
+
+                    ArrayList<Integer> chordDiagramDrawableIds = new ArrayList<>();
+
+                    int numberOfDiagram = 1;
+                    String fileName = chordSymbolInLowerCase + "_diagram_" + numberOfDiagram;
+                    int diagramId = resources.getIdentifier(
+                            fileName, "drawable", packageName);
+
+                    while (diagramId != 0){
+                        chordDiagramDrawableIds.add(diagramId);
+                        fileName = chordSymbolInLowerCase + " _diagram_" + ++numberOfDiagram;
+                        diagramId = resources.getIdentifier(
+                                fileName, "drawable", packageName);
+
+                    }
+
+                    ViewPager chordDiagramPager = dialogView.findViewById(R.id.chordDiagramPager);
+
+                    ChordDiagramPagerAdapter chordDiagramPagerAdapter = new ChordDiagramPagerAdapter(
+                            ((MainActivity) context).getSupportFragmentManager(), chordDiagramDrawableIds);
+                    chordDiagramPager.setAdapter(chordDiagramPagerAdapter);
 
                     builder.setView(dialogView);
                     Dialog chordDialog = builder.create();
-                    chordDialog.show();
+                    */
+                    String chordDialogTitle = context.getString(R.string.chord) + " " + mChord.getMSymbol();
+
+                    String chordSymbolInLowerCase = mChord.getMSymbol().toLowerCase();
+                    Resources resources = context.getResources();
+                    String packageName = context.getPackageName();
+
+                    ArrayList<Integer> chordDiagramDrawableIds = new ArrayList<>();
+
+                    int numberOfDiagram = 1;
+                    String fileName = chordSymbolInLowerCase + "_diagram_" + numberOfDiagram;
+                    int diagramId = resources.getIdentifier(fileName, "drawable", packageName);
+
+                    while (diagramId != 0){
+                        chordDiagramDrawableIds.add(diagramId);
+                        numberOfDiagram++;
+                        fileName = chordSymbolInLowerCase + "_diagram_" + numberOfDiagram;
+                        diagramId = resources.getIdentifier(
+                                fileName, "drawable", packageName);
+
+                    }
+
+                    DialogFragment newFragment = ChordDialogFragment.newInstance(chordDialogTitle, chordDiagramDrawableIds);
+                    newFragment.show(((MainActivity) context).getSupportFragmentManager(), null);
                 }
             });
         }
