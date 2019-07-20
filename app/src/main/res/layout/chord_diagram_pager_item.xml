@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chord_diagram_img_"
+    android:layout_height="wrap_content"
+    android:layout_width="250dp"
+    android:layout_gravity="center_horizontal"
+    android:adjustViewBounds="true"
+    android:scaleType="fitCenter"
+    android:contentDescription="@string/chord_pic_descrpition" />
+
