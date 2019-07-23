@@ -10,7 +10,7 @@
         android:id="@+id/song_display_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView">
+        app:layout_constraintBottom_toTopOf="@+id/songDisplayBottomNavigationView">
 
         <LinearLayout
             android:layout_width="match_parent"
