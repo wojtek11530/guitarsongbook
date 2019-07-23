@@ -6,5 +6,6 @@
     <color name="colorAccent">#FFFF9800</color>
     <color name="colorTextPrimary">@android:color/black</color>
     <color name="colorScreenBackground">#fff3e0</color>
+    <color name="bottomNavigationColor">#696969</color>
 
 </resources>

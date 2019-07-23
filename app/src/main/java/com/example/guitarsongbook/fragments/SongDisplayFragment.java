@@ -3,6 +3,7 @@ package com.example.guitarsongbook.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Song;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,7 @@ public class SongDisplayFragment extends Fragment {
     private TextView mSongTitleTextView;
     private TextView mSongArtistTextView;
     private RecyclerView mSongLyricsRecyclerView;
+    private BottomNavigationView mBottomNavigationView;
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
@@ -72,6 +76,7 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView = view.findViewById(R.id.lyrics_rv_);
         mSongTitleTextView = view.findViewById(R.id.displayed_song_title_txt_);
         mSongArtistTextView = view.findViewById(R.id.displayed_song_artist_txt_);
+        mBottomNavigationView = view.findViewById(R.id.songDisplayBottomNavigationView);
 
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
@@ -122,6 +127,21 @@ public class SongDisplayFragment extends Fragment {
 
         mSongLyricsRecyclerView.setAdapter(adapter);
         mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.transpose:
+                        return true;
+                    case R.id.autosroll:
+                        return true;
+                    case R.id.add_to_favourites:
+                        return true;
+                }
+                return false;
+            }
+        });
         return view;
     }
 
