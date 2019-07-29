@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/transpose"
-        android:icon="@drawable/ic_arrow_downward_black_24dp"
-        android:title="@string/transpose"/>
+    <group android:id="@+id/buttons_group">
+        <item
+            android:id="@+id/transpose"
+            android:icon="@drawable/ic_transpose_24dp"
+            android:title="@string/transpose"
+            />
+        <item
+            android:id="@+id/autosroll"
+            android:icon="@drawable/ic_autoscroll_24dp"
+            android:title="@string/autoscrolling" />
+        <item
+            android:id="@+id/add_to_favourites"
+            android:icon="@drawable/ic_star_border_black_24dp"
+            android:title="@string/add_to_favourite" />
+    </group>
 
-    <item
-        android:id="@+id/autosroll"
-        android:icon="@drawable/ic_autoscroll_24dp"
-        android:title="@string/autoscrolling"/>
 
-    <item
-        android:id="@+id/add_to_favourites"
-        android:icon="@drawable/ic_star_border_black_24dp"
-        android:title="@string/add_to_favourite"/>
 </menu>

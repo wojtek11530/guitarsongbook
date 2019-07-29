@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,14 @@ public class SongDisplayFragment extends Fragment {
     private TextView mSongArtistTextView;
     private RecyclerView mSongLyricsRecyclerView;
     private BottomNavigationView mBottomNavigationView;
+    private MenuItem mAutoscrollMenuItem;
+    private MenuItem mTransposeMenuItem;
+    private MenuItem mAddToFavouriteMenuItem;
+
+    private boolean mAutoscroll = false;
+    private boolean mTranspose = false;
+    private boolean mFavourite = false;
+
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
@@ -128,20 +137,40 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView.setAdapter(adapter);
         mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        Menu bottomNavigationMenu = mBottomNavigationView.getMenu();
+
+        bottomNavigationMenu.setGroupCheckable(R.id.buttons_group, true, false);
+
+        mTransposeMenuItem = bottomNavigationMenu.findItem(R.id.transpose);
+        mAutoscrollMenuItem = bottomNavigationMenu.findItem(R.id.autosroll);
+        mAddToFavouriteMenuItem = bottomNavigationMenu.findItem(R.id.add_to_favourites);
+
+
+        mTransposeMenuItem.setChecked(mTranspose);
+        mAutoscrollMenuItem.setChecked(mAutoscroll);
+        mAddToFavouriteMenuItem.setChecked(mFavourite);
+
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.transpose:
-                        return true;
+                        mTranspose = !mTranspose;
+                        mTransposeMenuItem.setChecked(mTranspose);
+                        return mTranspose;
                     case R.id.autosroll:
-                        return true;
+                        mAutoscroll = !mAutoscroll;
+                        mAutoscrollMenuItem.setChecked(mAutoscroll);
+                        return mAutoscroll;
                     case R.id.add_to_favourites:
-                        return true;
+                        mFavourite = !mFavourite;
+                        mAddToFavouriteMenuItem.setChecked(mFavourite);
+                        return mFavourite;
                 }
                 return false;
             }
         });
+
         return view;
     }
 
