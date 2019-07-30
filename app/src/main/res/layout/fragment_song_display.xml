@@ -10,7 +10,7 @@
         android:id="@+id/song_display_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/songDisplayBottomNavigationView"
+        app:layout_constraintBottom_toTopOf="@+id/autoscroll_bar"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -46,8 +46,61 @@
         </LinearLayout>
     </ScrollView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/autoscroll_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryLight"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/song_display_bottom_navigation_view">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/run_autoscroll_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/autoscroll_seek_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:maxHeight="2dp"
+            android:minHeight="2dp"
+            android:splitTrack="false"
+            android:progressDrawable="@drawable/seekbar_style"
+            android:thumb="@drawable/custom_thumb_drawable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/close_autoscroll_btn_"
+            app:layout_constraintStart_toEndOf="@+id/run_autoscroll_btn_"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/close_autoscroll_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:src="@drawable/ic_close_black_24dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/songDisplayBottomNavigationView"
+        android:id="@+id/song_display_bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintLeft_toLeftOf="parent"

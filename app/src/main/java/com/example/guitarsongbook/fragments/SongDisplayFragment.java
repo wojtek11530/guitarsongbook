@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -16,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
@@ -23,11 +26,9 @@ import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.SongDisplayAdapter;
 import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.model.Artist;
-import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +46,12 @@ public class SongDisplayFragment extends Fragment {
     private MenuItem mAutoscrollMenuItem;
     private MenuItem mTransposeMenuItem;
     private MenuItem mAddToFavouriteMenuItem;
+
+    private ConstraintLayout mAutoscrollBar;
+    private ImageButton mRunAutsocrollImageButton;
+    private SeekBar mAutoscrollSeekbar;
+    private ImageButton mCloseAutoscrollImageButton;
+
 
     private boolean mAutoscroll = false;
     private boolean mTranspose = false;
@@ -85,7 +92,11 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView = view.findViewById(R.id.lyrics_rv_);
         mSongTitleTextView = view.findViewById(R.id.displayed_song_title_txt_);
         mSongArtistTextView = view.findViewById(R.id.displayed_song_artist_txt_);
-        mBottomNavigationView = view.findViewById(R.id.songDisplayBottomNavigationView);
+        mBottomNavigationView = view.findViewById(R.id.song_display_bottom_navigation_view);
+        mAutoscrollBar = view.findViewById(R.id.autoscroll_bar);
+        mRunAutsocrollImageButton = view.findViewById(R.id.run_autoscroll_btn_);
+        mCloseAutoscrollImageButton = view.findViewById(R.id.close_autoscroll_btn_);
+        mAutoscrollSeekbar = view.findViewById(R.id.autoscroll_seek_bar);
 
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
@@ -155,8 +166,7 @@ public class SongDisplayFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.transpose:
-                        mTranspose = !mTranspose;
-                        mTransposeMenuItem.setChecked(mTranspose);
+                        switchDisplayingTransposeFeature();
                         return mTranspose;
                     case R.id.autosroll:
                         mAutoscroll = !mAutoscroll;
@@ -171,7 +181,23 @@ public class SongDisplayFragment extends Fragment {
             }
         });
 
+        mCloseAutoscrollImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchDisplayingTransposeFeature();
+            }
+        });
         return view;
+    }
+
+    private void switchDisplayingTransposeFeature() {
+        mTranspose = !mTranspose;
+        mTransposeMenuItem.setChecked(mTranspose);
+        if (mTranspose) {
+            mAutoscrollBar.setVisibility(View.VISIBLE);
+        }else{
+            mAutoscrollBar.setVisibility(View.GONE);
+        }
     }
 
 }
