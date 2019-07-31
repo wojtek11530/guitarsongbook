@@ -39,8 +39,6 @@ import java.util.List;
  */
 public class SongDisplayFragment extends Fragment {
 
-
-
     private Song mSongToDisplay;
 
     private ScrollView mSongDisplayScrollView;
@@ -61,8 +59,8 @@ public class SongDisplayFragment extends Fragment {
     private boolean mAutoscrollBarOn = false;
     private boolean mTranspose = false;
     private boolean mFavourite = false;
-
     private boolean mAutoscrollRunning = false;
+
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
     private static final int MIN_AUTOSCROLL_DELAY = 10;
