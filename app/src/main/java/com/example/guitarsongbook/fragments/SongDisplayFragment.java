@@ -1,8 +1,6 @@
 package com.example.guitarsongbook.fragments;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 
@@ -15,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +40,7 @@ import java.util.List;
 public class SongDisplayFragment extends Fragment {
 
 
+
     private Song mSongToDisplay;
 
     private ScrollView mSongDisplayScrollView;
@@ -52,10 +52,10 @@ public class SongDisplayFragment extends Fragment {
     private MenuItem mTransposeMenuItem;
     private MenuItem mAddToFavouriteMenuItem;
 
-    private ConstraintLayout mAutoscrollBar;
-    private ImageButton mRunAutsocrollImageButton;
-    private SeekBar mAutoscrollSeekbar;
-    private ImageButton mCloseAutoscrollImageButton;
+    private ConstraintLayout mAutoScrollBar;
+    private ImageButton mRunAutScrollImageButton;
+    private SeekBar mAutoScrollSeekbar;
+    private ImageButton mCloseAutoScrollImageButton;
 
 
     private boolean mAutoscrollBarOn = false;
@@ -63,10 +63,11 @@ public class SongDisplayFragment extends Fragment {
     private boolean mFavourite = false;
 
     private boolean mAutoscrollRunning = false;
-    private ObjectAnimator mAutoScrollObjectAnimator;
-
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
+    private static final int MIN_AUTOSCROLL_DELAY = 10;
+    private static final int MIN_MAX_DELAY_INTERVAL = 190;
+    private static final int MAX_AUTO_SCROLL_DELAY = MIN_AUTOSCROLL_DELAY + MIN_MAX_DELAY_INTERVAL;
     public static final String SONG_ID_KEY = "SONG_ID_KEY";
     public static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
 
@@ -100,11 +101,6 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView = view.findViewById(R.id.lyrics_rv_);
         mSongTitleTextView = view.findViewById(R.id.displayed_song_title_txt_);
         mSongArtistTextView = view.findViewById(R.id.displayed_song_artist_txt_);
-        mBottomNavigationView = view.findViewById(R.id.song_display_bottom_navigation_view);
-        mAutoscrollBar = view.findViewById(R.id.autoscroll_bar);
-        mRunAutsocrollImageButton = view.findViewById(R.id.run_autoscroll_btn_);
-        mCloseAutoscrollImageButton = view.findViewById(R.id.close_autoscroll_btn_);
-        mAutoscrollSeekbar = view.findViewById(R.id.autoscroll_seek_bar);
 
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
@@ -156,6 +152,13 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView.setAdapter(adapter);
         mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        initBottomNavigationView(view);
+        initAutoScrollBar(view);
+        return view;
+    }
+
+    private void initBottomNavigationView(View view) {
+        mBottomNavigationView = view.findViewById(R.id.song_display_bottom_navigation_view);
         Menu bottomNavigationMenu = mBottomNavigationView.getMenu();
 
         bottomNavigationMenu.setGroupCheckable(R.id.buttons_group, true, false);
@@ -163,7 +166,6 @@ public class SongDisplayFragment extends Fragment {
         mTransposeMenuItem = bottomNavigationMenu.findItem(R.id.transpose);
         mAutoscrollMenuItem = bottomNavigationMenu.findItem(R.id.autosroll);
         mAddToFavouriteMenuItem = bottomNavigationMenu.findItem(R.id.add_to_favourites);
-
 
         mTransposeMenuItem.setChecked(mTranspose);
         mAutoscrollMenuItem.setChecked(mAutoscrollBarOn);
@@ -178,7 +180,7 @@ public class SongDisplayFragment extends Fragment {
                         mTransposeMenuItem.setChecked(mTranspose);
                         return mTranspose;
                     case R.id.autosroll:
-                        switchDisplayingAutoscrollFeature();
+                        switchDisplayingAutoScrollFeature();
                         return mAutoscrollBarOn;
                     case R.id.add_to_favourites:
                         mFavourite = !mFavourite;
@@ -188,94 +190,96 @@ public class SongDisplayFragment extends Fragment {
                 return false;
             }
         });
+    }
 
-        mCloseAutoscrollImageButton.setOnClickListener(new View.OnClickListener() {
+    private void initAutoScrollBar(View view) {
+        mAutoScrollBar = view.findViewById(R.id.autoscroll_bar);
+        mRunAutScrollImageButton = view.findViewById(R.id.run_autoscroll_btn_);
+        mCloseAutoScrollImageButton = view.findViewById(R.id.close_autoscroll_btn_);
+        mAutoScrollSeekbar = view.findViewById(R.id.autoscroll_seek_bar);
+
+        mCloseAutoScrollImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchDisplayingAutoscrollFeature();
+                switchDisplayingAutoScrollFeature();
             }
         });
 
-        mRunAutsocrollImageButton.setOnClickListener(new View.OnClickListener() {
+        mRunAutScrollImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mAutoscrollRunning){
-                    runAutoscroll();
-                }else{
-                    pauseAutoscroll();
-                }
+                switchAutoScroll();
             }
         });
-        return view;
+
+        mAutoScrollSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressChangedValue = 0;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressChangedValue = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                setSpeedOfAutoScrolling(progressChangedValue);
+            }
+        });
     }
 
-    private void pauseAutoscroll() {
-        mAutoscrollRunning = false;
-        mAutoScrollObjectAnimator.pause();
-        /*
-        mAutoScrollObjectAnimator.removeAllListeners();
-        mAutoScrollObjectAnimator.end();
-        mAutoScrollObjectAnimator.cancel();
-        mAutoScrollObjectAnimator = null;
-        */
-
+    private void setSpeedOfAutoScrolling(int progressChangedValue) {
+        int newTimeDelay = MIN_AUTOSCROLL_DELAY + (int)(MIN_MAX_DELAY_INTERVAL *
+                (1-(float)progressChangedValue/mAutoScrollSeekbar.getMax()));
+        timerRunnable.setTimeDelay(newTimeDelay);
     }
 
-    private void runAutoscroll() {
-        mAutoscrollRunning = true;
-        if (mAutoScrollObjectAnimator == null) {
-            mAutoScrollObjectAnimator = ObjectAnimator.ofInt(mSongDisplayScrollView, "scrollY",
-                    mSongDisplayScrollView.getChildAt(0).getHeight() - mSongDisplayScrollView.getHeight()).setDuration(50000);
 
-            mAutoScrollObjectAnimator.addListener(autoscrollAnimationListenerAdapter);
-            mAutoScrollObjectAnimator.addPauseListener(autoscrollAnimationListenerAdapter);
-            mAutoScrollObjectAnimator.start();
+    private Handler timerHandler = new Handler();
+    private autoScrollRunnable timerRunnable = new autoScrollRunnable();
+
+    class autoScrollRunnable implements Runnable{
+        private int autoScrollindDelayInMilisec = MAX_AUTO_SCROLL_DELAY;
+
+        @Override
+        public void run() {
+            mSongDisplayScrollView.smoothScrollBy(0,1);
+            timerHandler.postDelayed(this, autoScrollindDelayInMilisec);
+        }
+
+        public void setTimeDelay(int timeDelay){
+            this.autoScrollindDelayInMilisec = timeDelay;
+        }
+    }
+
+
+    private void switchAutoScroll() {
+        if (!mAutoscrollRunning){
+            runAutoScroll();
         }else{
-            mAutoScrollObjectAnimator.resume();
+            stopAutoScroll();
         }
     }
 
-    private AnimatorListenerAdapter autoscrollAnimationListenerAdapter = new AnimatorListenerAdapter() {
-        @Override
-        public void onAnimationCancel(Animator animation) {
-            super.onAnimationCancel(animation);
-            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-        }
+    private void runAutoScroll() {
+        mAutoscrollRunning = true;
+        mRunAutScrollImageButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        timerHandler.postDelayed(timerRunnable, 0);
+    }
 
-        @Override
-        public void onAnimationEnd(Animator animation) {
-            super.onAnimationEnd(animation);
-            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-        }
+    private void stopAutoScroll() {
+        mAutoscrollRunning = false;
+        mRunAutScrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        timerHandler.removeCallbacks(timerRunnable);
+    }
 
-        @Override
-        public void onAnimationStart(Animator animation) {
-            super.onAnimationStart(animation);
-            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_pause_black_24dp);
-        }
-
-        @Override
-        public void onAnimationPause(Animator animation) {
-            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-            super.onAnimationPause(animation);
-
-        }
-
-        @Override
-        public void onAnimationResume(Animator animation) {
-            super.onAnimationResume(animation);
-            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_pause_black_24dp);
-        }
-    };
-
-    private void switchDisplayingAutoscrollFeature() {
+    private void switchDisplayingAutoScrollFeature() {
         mAutoscrollBarOn = !mAutoscrollBarOn;
         mAutoscrollMenuItem.setChecked(mAutoscrollBarOn);
-        if (mAutoscrollBarOn) {
-            mAutoscrollBar.setVisibility(View.VISIBLE);
-        }else{
-            mAutoscrollBar.setVisibility(View.GONE);
-        }
+        mAutoScrollBar.setVisibility(mAutoscrollBarOn? View.VISIBLE: View.GONE);
     }
 
 }
