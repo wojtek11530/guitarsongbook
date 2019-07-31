@@ -1,6 +1,9 @@
 package com.example.guitarsongbook.fragments;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -39,6 +43,7 @@ public class SongDisplayFragment extends Fragment {
 
     private Song mSongToDisplay;
 
+    private ScrollView mSongDisplayScrollView;
     private TextView mSongTitleTextView;
     private TextView mSongArtistTextView;
     private RecyclerView mSongLyricsRecyclerView;
@@ -53,10 +58,12 @@ public class SongDisplayFragment extends Fragment {
     private ImageButton mCloseAutoscrollImageButton;
 
 
-    private boolean mAutoscroll = false;
+    private boolean mAutoscrollBarOn = false;
     private boolean mTranspose = false;
     private boolean mFavourite = false;
 
+    private boolean mAutoscrollRunning = false;
+    private ObjectAnimator mAutoScrollObjectAnimator;
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
@@ -89,6 +96,7 @@ public class SongDisplayFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_display, container, false);
 
+        mSongDisplayScrollView = view.findViewById(R.id.song_display_scroll_view);
         mSongLyricsRecyclerView = view.findViewById(R.id.lyrics_rv_);
         mSongTitleTextView = view.findViewById(R.id.displayed_song_title_txt_);
         mSongArtistTextView = view.findViewById(R.id.displayed_song_artist_txt_);
@@ -158,7 +166,7 @@ public class SongDisplayFragment extends Fragment {
 
 
         mTransposeMenuItem.setChecked(mTranspose);
-        mAutoscrollMenuItem.setChecked(mAutoscroll);
+        mAutoscrollMenuItem.setChecked(mAutoscrollBarOn);
         mAddToFavouriteMenuItem.setChecked(mFavourite);
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -166,12 +174,12 @@ public class SongDisplayFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.transpose:
-                        switchDisplayingTransposeFeature();
+                        mTranspose = !mTranspose;
+                        mTransposeMenuItem.setChecked(mTranspose);
                         return mTranspose;
                     case R.id.autosroll:
-                        mAutoscroll = !mAutoscroll;
-                        mAutoscrollMenuItem.setChecked(mAutoscroll);
-                        return mAutoscroll;
+                        switchDisplayingAutoscrollFeature();
+                        return mAutoscrollBarOn;
                     case R.id.add_to_favourites:
                         mFavourite = !mFavourite;
                         mAddToFavouriteMenuItem.setChecked(mFavourite);
@@ -184,16 +192,86 @@ public class SongDisplayFragment extends Fragment {
         mCloseAutoscrollImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchDisplayingTransposeFeature();
+                switchDisplayingAutoscrollFeature();
+            }
+        });
+
+        mRunAutsocrollImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mAutoscrollRunning){
+                    runAutoscroll();
+                }else{
+                    pauseAutoscroll();
+                }
             }
         });
         return view;
     }
 
-    private void switchDisplayingTransposeFeature() {
-        mTranspose = !mTranspose;
-        mTransposeMenuItem.setChecked(mTranspose);
-        if (mTranspose) {
+    private void pauseAutoscroll() {
+        mAutoscrollRunning = false;
+        mAutoScrollObjectAnimator.pause();
+        /*
+        mAutoScrollObjectAnimator.removeAllListeners();
+        mAutoScrollObjectAnimator.end();
+        mAutoScrollObjectAnimator.cancel();
+        mAutoScrollObjectAnimator = null;
+        */
+
+    }
+
+    private void runAutoscroll() {
+        mAutoscrollRunning = true;
+        if (mAutoScrollObjectAnimator == null) {
+            mAutoScrollObjectAnimator = ObjectAnimator.ofInt(mSongDisplayScrollView, "scrollY",
+                    mSongDisplayScrollView.getChildAt(0).getHeight() - mSongDisplayScrollView.getHeight()).setDuration(50000);
+
+            mAutoScrollObjectAnimator.addListener(autoscrollAnimationListenerAdapter);
+            mAutoScrollObjectAnimator.addPauseListener(autoscrollAnimationListenerAdapter);
+            mAutoScrollObjectAnimator.start();
+        }else{
+            mAutoScrollObjectAnimator.resume();
+        }
+    }
+
+    private AnimatorListenerAdapter autoscrollAnimationListenerAdapter = new AnimatorListenerAdapter() {
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            super.onAnimationCancel(animation);
+            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        }
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+            super.onAnimationStart(animation);
+            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        }
+
+        @Override
+        public void onAnimationPause(Animator animation) {
+            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            super.onAnimationPause(animation);
+
+        }
+
+        @Override
+        public void onAnimationResume(Animator animation) {
+            super.onAnimationResume(animation);
+            mRunAutsocrollImageButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        }
+    };
+
+    private void switchDisplayingAutoscrollFeature() {
+        mAutoscrollBarOn = !mAutoscrollBarOn;
+        mAutoscrollMenuItem.setChecked(mAutoscrollBarOn);
+        if (mAutoscrollBarOn) {
             mAutoscrollBar.setVisibility(View.VISIBLE);
         }else{
             mAutoscrollBar.setVisibility(View.GONE);
