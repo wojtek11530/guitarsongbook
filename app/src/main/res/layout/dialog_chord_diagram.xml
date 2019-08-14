@@ -12,18 +12,24 @@
         style="@style/TitleOfDisplayedSong"
         android:text="@string/artist_placeholder"
         android:gravity="center_horizontal"
-        android:layout_margin="4dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/chordDiagramPager"
         android:layout_width="wrap_content"
+        android:overScrollMode="never"
         android:layout_height="250dp" />
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:padding="16dp"
-        android:layout_height="48dp"/>
+        app:ci_drawable="@drawable/circle_indicator_drawable"
+        app:ci_drawable_unselected="@drawable/circle_indicator_unselected_drawable"
+        android:padding="8dp"
+        android:layout_height="32dp"/>
 
 
 </LinearLayout>
