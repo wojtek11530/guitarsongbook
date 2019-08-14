@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -17,6 +18,9 @@ public interface SongDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insert(Song song);
+
+    @Update
+    public void update(Song song);
 
     @Query("DELETE FROM song_table")
     void deleteAll();

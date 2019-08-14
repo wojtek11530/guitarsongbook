@@ -32,6 +32,10 @@ public class SongRepository {
         new SongRepository.insertAsyncTask(mSongDao).execute(song);
     }
 
+    public void update(Song song) {
+        new SongRepository.updateAsyncTask(mSongDao).execute(song);
+    }
+
     public LiveData<Song> getSongById(Long id) {
         return mSongDao.getSongById(id);
     }
@@ -63,6 +67,21 @@ public class SongRepository {
         @Override
         protected Void doInBackground(final Song... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Song, Void, Void> {
+
+        private SongDao mAsyncTaskDao;
+
+        updateAsyncTask(SongDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Song... params) {
+            mAsyncTaskDao.update(params[0]);
             return null;
         }
     }
