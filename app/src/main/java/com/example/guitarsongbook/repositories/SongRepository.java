@@ -24,16 +24,16 @@ public class SongRepository {
         mAllSongs = mSongDao.getAllSongs();
     }
 
-    public LiveData<List<Song>> getmAllSongs() {
-        return mAllSongs;
-    }
-
     public void insert (Song song) {
         new SongRepository.insertAsyncTask(mSongDao).execute(song);
     }
 
     public void update(Song song) {
         new SongRepository.updateAsyncTask(mSongDao).execute(song);
+    }
+
+    public LiveData<List<Song>> getmAllSongs() {
+        return mAllSongs;
     }
 
     public LiveData<Song> getSongById(Long id) {
@@ -47,6 +47,7 @@ public class SongRepository {
     public LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre) {
         return mSongDao.getSongByMusicGenre(genre);
     }
+
     public LiveData<List<Song>> getSongByQuery(String query) {
         query = "%" + query + "%";
         return mSongDao.getSongByQuery(query);
@@ -54,6 +55,10 @@ public class SongRepository {
 
     public LiveData<List<Song>> getSongByArtistId(Long artistId) {
         return mSongDao.getSongByArtistId(artistId);
+    }
+
+    public LiveData<List<Song>> getFavouriteSongs() {
+        return mSongDao.getFavouriteSongs();
     }
 
     private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {

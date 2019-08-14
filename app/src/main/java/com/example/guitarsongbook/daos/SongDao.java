@@ -42,4 +42,7 @@ public interface SongDao {
 
     @Query("SELECT * FROM song_table WHERE artist_id = :artistId")
     LiveData<List<Song>> getSongByArtistId(Long artistId);
+
+    @Query("SELECT * FROM song_table WHERE is_favourite = 1")
+    LiveData<List<Song>> getFavouriteSongs();
 }

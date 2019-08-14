@@ -32,4 +32,5 @@
     <string name="transpose">Transponuj</string>
     <string name="autoscrolling">Autoprzewijanie</string>
     <string name="add_to_favourite">Dodaj do ulubionych</string>
+    <string name="favourite_songs">Ulubione piosenki</string>
 </resources>
