@@ -76,8 +76,8 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     public LiveData<List<Chord>> getChordsBySongId(Long songId) {
         return mChordRepository.getChordsBySongId(songId);
     }
-    public LiveData<List<SongChordJoinDao.ChordInSong>> getChordsBySongId2(Long songId) {
-        return mChordRepository.getChordsBySongId2(songId);
+    public LiveData<List<SongChordJoinDao.ChordInSong>> getChordsInSongBySongId(Long songId) {
+        return mChordRepository.getChordsInSongBySongId(songId);
     }
 
     public void insertArtist(Artist artist) { mArtistRepository.insert(artist); }

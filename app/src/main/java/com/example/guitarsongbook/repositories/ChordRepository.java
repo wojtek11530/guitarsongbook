@@ -46,8 +46,8 @@ public class ChordRepository {
         return mSongChordJoinDao.getChordsForSong(songId);
     }
 
-    public LiveData<List<SongChordJoinDao.ChordInSong>> getChordsBySongId2(Long songId) {
-        return mSongChordJoinDao.getChordsForSong2(songId);
+    public LiveData<List<SongChordJoinDao.ChordInSong>> getChordsInSongBySongId(Long songId) {
+        return mSongChordJoinDao.getChordsInSongBySongId(songId);
     }
 
     private static class insertAsyncTask extends AsyncTask<Chord, Void, Void> {

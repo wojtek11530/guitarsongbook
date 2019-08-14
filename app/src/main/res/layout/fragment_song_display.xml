@@ -6,53 +6,77 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SongDisplayFragment">
 
-    <ScrollView
-        android:id="@+id/song_display_scroll_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lyrics_rv_"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/songDisplayBottomNavigationView"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingBottom="12dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@+id/autoscroll_bar"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/displayed_song_title_txt_"
-                style="@style/TitleOfDisplayedSong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/title_placeholder" />
-
-            <TextView
-                android:id="@+id/displayed_song_artist_txt_"
-                style="@style/ArtistOfDisplayedSong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/artist_placeholder" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lyrics_rv_"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="12dp"
-                android:nestedScrollingEnabled="false" />
-        </LinearLayout>
-    </ScrollView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/songDisplayBottomNavigationView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/autoscroll_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryLight"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/song_display_bottom_navigation_view">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/run_autoscroll_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/autoscroll_button_size"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/autoscroll_seek_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:maxHeight="2dp"
+            android:minHeight="2dp"
+            android:progressDrawable="@drawable/seekbar_style"
+            android:splitTrack="false"
+            android:thumb="@drawable/custom_thumb_drawable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/close_autoscroll_btn_"
+            app:layout_constraintStart_toEndOf="@+id/run_autoscroll_btn_"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/close_autoscroll_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/autoscroll_button_size"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/song_display_bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottomNavigationColor"
         app:itemBackground="@color/bottomNavigationColor"
         app:itemIconTint="@drawable/bottom_nav_colors"
         app:itemTextColor="@drawable/bottom_nav_colors"

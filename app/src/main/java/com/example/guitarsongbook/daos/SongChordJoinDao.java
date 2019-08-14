@@ -1,5 +1,8 @@
 package com.example.guitarsongbook.daos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.ColumnInfo;
 import androidx.room.Dao;
@@ -30,9 +33,9 @@ public interface SongChordJoinDao {
             "chord_table.chord_id=song_chord_join.chord_id " +
             "WHERE song_chord_join.song_id=:songId " +
             "ORDER BY song_chord_join.line_number, song_chord_join.chord_number ")
-    LiveData<List<ChordInSong>> getChordsForSong2(long songId);
+    LiveData<List<ChordInSong>> getChordsInSongBySongId(long songId);
 
-    class ChordInSong{
+    class ChordInSong implements Parcelable {
 
         @Embedded
         private Chord chord;
@@ -66,6 +69,40 @@ public interface SongChordJoinDao {
         public void setChordNumber(int chordNumber) {
             this.chordNumber = chordNumber;
         }
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeParcelable(this.chord, flags);
+            dest.writeInt(this.lineNumber);
+            dest.writeInt(this.chordNumber);
+        }
+
+        public ChordInSong() {
+        }
+
+        protected ChordInSong(Parcel in) {
+            this.chord = in.readParcelable(Chord.class.getClassLoader());
+            this.lineNumber = in.readInt();
+            this.chordNumber = in.readInt();
+        }
+
+        public static final Parcelable.Creator<ChordInSong> CREATOR = new Parcelable.Creator<ChordInSong>() {
+            @Override
+            public ChordInSong createFromParcel(Parcel source) {
+                return new ChordInSong(source);
+            }
+
+            @Override
+            public ChordInSong[] newArray(int size) {
+                return new ChordInSong[size];
+            }
+        };
     }
 
 }

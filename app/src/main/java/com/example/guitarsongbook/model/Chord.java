@@ -1,6 +1,9 @@
 package com.example.guitarsongbook.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -18,7 +21,7 @@ import androidx.room.PrimaryKey;
                         childColumns = "next_chord_id")},
         indices = {@Index(value = {"symbol"},
                 unique = true)})
-public class Chord {
+public class Chord implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "chord_id")
@@ -103,4 +106,41 @@ public class Chord {
     public void setMPreviousChordSymbol(String mPreviousChordSymbol) {
         this.mPreviousChordSymbol = mPreviousChordSymbol;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.mId);
+        dest.writeString(this.mSymbol);
+        dest.writeString(this.mNextChordSymbol);
+        dest.writeValue(this.mNextChordId);
+        dest.writeString(this.mPreviousChordSymbol);
+        dest.writeValue(this.mPreviousChordId);
+    }
+
+    protected Chord(Parcel in) {
+        this.mId = (Long) in.readValue(Long.class.getClassLoader());
+        this.mSymbol = in.readString();
+        this.mNextChordSymbol = in.readString();
+        this.mNextChordId = (Long) in.readValue(Long.class.getClassLoader());
+        this.mPreviousChordSymbol = in.readString();
+        this.mPreviousChordId = (Long) in.readValue(Long.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Chord> CREATOR = new Parcelable.Creator<Chord>() {
+        @Override
+        public Chord createFromParcel(Parcel source) {
+            return new Chord(source);
+        }
+
+        @Override
+        public Chord[] newArray(int size) {
+            return new Chord[size];
+        }
+    };
 }
