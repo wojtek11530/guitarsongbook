@@ -53,7 +53,7 @@ import static com.example.guitarsongbook.model.Kind.POLISH;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 10, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 11, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
@@ -206,8 +206,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                 mChordDao.insert(currentChordFromDb);
             }
 
-
-
             is = resources.openRawResource(R.raw.json_data);
             writer = new StringWriter();
             buffer = new char[1024];
@@ -236,7 +234,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
             for (Song song:songsArray){
                 Long id;
-                String artistName = song.getmArtistName();
+                String artistName = song.getMArtistName();
                 Artist artist = mArtistDao.getArtistByName(artistName);
                 if (artist == null){
                     id = mArtistDao.insert(new Artist(artistName));
@@ -244,6 +242,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                     id = artist.getMId();
                 }
                 song.setmArtistId(id);
+                song.setmIsFavourite(false);
                 long songId = mSongDao.insert(song);
 
                 int lineNumber = 0;

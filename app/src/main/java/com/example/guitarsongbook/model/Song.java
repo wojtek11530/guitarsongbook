@@ -42,10 +42,13 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "chords")
     private ArrayList<String> mChords;
 
+    @ColumnInfo(name = "is_favourite")
+    private Boolean mIsFavourite;
+
     @Ignore
     private String mArtistName;
 
-    public Song(long mId, String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords) {
+    public Song(long mId, String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, Boolean mIsFavourite) {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mArtistId = mArtistId;
@@ -53,6 +56,7 @@ public class Song implements Parcelable {
         this.mMusicGenre = mMusicGenre;
         this.mLyrics = mLyrics;
         this.mChords = mChords;
+        this.mIsFavourite = mIsFavourite;
     }
 
     @Ignore
@@ -110,7 +114,7 @@ public class Song implements Parcelable {
         return mLyrics;
     }
 
-    public void setMLyrics(ArrayList<String> mLyrics) {
+    public void setmLyrics(ArrayList<String> mLyrics) {
         this.mLyrics = mLyrics;
     }
 
@@ -122,12 +126,20 @@ public class Song implements Parcelable {
         this.mChords = mChords;
     }
 
-    public String getmArtistName() {
+    public String getMArtistName() {
         return mArtistName;
     }
 
     public void setmArtistName(String mArtistName) {
         this.mArtistName = mArtistName;
+    }
+
+    public Boolean getMIsFavourite() {
+        return mIsFavourite;
+    }
+
+    public void setmIsFavourite(Boolean mIsFavourite) {
+        this.mIsFavourite = mIsFavourite;
     }
 
 
@@ -145,6 +157,7 @@ public class Song implements Parcelable {
         dest.writeInt(this.mMusicGenre == null ? -1 : this.mMusicGenre.ordinal());
         dest.writeStringList(this.mLyrics);
         dest.writeStringList(this.mChords);
+        dest.writeValue(this.mIsFavourite);
         dest.writeString(this.mArtistName);
     }
 
@@ -158,10 +171,11 @@ public class Song implements Parcelable {
         this.mMusicGenre = tmpMMusicGenre == -1 ? null : MusicGenre.values()[tmpMMusicGenre];
         this.mLyrics = in.createStringArrayList();
         this.mChords = in.createStringArrayList();
+        this.mIsFavourite = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.mArtistName = in.readString();
     }
 
-    public static final Parcelable.Creator<Song> CREATOR = new Parcelable.Creator<Song>() {
+    public static final Creator<Song> CREATOR = new Creator<Song>() {
         @Override
         public Song createFromParcel(Parcel source) {
             return new Song(source);
