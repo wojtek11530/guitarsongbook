@@ -3,6 +3,7 @@ package com.example.guitarsongbook.adapters;
 import android.content.Context;
 import android.graphics.Rect;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
