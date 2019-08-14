@@ -37,9 +37,11 @@ import java.util.List;
  */
 public class SongDisplayFragment extends Fragment {
 
+    private GuitarSongbookViewModel mGuitarSongbookViewModel;
+
     private Song mSongToDisplay;
     private Artist mArtistOfSong;
-    private List<SongChordJoinDao.ChordInSong> mSpecyficChordsInSong;
+    private List<SongChordJoinDao.ChordInSong> mSpecificChordsInSong;
 
     private RecyclerView mSongLyricsRecyclerView;
 
@@ -53,25 +55,29 @@ public class SongDisplayFragment extends Fragment {
     private SeekBar mAutoScrollSeekbar;
     private ImageButton mCloseAutoScrollImageButton;
 
-    private boolean mAutoscrollBarOn = false;
-    private boolean mTranspose = false;
+    private boolean mAutoScrollBarOn = false;
+    private boolean mTransposeBarOn = false;
     private boolean mFavourite = false;
-    private boolean mAutoscrollRunning = false;
-    //private int mRecyclerViewPosition = 0;
 
-    private GuitarSongbookViewModel mGuitarSongbookViewModel;
+    private boolean mAutoScrollRunning = false;
 
     private static final int MIN_AUTO_SCROLL_DELAY = 1;
     private static final int MIN_MAX_DELAY_INTERVAL = 199;
     private static final int MAX_AUTO_SCROLL_DELAY = MIN_AUTO_SCROLL_DELAY + MIN_MAX_DELAY_INTERVAL;
 
+    private static final String SONG_ID_KEY = "SONG_ID_KEY";
+    private static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
 
-    public static final String SONG_ID_KEY = "SONG_ID_KEY";
-    public static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
+    private static final String SONG_DATA_KEY = "SONG_DATA_KEY";
+    private static final String ARTIST_DATA_KEY = "ARTIST_DATA_KEY";
+    private static final String SPECIFIC_CHORDS_DAT_KEY = "SPECIFIC_CHORDS_DAT_KEY";
+    private static final String AUTO_SCROLL_DELAY_VALUE_KEY = "AUTO_SCROLL_DELAY_VALUE_KEY";
+    private static final String IS_AUTO_SCROLL_RUNNING_VALUE_KEY = "IS_AUTO_SCROLL_RUNNING_VALUE_KEY";
+    private static final String IS_AUTO_SCROLL_BAR_ON = "IS_AUTO_SCROLL_BAR_ON";
+    private static final String IS_TRANSPOSE_BAR_ON = "IS_TRANSPOSE_BAR_ON";
 
-    public SongDisplayFragment() {
-        // Required empty public constructor
-    }
+
+    public SongDisplayFragment() {}
 
     public static SongDisplayFragment newInstance(Long songId, Long artistId) {
         SongDisplayFragment songDisplayFragment = new SongDisplayFragment();
@@ -102,29 +108,22 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView.setAdapter(songDisplayAdapter);
         mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         if (savedInstanceState != null) {
-            mSongToDisplay = savedInstanceState.getParcelable("song_data");
-            mArtistOfSong = savedInstanceState.getParcelable("artist_data");
-            mSpecyficChordsInSong = savedInstanceState.getParcelableArrayList("specyfic_chords_data");
-            //mRecyclerViewPosition = savedInstanceState.getInt("position_data");
+            mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
+            mArtistOfSong = savedInstanceState.getParcelable(ARTIST_DATA_KEY);
+            mSpecificChordsInSong = savedInstanceState.getParcelableArrayList(SPECIFIC_CHORDS_DAT_KEY);
 
             songDisplayAdapter.setSong(mSongToDisplay);
             songDisplayAdapter.setArtist(mArtistOfSong);
-            songDisplayAdapter.setSpecyficChords(mSpecyficChordsInSong);
+            songDisplayAdapter.setSpecyficChords(mSpecificChordsInSong);
 
-            int autoscrollDelay = savedInstanceState.getInt("auto_scroll_delay_key");
-            timerRunnable.setTimeDelay(autoscrollDelay);
-
-        }else {
+        }else if (getArguments() != null){
             Long songId = null;
             if (getArguments().containsKey(SONG_ID_KEY)) {
                 songId = getArguments().getLong(SONG_ID_KEY);
             }
 
             if (songId != null) {
-                final Long finalSongId = songId;
-
                 mGuitarSongbookViewModel.getSongById(songId).observe(this, new Observer<Song>() {
                     @Override
                     public void onChanged(@Nullable final Song song) {
@@ -134,10 +133,10 @@ public class SongDisplayFragment extends Fragment {
                     }
                 });
 
-                mGuitarSongbookViewModel.getChordsInSongBySongId(finalSongId).observe(this, new Observer<List<SongChordJoinDao.ChordInSong>>() {
+                mGuitarSongbookViewModel.getChordsInSongBySongId(songId).observe(this, new Observer<List<SongChordJoinDao.ChordInSong>>() {
                     @Override
                     public void onChanged(@Nullable final List<SongChordJoinDao.ChordInSong> chords) {
-                        mSpecyficChordsInSong = chords;
+                        mSpecificChordsInSong = chords;
                         songDisplayAdapter.setSpecyficChords(chords);
                     }
                 });
@@ -157,20 +156,11 @@ public class SongDisplayFragment extends Fragment {
                     }
                 });
             }
-
         }
 
         initBottomNavigationView(view);
         initAutoScrollBar(view, savedInstanceState);
-
-        if (savedInstanceState != null){
-            if (savedInstanceState.getBoolean("is_autoscroll_bar_on")) {
-                switchDisplayingAutoScrollFeature();
-            }
-            if (savedInstanceState.getBoolean("is_scrolling_now_key")) {
-                runAutoScroll();
-            }
-        }
+        initToolBarFeatures(savedInstanceState);
         return view;
     }
 
@@ -189,22 +179,34 @@ public class SongDisplayFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.transpose:
-                        mTranspose = !mTranspose;
-                        mTransposeMenuItem.setChecked(mTranspose);
-                        return mTranspose;
+                        switchDisplayingTransposeBar();
+                        return mTransposeBarOn;
                     case R.id.autosroll:
-                        switchDisplayingAutoScrollFeature();
-                        return mAutoscrollBarOn;
+                        switchDisplayingAutoScrollBar();
+                        return mAutoScrollBarOn;
                     case R.id.add_to_favourites:
-                        mFavourite = !mFavourite;
-                        mAddToFavouriteMenuItem.setChecked(mFavourite);
+                        switchDisplayingAddToFavourite();
                         return mFavourite;
                 }
                 return false;
             }
         });
+    }
 
+    private void switchDisplayingAutoScrollBar() {
+        mAutoScrollBarOn = !mAutoScrollBarOn;
+        mAutoscrollMenuItem.setChecked(mAutoScrollBarOn);
+        mAutoScrollBar.setVisibility(mAutoScrollBarOn ? View.VISIBLE: View.GONE);
+    }
 
+    private void switchDisplayingAddToFavourite() {
+        mFavourite = !mFavourite;
+        mAddToFavouriteMenuItem.setChecked(mFavourite);
+    }
+
+    private void switchDisplayingTransposeBar() {
+        mTransposeBarOn = !mTransposeBarOn;
+        mTransposeMenuItem.setChecked(mTransposeBarOn);
     }
 
     private void initAutoScrollBar(View view, final Bundle savedInstanceState) {
@@ -216,7 +218,7 @@ public class SongDisplayFragment extends Fragment {
         mCloseAutoScrollImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchDisplayingAutoScrollFeature();
+                switchDisplayingAutoScrollBar();
             }
         });
 
@@ -236,7 +238,6 @@ public class SongDisplayFragment extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -246,53 +247,47 @@ public class SongDisplayFragment extends Fragment {
         });
 
         if (savedInstanceState != null) {
-            int autoscrollDelay = savedInstanceState.getInt("auto_scroll_delay_key");
-            int progress = mAutoScrollSeekbar.getMax()*(1-(autoscrollDelay-MIN_AUTO_SCROLL_DELAY)/MIN_MAX_DELAY_INTERVAL);
+            int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
+            int progress = calcuclateSeekBarProgressByDelay(autoScrollDelay);
             mAutoScrollSeekbar.setProgress(progress);
         }
-
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mTransposeMenuItem.setChecked(mTranspose);
-        mAutoscrollMenuItem.setChecked(mAutoscrollBarOn);
-        mAddToFavouriteMenuItem.setChecked(mFavourite);
-    }
-
 
     private void setSpeedOfAutoScrolling(int progressChangedValue) {
-        int newTimeDelay = MIN_AUTO_SCROLL_DELAY + (int)(MIN_MAX_DELAY_INTERVAL *
-                (1-(float)progressChangedValue/mAutoScrollSeekbar.getMax()));
+        int newTimeDelay = getAutoScrollDelayBySeekBarProgress(progressChangedValue);
         timerRunnable.setTimeDelay(newTimeDelay);
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //mSongLyricsRecyclerView.scrollTo(0, mRecyclerViewPosition);
+    private int getAutoScrollDelayBySeekBarProgress(float progressChangedValue) {
+        return MIN_AUTO_SCROLL_DELAY + (int)(MIN_MAX_DELAY_INTERVAL *
+                (1- progressChangedValue /mAutoScrollSeekbar.getMax()));
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable("song_data", mSongToDisplay);
-        outState.putParcelable("artist_data", mArtistOfSong);
-        outState.putParcelableArrayList("specyfic_chords_data", new ArrayList<>(mSpecyficChordsInSong));
+    private int calcuclateSeekBarProgressByDelay(int autoscrollDelay) {
+        return mAutoScrollSeekbar.getMax()*(1-(autoscrollDelay-MIN_AUTO_SCROLL_DELAY)/MIN_MAX_DELAY_INTERVAL);
+    }
 
-        outState.putInt("auto_scroll_delay_key", timerRunnable.getAutoScrollingDelayInMilisec());
-        outState.putBoolean("is_scrolling_now_key", mAutoscrollRunning);
-        outState.putBoolean("is_autoscroll_bar_on", mAutoscrollBarOn);
+    private void initToolBarFeatures(Bundle savedInstanceState) {
+        if (savedInstanceState != null){
+            int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
+            timerRunnable.setTimeDelay(autoScrollDelay);
 
-        //int scrollPos = mSongLyricsRecyclerView.getScrollState();
-        //outState.putInt("position_data", scrollPos);
+            if (savedInstanceState.getBoolean(IS_AUTO_SCROLL_BAR_ON)) {
+                switchDisplayingAutoScrollBar();
+            }
 
-        super.onSaveInstanceState(outState);
+            if (savedInstanceState.getBoolean(IS_AUTO_SCROLL_RUNNING_VALUE_KEY)) {
+                runAutoScroll();
+            }
+
+            if (savedInstanceState.getBoolean(IS_TRANSPOSE_BAR_ON)) {
+                switchDisplayingTransposeBar();
+            }
+        }
     }
 
     private void switchAutoScroll() {
-        if (!mAutoscrollRunning){
+        if (!mAutoScrollRunning){
             runAutoScroll();
         }else{
             stopAutoScroll();
@@ -300,21 +295,15 @@ public class SongDisplayFragment extends Fragment {
     }
 
     private void runAutoScroll() {
-        mAutoscrollRunning = true;
+        mAutoScrollRunning = true;
         mRunAutScrollImageButton.setImageResource(R.drawable.ic_pause_black_24dp);
         timerHandler.post(timerRunnable);
     }
 
     private void stopAutoScroll() {
-        mAutoscrollRunning = false;
+        mAutoScrollRunning = false;
         mRunAutScrollImageButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
         timerHandler.removeCallbacks(timerRunnable);
-    }
-
-    private void switchDisplayingAutoScrollFeature() {
-        mAutoscrollBarOn = !mAutoscrollBarOn;
-        mAutoscrollMenuItem.setChecked(mAutoscrollBarOn);
-        mAutoScrollBar.setVisibility(mAutoscrollBarOn? View.VISIBLE: View.GONE);
     }
 
     private Handler timerHandler = new Handler();
@@ -327,16 +316,37 @@ public class SongDisplayFragment extends Fragment {
         public void run() {
             mSongLyricsRecyclerView.scrollBy(0,1);
             timerHandler.postDelayed(this, autoScrollingDelayInMilisec);
-
         }
 
-        public void setTimeDelay(int timeDelay){
+        private void setTimeDelay(int timeDelay){
             this.autoScrollingDelayInMilisec = timeDelay;
         }
 
-        public int getAutoScrollingDelayInMilisec(){
+        private int getAutoScrollingDelayInMilisec(){
             return autoScrollingDelayInMilisec;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTransposeMenuItem.setChecked(mTransposeBarOn);
+        mAutoscrollMenuItem.setChecked(mAutoScrollBarOn);
+        mAddToFavouriteMenuItem.setChecked(mFavourite);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(SONG_DATA_KEY, mSongToDisplay);
+        outState.putParcelable(ARTIST_DATA_KEY, mArtistOfSong);
+        outState.putParcelableArrayList(SPECIFIC_CHORDS_DAT_KEY, new ArrayList<>(mSpecificChordsInSong));
+
+        outState.putInt(AUTO_SCROLL_DELAY_VALUE_KEY, timerRunnable.getAutoScrollingDelayInMilisec());
+        outState.putBoolean(IS_AUTO_SCROLL_RUNNING_VALUE_KEY, mAutoScrollRunning);
+        outState.putBoolean(IS_AUTO_SCROLL_BAR_ON, mAutoScrollBarOn);
+        outState.putBoolean(IS_TRANSPOSE_BAR_ON, mTransposeBarOn);
+
+        super.onSaveInstanceState(outState);
     }
 
 }
