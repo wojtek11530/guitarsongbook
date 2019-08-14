@@ -1,6 +1,9 @@
 package com.example.guitarsongbook.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -15,7 +18,7 @@ import java.util.ArrayList;
         parentColumns = "id",
         childColumns = "artist_id"),
         indices = {@Index("artist_id")})
-public class Song {
+public class Song implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "song_id")
@@ -126,4 +129,47 @@ public class Song {
     public void setmArtistName(String mArtistName) {
         this.mArtistName = mArtistName;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.mId);
+        dest.writeString(this.mTitle);
+        dest.writeLong(this.mArtistId);
+        dest.writeInt(this.mKind == null ? -1 : this.mKind.ordinal());
+        dest.writeInt(this.mMusicGenre == null ? -1 : this.mMusicGenre.ordinal());
+        dest.writeStringList(this.mLyrics);
+        dest.writeStringList(this.mChords);
+        dest.writeString(this.mArtistName);
+    }
+
+    protected Song(Parcel in) {
+        this.mId = in.readLong();
+        this.mTitle = in.readString();
+        this.mArtistId = in.readLong();
+        int tmpMKind = in.readInt();
+        this.mKind = tmpMKind == -1 ? null : Kind.values()[tmpMKind];
+        int tmpMMusicGenre = in.readInt();
+        this.mMusicGenre = tmpMMusicGenre == -1 ? null : MusicGenre.values()[tmpMMusicGenre];
+        this.mLyrics = in.createStringArrayList();
+        this.mChords = in.createStringArrayList();
+        this.mArtistName = in.readString();
+    }
+
+    public static final Parcelable.Creator<Song> CREATOR = new Parcelable.Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel source) {
+            return new Song(source);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
 }

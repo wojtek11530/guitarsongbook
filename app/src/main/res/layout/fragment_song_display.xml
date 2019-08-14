@@ -6,49 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SongDisplayFragment">
 
-    <ScrollView
-        android:id="@+id/song_display_scroll_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lyrics_rv_"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingBottom="12dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@+id/autoscroll_bar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="138dp">
-
-        <LinearLayout
-
-            android:id="@+id/son_display_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/displayed_song_title_txt_"
-                style="@style/TitleOfDisplayedSong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/title_placeholder" />
-
-            <TextView
-                android:id="@+id/displayed_song_artist_txt_"
-                style="@style/ArtistOfDisplayedSong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/artist_placeholder" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lyrics_rv_"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="12dp"
-                android:nestedScrollingEnabled="false" />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/autoscroll_bar"
@@ -109,7 +75,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:background="@color/bottomNavigationColor"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottomNavigationColor"
         app:itemBackground="@color/bottomNavigationColor"
         app:itemIconTint="@drawable/bottom_nav_colors"
         app:itemTextColor="@drawable/bottom_nav_colors"
