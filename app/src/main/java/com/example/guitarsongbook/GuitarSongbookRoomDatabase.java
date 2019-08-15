@@ -53,7 +53,7 @@ import static com.example.guitarsongbook.model.Kind.POLISH;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 10, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 11, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
@@ -206,8 +206,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                 mChordDao.insert(currentChordFromDb);
             }
 
-
-
             is = resources.openRawResource(R.raw.json_data);
             writer = new StringWriter();
             buffer = new char[1024];
@@ -236,7 +234,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
             for (Song song:songsArray){
                 Long id;
-                String artistName = song.getmArtistName();
+                String artistName = song.getMArtistName();
                 Artist artist = mArtistDao.getArtistByName(artistName);
                 if (artist == null){
                     id = mArtistDao.insert(new Artist(artistName));
@@ -244,6 +242,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                     id = artist.getMId();
                 }
                 song.setmArtistId(id);
+                song.setmIsFavourite(false);
                 long songId = mSongDao.insert(song);
 
                 int lineNumber = 0;
@@ -268,137 +267,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
             }
 
-            /*
-            ArrayList<String > lyrics = new ArrayList<>();
-            lyrics.add("Pamiętasz...");
-            lyrics.add("Panowała jesień");
-
-            ArrayList<String > chords = new ArrayList<>();
-            chords.add("C C");
-            chords.add("D D");
-
-            Song song = new Song("W piwnicy u dziadka",
-                    mArtistDao.getArtistByName("Happysad").getMId(),POLISH, ROCK, lyrics, chords);
-            mSongDao.insert(song);
-
-
-            lyrics = new ArrayList<>();
-            chords = new ArrayList<>();
-
-            lyrics.add("<b>Zwrotka 1</b>");
-            chords.add("");
-            lyrics.add("Baśka miała fajny biust");
-            chords.add("G a");
-            lyrics.add("Ania styl, a Zośka coś, co lubię");
-            chords.add("C G");
-            lyrics.add("Ela całowała cudnie");
-            chords.add("G a");
-            lyrics.add("Nawet tuż po swoim ślubie");
-            chords.add("C G");
-            lyrics.add("Z Kaśką można było konie kraść");
-            chords.add("G a");
-            lyrics.add("Chociaż wiem, że chciała przeżyć");
-            chords.add("C G");
-            lyrics.add("Magda – zło, Jolka mnie zagłaskałaby na śmierć");
-            chords.add("G a");
-            lyrics.add("A Agnieszka zdradzała mnie");
-            chords.add("C G");
-
-            lyrics.add("<b>Refren</b>");
-            chords.add("");
-            lyrics.add("Piękne jak okręt");
-            chords.add("C G");
-            lyrics.add("Pod pełnymi żaglami");
-            chords.add("a e");
-            lyrics.add("Jak konie w galopie");
-            chords.add("C G");
-            lyrics.add("Jak niebo nad nami");
-            chords.add("a e");
-
-            lyrics.add("<b>Zwrotka 2</b>");
-            chords.add("");
-            lyrics.add("Karolina w Hollywood");
-            chords.add("G a");
-            lyrics.add("Z Aśką nigdy nie było tak samo ");
-            chords.add("C G");
-            lyrics.add("Ewelina zimna jak lód");
-            chords.add("G a");
-            lyrics.add("Więc na noc umówiłem się z Alą");
-            chords.add("C G");
-            lyrics.add("Wszystko mógłbym Izie dać");
-            chords.add("G a");
-            lyrics.add("Tak jak Oli, ale one wcale nie chciały brać");
-            chords.add("C G");
-            lyrics.add("Małgorzata – jeden grzech aż onieśmielała mnie");
-            chords.add("G a");
-            lyrics.add("A Monika była okej");
-            chords.add("C G");
-
-            lyrics.add("<b>Refren</b>");
-            chords.add("");
-            lyrics.add("Piękne jak okręt");
-            chords.add("C G");
-            lyrics.add("Pod pełnymi żaglami");
-            chords.add("a e");
-            lyrics.add("Jak konie w galopie");
-            chords.add("C G");
-            lyrics.add("Jak niebo nad nami");
-            chords.add("a e");
-
-            song = new Song("Baśka",
-                    mArtistDao.getArtistByName("Wilki").getMId(),POLISH, ROCK, lyrics, chords);
-            mSongDao.insert(song);
-
-            Gson gson = new Gson();
-            String json = gson.toJson(song);
-
-            System.out.println(json);
-
-
-            song = new Song("Kołysanka dla nieznajomej",
-                    mArtistDao.getArtistByName("Perfect").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Nie płacz Ewka",
-                    mArtistDao.getArtistByName("Perfect").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Blues o czwartej nad ranem",
-                    mArtistDao.getArtistByName("Stare Dobre Małżeństwo").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Majka",
-                    mArtistDao.getArtistByName("Stare Dobre Małżeństwo").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Jak",
-                    mArtistDao.getArtistByName("Stare Dobre Małżeństwo").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Makumba",
-                    mArtistDao.getArtistByName("Big Cyc").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Warszawa",
-                    mArtistDao.getArtistByName("T.Love").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Nie nie nie",
-                    mArtistDao.getArtistByName("T.Love").getMId(),POLISH, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Riptide",
-                    mArtistDao.getArtistByName("Vance Joy").getMId(),FOREIGN, POP, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Let it be",
-                    mArtistDao.getArtistByName("Beatles").getMId(),FOREIGN, ROCK, null, null);
-            mSongDao.insert(song);
-
-            song = new Song("Don't look back in anger",
-                    mArtistDao.getArtistByName("Oasis").getMId(),FOREIGN, ROCK, null, null);
-            mSongDao.insert(song);
-            */
             return null;
         }
     }

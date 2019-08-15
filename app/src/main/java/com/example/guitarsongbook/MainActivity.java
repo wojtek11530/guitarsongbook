@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             fragmentManager.popBackStack();
-            SongListFragment songListFragment = SongListFragment.newInstance(null, null);
+            SongListFragment songListFragment = SongListFragment.newInstance(null, null, false);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                     .commit();
@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-            if (fragmentManager.getBackStackEntryCount() > 0) {
-                toggle.setDrawerIndicatorEnabled(false);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            } else {
-                toggle.setDrawerIndicatorEnabled(true);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toggle.syncState();
-            }
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    toggle.setDrawerIndicatorEnabled(false);
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                } else {
+                    toggle.setDrawerIndicatorEnabled(true);
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toggle.syncState();
+                }
             }
         });
 
@@ -156,27 +156,28 @@ public class MainActivity extends AppCompatActivity
 
         }else{
             Fragment fragment = null;
-            //fragmentManager.popBackStack();
+            fragmentManager.popBackStack();
             //mSearching = false;
             if (id == R.id.nav_all_songs) {
-                fragment = SongListFragment.newInstance(null, null);
+                fragment = SongListFragment.newInstance(null, null, false);
+            }else if (id == R.id.nav_favourite_songs) {
+                fragment = SongListFragment.newInstance(null, null, true);
             }else if (id == R.id.nav_artists) {
                 fragment = ArtistListFragment.newInstance();
             }else if (id == R.id.nav_polish_songs) {
-                fragment = SongListFragment.newInstance(Kind.POLISH, null);
+                fragment = SongListFragment.newInstance(Kind.POLISH, null, false);
             } else if (id == R.id.nav_foreign) {
-                fragment = SongListFragment.newInstance(Kind.FOREIGN, null);
+                fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false);
             } else if (id == R.id.nav_rock) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.ROCK);
+                fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false);
             }else if (id == R.id.nav_pop) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.POP);
+                fragment = SongListFragment.newInstance(null, MusicGenre.POP, false);
             }else if (id == R.id.nav_folk) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.FOLK);
+                fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (fragment!=null) {
-                fragmentTransaction.replace(R.id.fragment_container_fl_, fragment)
-                        .commit();
+                fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).commit();
             }
         }
 

@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -17,6 +18,9 @@ public interface SongDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insert(Song song);
+
+    @Update
+    public void update(Song song);
 
     @Query("DELETE FROM song_table")
     void deleteAll();
@@ -38,4 +42,7 @@ public interface SongDao {
 
     @Query("SELECT * FROM song_table WHERE artist_id = :artistId")
     LiveData<List<Song>> getSongByArtistId(Long artistId);
+
+    @Query("SELECT * FROM song_table WHERE is_favourite = 1")
+    LiveData<List<Song>> getFavouriteSongs();
 }

@@ -44,14 +44,17 @@ public class SongListFragment extends SearchViewFragment {
     public static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
     public static final String QUERY_KEY = "QUERY_KEY";
     public static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
+    public static final String IS_FAVOURITE_SONG_LIST_KEY = "IS_FAVOURITE_SONG_LIST_KEY";
 
-    public static SongListFragment newInstance(Kind kind, MusicGenre genre) {
+    public static SongListFragment newInstance(Kind kind, MusicGenre genre, boolean isFavouriteSongList) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         if (kind != null) {
             arguments.putSerializable(SONGS_KIND_KEY, kind);
-        } else if(genre != null) {
+        }else if(genre != null) {
             arguments.putSerializable(SONGS_GENRE_KEY, genre);
+        }else if(isFavouriteSongList){
+            arguments.putBoolean(IS_FAVOURITE_SONG_LIST_KEY, isFavouriteSongList);
         }
         fragment.setArguments(arguments);
         return fragment;
@@ -95,6 +98,8 @@ public class SongListFragment extends SearchViewFragment {
         MusicGenre genre = null;
         String query = null;
         Long artistId = null;
+        Boolean isFavouriteSongList = false;
+
 
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
@@ -104,6 +109,8 @@ public class SongListFragment extends SearchViewFragment {
             query = getArguments().getString(QUERY_KEY);
         }else if (getArguments().containsKey(ARTIST_ID_KEY)) {
             artistId = getArguments().getLong(ARTIST_ID_KEY);
+        }else if (getArguments().containsKey(IS_FAVOURITE_SONG_LIST_KEY)) {
+            isFavouriteSongList = getArguments().getBoolean(IS_FAVOURITE_SONG_LIST_KEY);
         }
 
         if (kind!=null){
@@ -129,6 +136,13 @@ public class SongListFragment extends SearchViewFragment {
             });
         }else if (artistId!=null){
             mGuitarSongbookViewModel.getSongByArtistId(artistId).observe(this, new Observer<List<Song>>() {
+                @Override
+                public void onChanged(@Nullable final List<Song> songs) {
+                    adapter.setSongs(songs);
+                }
+            });
+        }else if (isFavouriteSongList){
+            mGuitarSongbookViewModel.getFavouriteSongs().observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);

@@ -10,6 +10,9 @@
             android:id="@+id/nav_all_songs"
             android:title="@string/all_songs" />
         <item
+            android:id="@+id/nav_favourite_songs"
+            android:title="@string/favourite_songs" />
+        <item
             android:id="@+id/nav_artists"
             android:title="@string/artists" />
     </group>

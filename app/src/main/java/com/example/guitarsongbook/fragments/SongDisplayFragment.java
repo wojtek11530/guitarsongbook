@@ -108,6 +108,9 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView.setAdapter(songDisplayAdapter);
         mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        initBottomNavigationView(view);
+        initAutoScrollBar(view, savedInstanceState);
+
         if (savedInstanceState != null) {
             mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
             mArtistOfSong = savedInstanceState.getParcelable(ARTIST_DATA_KEY);
@@ -116,6 +119,8 @@ public class SongDisplayFragment extends Fragment {
             songDisplayAdapter.setSong(mSongToDisplay);
             songDisplayAdapter.setArtist(mArtistOfSong);
             songDisplayAdapter.setSpecyficChords(mSpecificChordsInSong);
+
+            mFavourite = mSongToDisplay.getMIsFavourite();
 
         }else if (getArguments() != null){
             Long songId = null;
@@ -130,6 +135,8 @@ public class SongDisplayFragment extends Fragment {
                         mSongToDisplay = song;
                         songDisplayAdapter.setSong(song);
 
+                        mFavourite = mSongToDisplay.getMIsFavourite();
+                        adjustAddToFavouriteMenuITem();
                     }
                 });
 
@@ -158,10 +165,17 @@ public class SongDisplayFragment extends Fragment {
             }
         }
 
-        initBottomNavigationView(view);
-        initAutoScrollBar(view, savedInstanceState);
         initToolBarFeatures(savedInstanceState);
         return view;
+    }
+
+    private void adjustAddToFavouriteMenuITem() {
+        if (mFavourite) {
+            mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.added_to_favourite));
+        }else{
+            mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.add_to_favourite));
+        }
+        mAddToFavouriteMenuItem.setChecked(mFavourite);
     }
 
     private void initBottomNavigationView(View view) {
@@ -185,7 +199,9 @@ public class SongDisplayFragment extends Fragment {
                         switchDisplayingAutoScrollBar();
                         return mAutoScrollBarOn;
                     case R.id.add_to_favourites:
-                        switchDisplayingAddToFavourite();
+                        mSongToDisplay.switchIsFavourite();
+                        mGuitarSongbookViewModel.update(mSongToDisplay);
+                        adjustAddToFavouriteMenuITem();
                         return mFavourite;
                 }
                 return false;
@@ -199,10 +215,6 @@ public class SongDisplayFragment extends Fragment {
         mAutoScrollBar.setVisibility(mAutoScrollBarOn ? View.VISIBLE: View.GONE);
     }
 
-    private void switchDisplayingAddToFavourite() {
-        mFavourite = !mFavourite;
-        mAddToFavouriteMenuItem.setChecked(mFavourite);
-    }
 
     private void switchDisplayingTransposeBar() {
         mTransposeBarOn = !mTransposeBarOn;
@@ -248,7 +260,7 @@ public class SongDisplayFragment extends Fragment {
 
         if (savedInstanceState != null) {
             int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
-            int progress = calcuclateSeekBarProgressByDelay(autoScrollDelay);
+            int progress = calculateSeekBarProgressByDelay(autoScrollDelay);
             mAutoScrollSeekbar.setProgress(progress);
         }
     }
@@ -263,11 +275,14 @@ public class SongDisplayFragment extends Fragment {
                 (1- progressChangedValue /mAutoScrollSeekbar.getMax()));
     }
 
-    private int calcuclateSeekBarProgressByDelay(int autoscrollDelay) {
+    private int calculateSeekBarProgressByDelay(int autoscrollDelay) {
         return mAutoScrollSeekbar.getMax()*(1-(autoscrollDelay-MIN_AUTO_SCROLL_DELAY)/MIN_MAX_DELAY_INTERVAL);
     }
 
     private void initToolBarFeatures(Bundle savedInstanceState) {
+
+        adjustAddToFavouriteMenuITem();
+
         if (savedInstanceState != null){
             int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
             timerRunnable.setTimeDelay(autoScrollDelay);
