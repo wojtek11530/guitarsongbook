@@ -33,4 +33,5 @@
     <string name="autoscrolling">Autoprzewijanie</string>
     <string name="add_to_favourite">Dodaj do ulubionych</string>
     <string name="favourite_songs">Ulubione piosenki</string>
+    <string name="added_to_favourite">Dodany do ulubionych</string>
 </resources>

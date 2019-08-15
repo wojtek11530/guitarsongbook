@@ -136,7 +136,7 @@ public class SongDisplayFragment extends Fragment {
                         songDisplayAdapter.setSong(song);
 
                         mFavourite = mSongToDisplay.getMIsFavourite();
-                        mAddToFavouriteMenuItem.setChecked(mFavourite);
+                        adjustAddToFavouriteMenuITem();
                     }
                 });
 
@@ -169,6 +169,15 @@ public class SongDisplayFragment extends Fragment {
         return view;
     }
 
+    private void adjustAddToFavouriteMenuITem() {
+        if (mFavourite) {
+            mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.added_to_favourite));
+        }else{
+            mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.add_to_favourite));
+        }
+        mAddToFavouriteMenuItem.setChecked(mFavourite);
+    }
+
     private void initBottomNavigationView(View view) {
         mBottomNavigationView = view.findViewById(R.id.song_display_bottom_navigation_view);
         Menu bottomNavigationMenu = mBottomNavigationView.getMenu();
@@ -192,7 +201,7 @@ public class SongDisplayFragment extends Fragment {
                     case R.id.add_to_favourites:
                         mSongToDisplay.switchIsFavourite();
                         mGuitarSongbookViewModel.update(mSongToDisplay);
-                        switchDisplayingAddToFavourite();
+                        adjustAddToFavouriteMenuITem();
                         return mFavourite;
                 }
                 return false;
@@ -206,10 +215,6 @@ public class SongDisplayFragment extends Fragment {
         mAutoScrollBar.setVisibility(mAutoScrollBarOn ? View.VISIBLE: View.GONE);
     }
 
-    private void switchDisplayingAddToFavourite() {
-        mFavourite = !mFavourite;
-        mAddToFavouriteMenuItem.setChecked(mFavourite);
-    }
 
     private void switchDisplayingTransposeBar() {
         mTransposeBarOn = !mTransposeBarOn;
@@ -255,7 +260,7 @@ public class SongDisplayFragment extends Fragment {
 
         if (savedInstanceState != null) {
             int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
-            int progress = calcuclateSeekBarProgressByDelay(autoScrollDelay);
+            int progress = calculateSeekBarProgressByDelay(autoScrollDelay);
             mAutoScrollSeekbar.setProgress(progress);
         }
     }
@@ -270,11 +275,13 @@ public class SongDisplayFragment extends Fragment {
                 (1- progressChangedValue /mAutoScrollSeekbar.getMax()));
     }
 
-    private int calcuclateSeekBarProgressByDelay(int autoscrollDelay) {
+    private int calculateSeekBarProgressByDelay(int autoscrollDelay) {
         return mAutoScrollSeekbar.getMax()*(1-(autoscrollDelay-MIN_AUTO_SCROLL_DELAY)/MIN_MAX_DELAY_INTERVAL);
     }
 
     private void initToolBarFeatures(Bundle savedInstanceState) {
+
+        adjustAddToFavouriteMenuITem();
 
         if (savedInstanceState != null){
             int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);

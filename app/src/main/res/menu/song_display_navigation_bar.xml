@@ -13,7 +13,7 @@
             android:title="@string/autoscrolling" />
         <item
             android:id="@+id/add_to_favourites"
-            android:icon="@drawable/ic_star_border_black_24dp"
+            android:icon="@drawable/buttun_favourite"
             android:title="@string/add_to_favourite" />
     </group>
 

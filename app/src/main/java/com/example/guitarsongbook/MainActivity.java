@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-            if (fragmentManager.getBackStackEntryCount() > 0) {
-                toggle.setDrawerIndicatorEnabled(false);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            } else {
-                toggle.setDrawerIndicatorEnabled(true);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toggle.syncState();
-            }
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    toggle.setDrawerIndicatorEnabled(false);
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                } else {
+                    toggle.setDrawerIndicatorEnabled(true);
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toggle.syncState();
+                }
             }
         });
 
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
 
         }else{
             Fragment fragment = null;
-            //fragmentManager.popBackStack();
+            fragmentManager.popBackStack();
             //mSearching = false;
             if (id == R.id.nav_all_songs) {
                 fragment = SongListFragment.newInstance(null, null, false);
@@ -177,8 +177,7 @@ public class MainActivity extends AppCompatActivity
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (fragment!=null) {
-                fragmentTransaction.replace(R.id.fragment_container_fl_, fragment)
-                        .commit();
+                fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).commit();
             }
         }
 
