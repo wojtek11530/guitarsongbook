@@ -46,24 +46,29 @@ public class SongDisplayFragment extends Fragment {
     private RecyclerView mSongLyricsRecyclerView;
 
     private BottomNavigationView mBottomNavigationView;
-    private MenuItem mAutoscrollMenuItem;
+    private MenuItem mAutoScrollMenuItem;
     private MenuItem mTransposeMenuItem;
     private MenuItem mAddToFavouriteMenuItem;
-
-    private ConstraintLayout mAutoScrollBar;
-    private ImageButton mRunAutScrollImageButton;
-    private SeekBar mAutoScrollSeekbar;
-    private ImageButton mCloseAutoScrollImageButton;
 
     private boolean mAutoScrollBarOn = false;
     private boolean mTransposeBarOn = false;
     private boolean mFavourite = false;
+
+    private ConstraintLayout mAutoScrollBar;
+    private ImageButton mRunAutScrollImageButton;
+    private SeekBar mAutoScrollSeekbar;
+    private ImageButton mCloseAutoScrollBarImageButton;
 
     private boolean mAutoScrollRunning = false;
 
     private static final int MIN_AUTO_SCROLL_DELAY = 1;
     private static final int MIN_MAX_DELAY_INTERVAL = 199;
     private static final int MAX_AUTO_SCROLL_DELAY = MIN_AUTO_SCROLL_DELAY + MIN_MAX_DELAY_INTERVAL;
+
+    private ConstraintLayout mTransposeBar;
+    private ImageButton mTransposeUpImageButton;
+    private ImageButton mTransposeDownImageButton;
+    private ImageButton mCloseTransposeBarImageButton;
 
     private static final String SONG_ID_KEY = "SONG_ID_KEY";
     private static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
@@ -110,6 +115,7 @@ public class SongDisplayFragment extends Fragment {
 
         initBottomNavigationView(view);
         initAutoScrollBar(view, savedInstanceState);
+        initTransposeBar(view, savedInstanceState);
 
         if (savedInstanceState != null) {
             mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
@@ -169,6 +175,8 @@ public class SongDisplayFragment extends Fragment {
         return view;
     }
 
+
+
     private void adjustAddToFavouriteMenuITem() {
         if (mFavourite) {
             mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.added_to_favourite));
@@ -185,7 +193,7 @@ public class SongDisplayFragment extends Fragment {
         bottomNavigationMenu.setGroupCheckable(R.id.buttons_group, true, false);
 
         mTransposeMenuItem = bottomNavigationMenu.findItem(R.id.transpose);
-        mAutoscrollMenuItem = bottomNavigationMenu.findItem(R.id.autosroll);
+        mAutoScrollMenuItem = bottomNavigationMenu.findItem(R.id.autosroll);
         mAddToFavouriteMenuItem = bottomNavigationMenu.findItem(R.id.add_to_favourites);
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -211,7 +219,7 @@ public class SongDisplayFragment extends Fragment {
 
     private void switchDisplayingAutoScrollBar() {
         mAutoScrollBarOn = !mAutoScrollBarOn;
-        mAutoscrollMenuItem.setChecked(mAutoScrollBarOn);
+        mAutoScrollMenuItem.setChecked(mAutoScrollBarOn);
         mAutoScrollBar.setVisibility(mAutoScrollBarOn ? View.VISIBLE: View.GONE);
     }
 
@@ -219,15 +227,30 @@ public class SongDisplayFragment extends Fragment {
     private void switchDisplayingTransposeBar() {
         mTransposeBarOn = !mTransposeBarOn;
         mTransposeMenuItem.setChecked(mTransposeBarOn);
+        mTransposeBar.setVisibility(mTransposeBarOn ? View.VISIBLE: View.GONE);
+    }
+
+    private void initTransposeBar(View view, Bundle savedInstanceState) {
+        mTransposeBar = view.findViewById(R.id.transpose_bar);
+        mTransposeUpImageButton = view.findViewById(R.id.transpose_up_btn_);
+        mTransposeDownImageButton = view.findViewById(R.id.transpose_down_btn_);
+        mCloseTransposeBarImageButton = view.findViewById(R.id.close_transpose_bar_btn_);
+
+        mCloseTransposeBarImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchDisplayingTransposeBar();
+            }
+        });
     }
 
     private void initAutoScrollBar(View view, final Bundle savedInstanceState) {
         mAutoScrollBar = view.findViewById(R.id.autoscroll_bar);
         mRunAutScrollImageButton = view.findViewById(R.id.run_autoscroll_btn_);
-        mCloseAutoScrollImageButton = view.findViewById(R.id.close_autoscroll_btn_);
+        mCloseAutoScrollBarImageButton = view.findViewById(R.id.close_autoscroll_bar_btn_);
         mAutoScrollSeekbar = view.findViewById(R.id.autoscroll_seek_bar);
 
-        mCloseAutoScrollImageButton.setOnClickListener(new View.OnClickListener() {
+        mCloseAutoScrollBarImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchDisplayingAutoScrollBar();
@@ -346,7 +369,7 @@ public class SongDisplayFragment extends Fragment {
     public void onStart() {
         super.onStart();
         mTransposeMenuItem.setChecked(mTransposeBarOn);
-        mAutoscrollMenuItem.setChecked(mAutoScrollBarOn);
+        mAutoScrollMenuItem.setChecked(mAutoScrollBarOn);
         mAddToFavouriteMenuItem.setChecked(mFavourite);
     }
 
