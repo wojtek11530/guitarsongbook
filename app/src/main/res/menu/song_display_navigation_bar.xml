@@ -13,7 +13,7 @@
             android:title="@string/autoscrolling" />
         <item
             android:id="@+id/add_to_favourites"
-            android:icon="@drawable/buttun_favourite"
+            android:icon="@drawable/favourite_button"
             android:title="@string/add_to_favourite" />
     </group>
 

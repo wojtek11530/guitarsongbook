@@ -3,7 +3,6 @@ package com.example.guitarsongbook.adapters;
 import android.content.Context;
 import android.graphics.Rect;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +77,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         private ArrayList<Chord> chordsInLine;
 
 
-
         public TypeLineOfLyrics(String lyricsInLine) {
             chordsInLine = new ArrayList<>();
             this.lyricsInLine = lyricsInLine;
@@ -115,20 +113,20 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
     public void setSong(Song song){
         mSong = song;
-        setItemsByFields();
+        setRecyclerViewItemsByFields();
     }
 
     public void setArtist(Artist artist) {
         mArtist = artist;
-        setItemsByFields();
+        setRecyclerViewItemsByFields();
     }
 
     public void setSpecyficChords(List<SongChordJoinDao.ChordInSong> chords){
         mSpecyficChords = chords;
-        setItemsByFields();
+        setRecyclerViewItemsByFields();
     }
 
-    private void setItemsByFields(){
+    private void setRecyclerViewItemsByFields(){
         if(mSpecyficChords!=null && mSong!=null && mArtist!=null ){
 
             mItems = new ArrayList<>();

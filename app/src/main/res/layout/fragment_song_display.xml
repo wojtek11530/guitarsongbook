@@ -26,9 +26,9 @@
 
         <LinearLayout
             android:id="@+id/transpose_linear_layout_with_txt_"
-            android:layout_width="wrap_content"
+            android:layout_width="64dp"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,15 +39,15 @@
                 android:id="@+id/transpose_value_txt_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/transpose_value_default_txt"
                 android:textColor="@color/bottomNavigationColor"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/transpose_txt_"
+                android:id="@+id/transpose_semitone_txt_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="półton"
+                android:text="@string/semitones_plural_for_2_3_4"
                 android:textColor="@color/bottomNavigationColor" />
         </LinearLayout>
 
@@ -60,7 +60,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_add_black_24dp"
+            android:src="@drawable/transpose_up_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/transpose_down_btn_"
             app:layout_constraintStart_toEndOf="@+id/transpose_linear_layout_with_txt_"
@@ -75,7 +75,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_remove_black_24dp"
+            android:src="@drawable/transpose_down_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/close_transpose_bar_btn_"
             app:layout_constraintStart_toEndOf="@+id/transpose_linear_layout_with_txt_"
