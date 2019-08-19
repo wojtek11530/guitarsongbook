@@ -32,7 +32,9 @@ import com.example.guitarsongbook.model.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +80,7 @@ public class SongDisplayFragment extends Fragment {
     private ImageButton mResetTransposeImageButton;
 
     private int mTransposeValue = 0;
+    private Map<SongChordJoinDao.ChordInSong, Boolean> chordToIsTranspoed = new HashMap<SongChordJoinDao.ChordInSong, Boolean>();
     private static final int MAX_TRANSPOSE_VALUE = 6;
     private static final int MIN_TRANSPOSE_VALUE = -6;
 
@@ -290,9 +293,13 @@ public class SongDisplayFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            chordToIsTranspoed.clear();
+            for (final SongChordJoinDao.ChordInSong chordInSong:mTransposableSpecificChordsInSong){
+                chordToIsTranspoed.put(chordInSong, false);
+            }
+
             for (final SongChordJoinDao.ChordInSong chordInSong:mTransposableSpecificChordsInSong){
                 Long demandedChordId = getDemandedChordId(chordInSong.getChord());
-
                 mGuitarSongbookViewModel.getChordById(demandedChordId)
                         .observe(getViewLifecycleOwner(), new ChordObserver(chordInSong));
             }
@@ -337,8 +344,15 @@ public class SongDisplayFragment extends Fragment {
         @Override
         public void onChanged(@Nullable final Chord chord) {
             chordInSong.setChord(chord);
-            mSongDisplayAdapter.setSpecyficChords(mTransposableSpecificChordsInSong);
+            chordToIsTranspoed.put(chordInSong, true);
+            if(ifAllChordsAreTransposed()) {
+                mSongDisplayAdapter.setSpecyficChords(mTransposableSpecificChordsInSong);
+            }
         }
+    }
+
+    private boolean ifAllChordsAreTransposed() {
+        return !chordToIsTranspoed.values().contains(false);
     }
 
     private void adjustTransposeBar() {
