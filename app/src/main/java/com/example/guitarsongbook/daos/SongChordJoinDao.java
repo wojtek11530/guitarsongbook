@@ -46,6 +46,12 @@ public interface SongChordJoinDao {
         @ColumnInfo(name="chord_number")
         private int chordNumber;
 
+        public ChordInSong(ChordInSong chordInSong) {
+            chord = chordInSong.getChord();
+            lineNumber = chordInSong.getLineNumber();
+            chordNumber = chordInSong.getChordNumber();
+        }
+
         public Chord getChord() {
             return chord;
         }
@@ -86,7 +92,7 @@ public interface SongChordJoinDao {
         public ChordInSong() {
         }
 
-        protected ChordInSong(Parcel in) {
+        public ChordInSong(Parcel in) {
             this.chord = in.readParcelable(Chord.class.getClassLoader());
             this.lineNumber = in.readInt();
             this.chordNumber = in.readInt();

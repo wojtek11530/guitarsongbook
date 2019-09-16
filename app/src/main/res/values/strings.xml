@@ -34,4 +34,8 @@
     <string name="add_to_favourite">Dodaj do ulubionych</string>
     <string name="favourite_songs">Ulubione piosenki</string>
     <string name="added_to_favourite">Dodany do ulubionych</string>
+    <string name="transpose_value_default_txt">+0</string>
+    <string name="semitone">półton</string>
+    <string name="semitones">półtonów</string>
+    <string name="semitones_plural_for_2_3_4">półtony</string>
 </resources>

@@ -247,17 +247,17 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
                 int lineNumber = 0;
                 for (String chordsLine:song.getMChords()){
-                    String[] chordsSymbols = chordsLine.split(" ");
+                    String[] chordsInLineSymbols = chordsLine.split(" ");
 
-                    for (int i=0; i<chordsSymbols.length; i++){
-                        Chord currentChord = mChordDao.getChordBySymbol(chordsSymbols[i]);
+                    for (int numberOfChordInLine=0; numberOfChordInLine<chordsInLineSymbols.length; numberOfChordInLine++){
+                        Chord currentChord = mChordDao.getChordBySymbol(chordsInLineSymbols[numberOfChordInLine]);
                         if (currentChord!=null){
                             mSongChordJoinDao.insert(
                                     new SongChordJoin(
                                         songId,
                                         currentChord.getMId(),
                                         lineNumber,
-                                        i
+                                        numberOfChordInLine
                                     )
                             );
                         }

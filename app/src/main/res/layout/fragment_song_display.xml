@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SongDisplayFragment">
@@ -10,11 +10,105 @@
         android:id="@+id/lyrics_rv_"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingBottom="12dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/autoscroll_bar"
+        android:paddingBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/transpose_bar"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transpose_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryLight"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/autoscroll_bar">
+
+        <LinearLayout
+            android:id="@+id/transpose_linear_layout_with_txt_"
+            android:layout_width="64dp"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/transpose_value_txt_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/transpose_value_default_txt"
+                android:textColor="@color/bottomNavigationColor"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/transpose_semitone_txt_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/semitones_plural_for_2_3_4"
+                android:textColor="@color/bottomNavigationColor" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/transpose_up_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/autoscroll_button_size"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/transpose_up_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/transpose_down_btn_"
+            app:layout_constraintStart_toEndOf="@+id/transpose_linear_layout_with_txt_"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/transpose_down_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/autoscroll_button_size"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/transpose_down_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/close_transpose_bar_btn_"
+            app:layout_constraintStart_toEndOf="@+id/transpose_linear_layout_with_txt_"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/transpose_reset_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/autoscroll_button_size"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_refresh_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/close_transpose_bar_btn_"
+            app:layout_constraintStart_toEndOf="@+id/transpose_down_btn_"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/close_transpose_bar_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/autoscroll_button_size"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/autoscroll_bar"
@@ -49,12 +143,12 @@
             android:splitTrack="false"
             android:thumb="@drawable/custom_thumb_drawable"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/close_autoscroll_btn_"
+            app:layout_constraintEnd_toStartOf="@+id/close_autoscroll_bar_btn_"
             app:layout_constraintStart_toEndOf="@+id/run_autoscroll_btn_"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/close_autoscroll_btn_"
+            android:id="@+id/close_autoscroll_bar_btn_"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/autoscroll_button_size"
             android:layout_marginTop="8dp"
@@ -72,14 +166,14 @@
         android:id="@+id/song_display_bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_alignParentBottom="true"
         android:background="@color/bottomNavigationColor"
         app:itemBackground="@color/bottomNavigationColor"
         app:itemIconTint="@drawable/bottom_nav_colors"
         app:itemTextColor="@drawable/bottom_nav_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/song_display_navigation_bar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
