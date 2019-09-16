@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.daos.SongChordJoinDao;
@@ -30,7 +32,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
     private Song mSong;
     private Artist mArtist;
     private ArrayList<ArrayList<Chord>> mChords;
-    private List<SongChordJoinDao.ChordInSong> mSpecyficChords;
+    private List<SongChordJoinDao.ChordInSong> mSpecificChords;
 
     private List<ListItem> mItems;
 
@@ -45,11 +47,17 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
     public class TypeSongTitle implements ListItem {
         private String songTitle;
 
-        public TypeSongTitle(String songTitle) { this.songTitle = songTitle; }
+        public TypeSongTitle(String songTitle) {
+            this.songTitle = songTitle;
+        }
 
-        public String getSongTitle() { return songTitle; }
+        public String getSongTitle() {
+            return songTitle;
+        }
 
-        public void setSongTitle(String songTitle) { this.songTitle = songTitle; }
+        public void setSongTitle(String songTitle) {
+            this.songTitle = songTitle;
+        }
 
         @Override
         public int getListItemType() {
@@ -60,11 +68,17 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
     public class TypeArtistName implements ListItem {
         private String artistName;
 
-        public TypeArtistName(String songName) { this.artistName = songName; }
+        public TypeArtistName(String songName) {
+            this.artistName = songName;
+        }
 
-        public String getArtistName() { return artistName; }
+        public String getArtistName() {
+            return artistName;
+        }
 
-        public void setArtistName(String artistName) { this.artistName = artistName; }
+        public void setArtistName(String artistName) {
+            this.artistName = artistName;
+        }
 
         @Override
         public int getListItemType() {
@@ -111,7 +125,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         this.context = context;
     }
 
-    public void setSong(Song song){
+    public void setSong(Song song) {
         mSong = song;
         setRecyclerViewItemsByFields();
     }
@@ -121,13 +135,13 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         setRecyclerViewItemsByFields();
     }
 
-    public void setSpecyficChords(List<SongChordJoinDao.ChordInSong> chords){
-        mSpecyficChords = chords;
+    public void setSpecyficChords(List<SongChordJoinDao.ChordInSong> chords) {
+        mSpecificChords = chords;
         setRecyclerViewItemsByFields();
     }
 
-    private void setRecyclerViewItemsByFields(){
-        if(mSpecyficChords!=null && mSong!=null && mArtist!=null ){
+    private void setRecyclerViewItemsByFields() {
+        if (mSpecificChords != null && mSong != null && mArtist != null) {
 
             mItems = new ArrayList<>();
             mItems.add(new TypeSongTitle(mSong.getMTitle()));
@@ -135,16 +149,16 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
             ArrayList<String> lyrics = mSong.getMLyrics();
             //mChords = new ArrayList<ArrayList<Chord>>();
-            ArrayList<TypeLineOfLyrics> typeLineOfLyricsArrayList  = new ArrayList<>();
+            ArrayList<TypeLineOfLyrics> typeLineOfLyricsArrayList = new ArrayList<>();
 
-            for(int i=0; i<lyrics.size(); i++){
+            for (int i = 0; i < lyrics.size(); i++) {
                 //mChords.add(new ArrayList<Chord>());
                 TypeLineOfLyrics typeLineOfLyrics = new TypeLineOfLyrics(lyrics.get(i));
                 //typeLineOfLyrics.setLyricsInLine(lyrics.get(i));
                 typeLineOfLyricsArrayList.add(typeLineOfLyrics);
             }
 
-            for (SongChordJoinDao.ChordInSong specyficChord:mSpecyficChords){
+            for (SongChordJoinDao.ChordInSong specyficChord : mSpecificChords) {
                 int lineNumber = specyficChord.getLineNumber();
                 //int chordNumber = specyficChord.getChordNumber();
                 Chord chord = specyficChord.getChord();
@@ -154,7 +168,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             }
 
 
-            for (TypeLineOfLyrics typeLineOfLyrics:typeLineOfLyricsArrayList){
+            for (TypeLineOfLyrics typeLineOfLyrics : typeLineOfLyricsArrayList) {
                 mItems.add(typeLineOfLyrics);
             }
             notifyDataSetChanged();
@@ -251,8 +265,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
             mChordsLineAdapter = new ChordsLineAdapter(context);
             mChordsLineRecyclerView.setAdapter(mChordsLineAdapter);
-            mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration(
-                    (int) context.getResources().getDimension(R.dimen.space_between_chords)));
+            //mChordsLineRecyclerView.setNestedScrollingEnabled(false);
+            mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
         }
 
         @Override
@@ -262,21 +276,28 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             mLyricsLineTextView.setText(Html.fromHtml(typeLineOfLyricsItem.getLyricsInLine()));
 
             final ArrayList<Chord> chordsInLine = typeLineOfLyricsItem.getChordsInLine();
-            mChordsLineAdapter.setChordsInLine(chordsInLine);
 
-            int columnsNumber = mChordsLineAdapter.getCharAmountOfAllChords() == 0 ? 1 : mChordsLineAdapter.getCharAmountOfAllChords();
 
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(context, columnsNumber);
-            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            //int columnsNumber = mChordsLineAdapter.getCharAmountOfAllChords() == 0 ? 1 : mChordsLineAdapter.getCharAmountOfAllChords();
+            //int columnsNumber = chordsInLine.size() > 0 ? chordsInLine.size() : 1;
+            //GridLayoutManager layoutManager = new GridLayoutManager(context, columnsNumber);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
+
+            //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(columnsNumber, StaggeredGridLayoutManager.VERTICAL);
+            //layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+
+            /*gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
                     return  chordsInLine.get(position).getMSymbol().length();
                 }
             });
-
-            mChordsLineRecyclerView.setLayoutManager(gridLayoutManager);
-
-
+            */
+            //mChordsLineRecyclerView.setHasFixedSize(true);
+            mChordsLineRecyclerView.setLayoutManager(layoutManager);
+            //mChordsLineRecyclerView.setHasFixedSize(true);
+            mChordsLineAdapter.setChordsInLine(chordsInLine);
 
         }
 
@@ -286,6 +307,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             public SpacesItemDecoration(int space) {
                 this.space = space;
             }
+
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 outRect.left = space;
@@ -293,7 +315,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             }
         }
     }
-
 
 
 }
