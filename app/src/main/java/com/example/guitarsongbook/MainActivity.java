@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity
 
         }else{
             Fragment fragment = null;
-            fragmentManager.popBackStack();
-            //mSearching = false;
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
             if (id == R.id.nav_all_songs) {
                 fragment = SongListFragment.newInstance(null, null, false);
             }else if (id == R.id.nav_favourite_songs) {

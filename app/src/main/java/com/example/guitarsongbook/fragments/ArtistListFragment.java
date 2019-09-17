@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtistListFragment extends SearchViewFragment {
+public class ArtistListFragment extends SearchLaunchingFragment {
 
     private RecyclerView artistListRecyclerView;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;

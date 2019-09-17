@@ -34,7 +34,7 @@ import java.util.zip.Inflater;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongListFragment extends SearchViewFragment {
+public class SongListFragment extends SearchLaunchingFragment {
 
     private RecyclerView songListRecyclerView;
 

@@ -74,8 +74,8 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         public void onClick(View v) {
             int position = getAdapterPosition();
 
-            Artist artistsSOngsToDisplay = mArtists.get(position);
-            Long artistId = artistsSOngsToDisplay.getMId();
+            Artist artistsSongsToDisplay = mArtists.get(position);
+            Long artistId = artistsSongsToDisplay.getMId();
 
             SongListFragment songListFragment = SongListFragment.newInstance(artistId);
             ((MainActivity) context).getSupportFragmentManager().beginTransaction().
