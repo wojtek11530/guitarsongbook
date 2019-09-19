@@ -1,13 +1,9 @@
 package com.example.guitarsongbook.fragments;
 
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,8 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,7 +18,6 @@ import android.widget.TextView;
 import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.ArtistListAdapter;
-import com.example.guitarsongbook.adapters.SongDisplayAdapter;
 import com.example.guitarsongbook.adapters.SongListAdapter;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Song;
@@ -34,7 +27,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchResultFragment extends SearchViewFragment {
+public class SearchResultFragment extends SearchFragment {
 
 
     private TextView mFoundSongsHeader;
@@ -64,7 +57,7 @@ public class SearchResultFragment extends SearchViewFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search_result, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         mFoundSongsRecyclerView = view.findViewById(R.id.found_songs_rv_);
         mFoundArtistsRecyclerView  = view.findViewById(R.id.found_artists_rv_);

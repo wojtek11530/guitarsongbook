@@ -3,8 +3,11 @@ package com.example.guitarsongbook;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.model.Artist;
@@ -28,6 +31,10 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     private LiveData<List<Song>> mAllSongs;
     private LiveData<List<Chord>> mAllChords;
 
+    private MutableLiveData<String> mQuery = new MutableLiveData<>();
+    private LiveData<List<Song>> mQueriedSongs;
+    private LiveData<List<Artist>> mQueriedArtists;
+
     public GuitarSongbookViewModel(@NonNull Application application) {
         super(application);
         mArtistRepository = new ArtistRepository(application);
@@ -38,6 +45,22 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
 
         mChordRepository = new ChordRepository(application);
         mAllChords = mChordRepository.getAllChords();
+
+        mQueriedSongs = Transformations.switchMap(mQuery,
+                new Function<String, LiveData<List<Song>>>() {
+                    @Override
+                    public LiveData<List<Song>> apply(String string) {
+                        return mSongRepository.getSongByQuery(string);
+                    }
+                });
+
+        mQueriedArtists = Transformations.switchMap(mQuery,
+                new Function<String, LiveData<List<Artist>>>() {
+                    @Override
+                    public LiveData<List<Artist>> apply(String string) {
+                        return mArtistRepository.getArtistsByQuery(string);
+                    }
+                });
 
     }
 
@@ -88,5 +111,18 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     public void insertChord(Chord chord) { mChordRepository.insert(chord); }
 
     public void update(Song song) { mSongRepository.update(song); }
+
+    public void searchByQuery(String query){
+        mQuery.postValue(query);
+    }
+
+    public LiveData<List<Song>> getQueriedSongs() {
+        return mQueriedSongs;
+    }
+
+    public LiveData<List<Artist>> getQueriedArtists() {
+        return mQueriedArtists;
+    }
+
 
 }

@@ -39,9 +39,9 @@ public class SearchLaunchingFragment extends Fragment {
     }
 
     private void runSearchViewFragment() {
-        SearchResultFragment searchResultFragment = SearchResultFragment.newInstance("");
+        SearchFragment searchFragment = SearchFragment.newInstance();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container_fl_, searchResultFragment).
+        fragmentManager.beginTransaction().replace(R.id.fragment_container_fl_, searchFragment).
                 addToBackStack(null).commit();
     }
 }
