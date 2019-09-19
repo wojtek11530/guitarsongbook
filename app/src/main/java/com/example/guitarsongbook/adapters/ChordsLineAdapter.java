@@ -18,7 +18,7 @@ import com.example.guitarsongbook.model.Chord;
 
 import java.util.ArrayList;
 
-public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.ChordsLineHolder>{
+public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.ChordsLineHolder> {
 
     private Context context;
     private final LayoutInflater mInflater;
@@ -37,7 +37,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         return new ChordsLineAdapter.ChordsLineHolder(itemView);
     }
 
-    public void setChordsInLine(ArrayList<Chord> chordsInLine){
+    public void setChordsInLine(ArrayList<Chord> chordsInLine) {
         mChordsInLine = chordsInLine;
         notifyDataSetChanged();
     }
@@ -54,7 +54,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
 
     public int getCharAmountOfAllChords() {
         int numberOfChars = 0;
-        for (Chord chord:mChordsInLine){
+        for (Chord chord : mChordsInLine) {
             numberOfChars += chord.getMSymbol().length();
         }
         return numberOfChars;
@@ -89,7 +89,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
                     String fileName = chordSymbolInLowerCase + "_diagram_" + numberOfDiagram;
                     int diagramId = resources.getIdentifier(fileName, "drawable", packageName);
 
-                    while (diagramId != 0){
+                    while (diagramId != 0) {
                         chordDiagramDrawableIds.add(diagramId);
                         numberOfDiagram++;
                         fileName = chordSymbolInLowerCase + "_diagram_" + numberOfDiagram;
@@ -106,7 +106,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
 
         public void bindTo(int position) {
             mChord = mChordsInLine.get(position);
-            if (mChord!=null) {
+            if (mChord != null) {
                 mChordInLineTextView.setText(mChord.getMSymbol());
             }
         }

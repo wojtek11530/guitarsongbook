@@ -13,10 +13,10 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "chord_table",
         foreignKeys = {
-            @ForeignKey(entity = Chord.class,
+                @ForeignKey(entity = Chord.class,
                         parentColumns = "chord_id",
                         childColumns = "next_chord_id"),
-            @ForeignKey(entity = Chord.class,
+                @ForeignKey(entity = Chord.class,
                         parentColumns = "chord_id",
                         childColumns = "next_chord_id")},
         indices = {@Index(value = {"symbol"},

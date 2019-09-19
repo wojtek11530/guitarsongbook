@@ -48,6 +48,7 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         setHasOptionsMenu(true);
     }
     */
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

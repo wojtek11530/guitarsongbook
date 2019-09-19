@@ -40,10 +40,10 @@ public interface SongChordJoinDao {
         @Embedded
         private Chord chord;
 
-        @ColumnInfo(name="line_number")
+        @ColumnInfo(name = "line_number")
         private int lineNumber;
 
-        @ColumnInfo(name="chord_number")
+        @ColumnInfo(name = "chord_number")
         private int chordNumber;
 
         public ChordInSong(ChordInSong chordInSong) {

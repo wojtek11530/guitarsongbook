@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                     .commit();
-        }else{
+        } else {
             if (fragmentManager.getBackStackEntryCount() > 0) {
                 toggle.setDrawerIndicatorEnabled(false);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -122,29 +122,29 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_setting) {
 
-        }else{
+        } else {
             Fragment fragment = null;
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
             if (id == R.id.nav_all_songs) {
                 fragment = SongListFragment.newInstance(null, null, false);
-            }else if (id == R.id.nav_favourite_songs) {
+            } else if (id == R.id.nav_favourite_songs) {
                 fragment = SongListFragment.newInstance(null, null, true);
-            }else if (id == R.id.nav_artists) {
+            } else if (id == R.id.nav_artists) {
                 fragment = ArtistListFragment.newInstance();
-            }else if (id == R.id.nav_polish_songs) {
+            } else if (id == R.id.nav_polish_songs) {
                 fragment = SongListFragment.newInstance(Kind.POLISH, null, false);
             } else if (id == R.id.nav_foreign) {
                 fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false);
             } else if (id == R.id.nav_rock) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false);
-            }else if (id == R.id.nav_pop) {
+            } else if (id == R.id.nav_pop) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.POP, false);
-            }else if (id == R.id.nav_folk) {
+            } else if (id == R.id.nav_folk) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            if (fragment!=null) {
+            if (fragment != null) {
                 fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).commit();
             }
         }

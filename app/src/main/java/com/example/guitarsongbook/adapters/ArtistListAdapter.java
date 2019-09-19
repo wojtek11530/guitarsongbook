@@ -18,7 +18,7 @@ import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
 
-public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ArtistViewHolder>{
+public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ArtistViewHolder> {
 
     private Context context;
     private final LayoutInflater mInflater;
@@ -55,7 +55,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         else return 0;
     }
 
-    public void setArtists(List<Artist> artists){
+    public void setArtists(List<Artist> artists) {
         mArtists = artists;
         notifyDataSetChanged();
     }

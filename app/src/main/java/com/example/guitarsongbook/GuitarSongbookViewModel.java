@@ -64,31 +64,46 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
 
     }
 
-    public LiveData<List<Artist>> getAllArtists() { return mAllArtists; }
-    public LiveData<List<Song>> getAllSongs() { return mAllSongs; }
-    public LiveData<List<Chord>> getAllChords() { return mAllChords; }
+    public LiveData<List<Artist>> getAllArtists() {
+        return mAllArtists;
+    }
+
+    public LiveData<List<Song>> getAllSongs() {
+        return mAllSongs;
+    }
+
+    public LiveData<List<Chord>> getAllChords() {
+        return mAllChords;
+    }
 
     public LiveData<List<Song>> getSongsByKind(Kind kind) {
         return mSongRepository.getSongsByKind(kind);
     }
+
     public LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre) {
         return mSongRepository.getSongByMusicGenre(genre);
     }
+
     public LiveData<List<Song>> getSongByQuery(String query) {
         return mSongRepository.getSongByQuery(query);
     }
+
     public LiveData<List<Song>> getSongByArtistId(Long artistId) {
         return mSongRepository.getSongByArtistId(artistId);
     }
+
     public LiveData<Song> getSongById(Long id) {
         return mSongRepository.getSongById(id);
     }
+
     public LiveData<List<Song>> getFavouriteSongs() {
         return mSongRepository.getFavouriteSongs();
     }
 
     public LiveData<Artist> getArtistById(Long id) {
-        return mArtistRepository.getArtistById(id); }
+        return mArtistRepository.getArtistById(id);
+    }
+
     public LiveData<List<Artist>> getArtistsByQuery(String query) {
         return mArtistRepository.getArtistsByQuery(query);
     }
@@ -96,23 +111,36 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     public LiveData<Chord> getChordById(Long id) {
         return mChordRepository.getChordById(id);
     }
+
     public LiveData<List<Chord>> getChordsByQuery(String query) {
         return mChordRepository.getChordsByQuery(query);
     }
+
     public LiveData<List<Chord>> getChordsBySongId(Long songId) {
         return mChordRepository.getChordsBySongId(songId);
     }
+
     public LiveData<List<SongChordJoinDao.ChordInSong>> getChordsInSongBySongId(Long songId) {
         return mChordRepository.getChordsInSongBySongId(songId);
     }
 
-    public void insertArtist(Artist artist) { mArtistRepository.insert(artist); }
-    public void insertSong(Song song) { mSongRepository.insert(song); }
-    public void insertChord(Chord chord) { mChordRepository.insert(chord); }
+    public void insertArtist(Artist artist) {
+        mArtistRepository.insert(artist);
+    }
 
-    public void update(Song song) { mSongRepository.update(song); }
+    public void insertSong(Song song) {
+        mSongRepository.insert(song);
+    }
 
-    public void searchByQuery(String query){
+    public void insertChord(Chord chord) {
+        mChordRepository.insert(chord);
+    }
+
+    public void update(Song song) {
+        mSongRepository.update(song);
+    }
+
+    public void searchByQuery(String query) {
         mQuery.postValue(query);
     }
 

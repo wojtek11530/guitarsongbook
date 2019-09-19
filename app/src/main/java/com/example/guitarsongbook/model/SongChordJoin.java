@@ -11,18 +11,18 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "song_chord_join",
         foreignKeys = {
-        @ForeignKey(entity = Song.class,
-                    parentColumns = "song_id",
-                    childColumns = "song_id",
-                    onUpdate = ForeignKey.CASCADE,
-                    onDelete = ForeignKey.CASCADE),
+                @ForeignKey(entity = Song.class,
+                        parentColumns = "song_id",
+                        childColumns = "song_id",
+                        onUpdate = ForeignKey.CASCADE,
+                        onDelete = ForeignKey.CASCADE),
 
-        @ForeignKey(entity = Chord.class,
-                parentColumns = "chord_id",
-                childColumns = "chord_id"),
+                @ForeignKey(entity = Chord.class,
+                        parentColumns = "chord_id",
+                        childColumns = "chord_id"),
         },
-        indices = {@Index(value = {"song_id","chord_id"})}
-        )
+        indices = {@Index(value = {"song_id", "chord_id"})}
+)
 public class SongChordJoin {
 
     @PrimaryKey(autoGenerate = true)

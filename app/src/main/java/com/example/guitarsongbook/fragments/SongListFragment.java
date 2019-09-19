@@ -51,9 +51,9 @@ public class SongListFragment extends SearchLaunchingFragment {
         Bundle arguments = new Bundle();
         if (kind != null) {
             arguments.putSerializable(SONGS_KIND_KEY, kind);
-        }else if(genre != null) {
+        } else if (genre != null) {
             arguments.putSerializable(SONGS_GENRE_KEY, genre);
-        }else if(isFavouriteSongList){
+        } else if (isFavouriteSongList) {
             arguments.putBoolean(IS_FAVOURITE_SONG_LIST_KEY, isFavouriteSongList);
         }
         fragment.setArguments(arguments);
@@ -80,12 +80,11 @@ public class SongListFragment extends SearchLaunchingFragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_song_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_song_list, container, false);
         songListRecyclerView = view.findViewById(R.id.song_list_rv_);
 
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
@@ -103,52 +102,52 @@ public class SongListFragment extends SearchLaunchingFragment {
 
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
-        }else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
+        } else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
             genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
-        }else if (getArguments().containsKey(QUERY_KEY)) {
+        } else if (getArguments().containsKey(QUERY_KEY)) {
             query = getArguments().getString(QUERY_KEY);
-        }else if (getArguments().containsKey(ARTIST_ID_KEY)) {
+        } else if (getArguments().containsKey(ARTIST_ID_KEY)) {
             artistId = getArguments().getLong(ARTIST_ID_KEY);
-        }else if (getArguments().containsKey(IS_FAVOURITE_SONG_LIST_KEY)) {
+        } else if (getArguments().containsKey(IS_FAVOURITE_SONG_LIST_KEY)) {
             isFavouriteSongList = getArguments().getBoolean(IS_FAVOURITE_SONG_LIST_KEY);
         }
 
-        if (kind!=null){
+        if (kind != null) {
             mGuitarSongbookViewModel.getSongsByKind(kind).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
-        }else if (genre!=null){
+        } else if (genre != null) {
             mGuitarSongbookViewModel.getSongByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
-        }else if (query!=null){
+        } else if (query != null) {
             mGuitarSongbookViewModel.getSongByQuery(query).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
-        }else if (artistId!=null){
+        } else if (artistId != null) {
             mGuitarSongbookViewModel.getSongByArtistId(artistId).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
-        }else if (isFavouriteSongList){
+        } else if (isFavouriteSongList) {
             mGuitarSongbookViewModel.getFavouriteSongs().observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
-        }else {
+        } else {
             mGuitarSongbookViewModel.getAllSongs().observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
@@ -163,8 +162,6 @@ public class SongListFragment extends SearchLaunchingFragment {
                 adapter.setArtists(artists);
             }
         });
-
-
 
         return view;
     }
