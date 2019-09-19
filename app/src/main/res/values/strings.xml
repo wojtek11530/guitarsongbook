@@ -38,4 +38,5 @@
     <string name="semitone">półton</string>
     <string name="semitones">półtonów</string>
     <string name="semitones_plural_for_2_3_4">półtony</string>
+    <string name="no_results_communicate">Nie znaleziono wyników.</string>
 </resources>

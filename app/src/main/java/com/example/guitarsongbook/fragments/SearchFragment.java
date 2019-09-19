@@ -26,6 +26,7 @@ import com.example.guitarsongbook.adapters.SongListAdapter;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Song;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
@@ -35,8 +36,7 @@ public class SearchFragment extends Fragment {
 
     private TextView mFoundSongsHeader;
     private TextView mFoundArtistsHeader;
-    private TextView mNoSongsCommunicateTextView;
-    private TextView mNoArtistsCommunicateTextView;
+    private TextView mNoResultsCommunicateTextView;
 
     private RecyclerView mFoundSongsRecyclerView;
     private SongListAdapter mSongListAdapter;
@@ -44,6 +44,9 @@ public class SearchFragment extends Fragment {
     private ArtistListAdapter mArtistListAdapter;
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
+
+    private List<Song> mFoundSongs = new ArrayList<>();
+    private List<Artist> mFoundArtists = new ArrayList<>();
 
     public static final String QUERY_KEY = "QUERY_KEY";
 
@@ -108,13 +111,8 @@ public class SearchFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 mSongListAdapter.setSongs(songs);
-                if (songs.isEmpty()) {
-                    mFoundSongsRecyclerView.setVisibility(View.GONE);
-                    mNoSongsCommunicateTextView.setVisibility(View.VISIBLE);
-                } else {
-                    mFoundSongsRecyclerView.setVisibility(View.VISIBLE);
-                    mNoSongsCommunicateTextView.setVisibility(View.GONE);
-                }
+                setFoundSongs(songs);
+                adjustResultsViewsVisibility();
             }
         });
 
@@ -126,13 +124,8 @@ public class SearchFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
                 mArtistListAdapter.setArtists(artists);
-                if (artists.isEmpty()) {
-                    mFoundArtistsRecyclerView.setVisibility(View.GONE);
-                    mNoArtistsCommunicateTextView.setVisibility(View.VISIBLE);
-                } else {
-                    mFoundArtistsRecyclerView.setVisibility(View.VISIBLE);
-                    mNoArtistsCommunicateTextView.setVisibility(View.GONE);
-                }
+                setFoundArtists(artists);
+                adjustResultsViewsVisibility();
             }
         });
 
@@ -150,23 +143,52 @@ public class SearchFragment extends Fragment {
 
         mFoundSongsHeader = view.findViewById(R.id.found_songs_header_txt_);
         mFoundArtistsHeader = view.findViewById(R.id.found_artists_header_txt_);
-
-        mNoSongsCommunicateTextView = view.findViewById(R.id.no_songs_txt_);
-        mNoArtistsCommunicateTextView = view.findViewById(R.id.no_artists_txt_);
-    }
-
-    private void adjustViewsToSearching() {
-        mFoundSongsHeader.setVisibility(View.VISIBLE);
-        mFoundArtistsHeader.setVisibility(View.VISIBLE);
+        mNoResultsCommunicateTextView = view.findViewById(R.id.no_results_txt_);
     }
 
     private void adjustViewsToNoSearching() {
         mFoundSongsHeader.setVisibility(View.GONE);
         mFoundSongsRecyclerView.setVisibility(View.GONE);
-        mNoSongsCommunicateTextView.setVisibility(View.GONE);
         mFoundArtistsHeader.setVisibility(View.GONE);
         mFoundArtistsRecyclerView.setVisibility(View.GONE);
-        mNoArtistsCommunicateTextView.setVisibility(View.GONE);
+        mNoResultsCommunicateTextView.setVisibility(View.GONE);
+    }
+
+    public void setFoundSongs(List<Song> mFoundSong) {
+        this.mFoundSongs = mFoundSong;
+        adjustSongViewsVisibility();
+    }
+
+    public void setFoundArtists(List<Artist> mFoundArtists) {
+        this.mFoundArtists = mFoundArtists;
+        adjustArtistViewsVisibility();
+    }
+
+    private void adjustSongViewsVisibility() {
+        if (mFoundSongs.isEmpty()) {
+            mFoundSongsHeader.setVisibility(View.GONE);
+            mFoundSongsRecyclerView.setVisibility(View.GONE);
+        } else {
+            mFoundSongsHeader.setVisibility(View.VISIBLE);
+            mFoundSongsRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+    private void adjustArtistViewsVisibility() {
+        if (mFoundArtists.isEmpty()) {
+            mFoundArtistsHeader.setVisibility(View.GONE);
+            mFoundArtistsRecyclerView.setVisibility(View.GONE);
+        } else {
+            mFoundArtistsHeader.setVisibility(View.VISIBLE);
+            mFoundArtistsRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void adjustResultsViewsVisibility() {
+        if (mFoundSongs.isEmpty() && mFoundArtists.isEmpty()) {
+            mNoResultsCommunicateTextView.setVisibility(View.VISIBLE);
+        } else {
+            mNoResultsCommunicateTextView.setVisibility(View.GONE);
+        }
     }
 
     private SearchView.OnQueryTextListener onQueryTextListener =
@@ -184,7 +206,6 @@ public class SearchFragment extends Fragment {
 
                 private void performSearching(String query) {
                     if (query.length() > 0) {
-                        adjustViewsToSearching();
                         setNewQuery(query);
                     } else {
                         adjustViewsToNoSearching();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,68 +8,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="4dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/no_results_txt_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/no_results_communicate"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="italic"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/found_songs_header_txt_"
             style="@style/ArtistOfDisplayedSong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/songs" />
-
-        <TextView
-            android:id="@+id/no_songs_txt_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textStyle="italic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"
-            android:text="@string/no_songs_communicate" />
+            android:text="@string/songs" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/found_songs_rv_"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
             android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp" />
+            android:overScrollMode="never" />
 
         <TextView
             android:id="@+id/found_artists_header_txt_"
             style="@style/ArtistOfDisplayedSong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
-            android:text="@string/artists"/>
-
-        <TextView
-            android:id="@+id/no_artists_txt_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textStyle="italic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"
-            android:text="@string/no_artists_communicate" />
+            android:text="@string/artists" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/found_artists_rv_"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
             android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp" />
+            android:overScrollMode="never" />
     </LinearLayout>
 
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
