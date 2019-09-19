@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -39,9 +39,9 @@ public class SearchFragment extends Fragment {
     private TextView mNoArtistsCommunicateTextView;
 
     private RecyclerView mFoundSongsRecyclerView;
-    private SongListAdapter songListAdapter;
+    private SongListAdapter mSongListAdapter;
     private RecyclerView mFoundArtistsRecyclerView;
-    private ArtistListAdapter artistListAdapter;
+    private ArtistListAdapter mArtistListAdapter;
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
@@ -51,12 +51,8 @@ public class SearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SearchFragment newInstance(){ //String query) {
+    public static SearchFragment newInstance() { //String query) {
         SearchFragment fragment = new SearchFragment();
-        /*Bundle arguments = new Bundle();
-        arguments.putString(QUERY_KEY, query);
-        fragment.setArguments(arguments);
-        */
         return fragment;
     }
 
@@ -68,14 +64,22 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         inflater.inflate(R.menu.search_menu, menu);
+        configureSearching(menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void configureSearching(Menu menu) {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        MenuItem searchItem = (MenuItem) menu.findItem(R.id.action_search);
+        searchItem.setOnActionExpandListener(onActionExpandListener);
+
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setOnQueryTextListener(onQueryTextListener);
-        super.onCreateOptionsMenu(menu, inflater);
+
+        searchItem.expandActionView();
     }
 
 
@@ -88,51 +92,49 @@ public class SearchFragment extends Fragment {
         intiViews(view);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
-        songListAdapter = new SongListAdapter(getContext());
-        mFoundSongsRecyclerView.setAdapter(songListAdapter);
+        mSongListAdapter = new SongListAdapter(getContext());
+        mFoundSongsRecyclerView.setAdapter(mSongListAdapter);
         mFoundSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
-                songListAdapter.setArtists(artists);
+                mSongListAdapter.setArtists(artists);
 
             }
         });
 
-        artistListAdapter = new ArtistListAdapter(getContext());
-        mFoundArtistsRecyclerView.setAdapter(artistListAdapter);
-        mFoundArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
         mGuitarSongbookViewModel.getQueriedSongs().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
-                songListAdapter.setSongs(songs);
+                mSongListAdapter.setSongs(songs);
                 if (songs.isEmpty()) {
                     mFoundSongsRecyclerView.setVisibility(View.GONE);
                     mNoSongsCommunicateTextView.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mFoundSongsRecyclerView.setVisibility(View.VISIBLE);
                     mNoSongsCommunicateTextView.setVisibility(View.GONE);
                 }
             }
         });
 
+        mArtistListAdapter = new ArtistListAdapter(getContext());
+        mFoundArtistsRecyclerView.setAdapter(mArtistListAdapter);
+        mFoundArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         mGuitarSongbookViewModel.getQueriedArtists().observe(SearchFragment.this, new Observer<List<Artist>>() {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
-                artistListAdapter.setArtists(artists);
+                mArtistListAdapter.setArtists(artists);
                 if (artists.isEmpty()) {
                     mFoundArtistsRecyclerView.setVisibility(View.GONE);
                     mNoArtistsCommunicateTextView.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mFoundArtistsRecyclerView.setVisibility(View.VISIBLE);
                     mNoArtistsCommunicateTextView.setVisibility(View.GONE);
                 }
             }
         });
-
 
         return view;
     }
@@ -171,7 +173,6 @@ public class SearchFragment extends Fragment {
             new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    performSearching(query);
                     return true;
                 }
 
@@ -182,16 +183,30 @@ public class SearchFragment extends Fragment {
                 }
 
                 private void performSearching(String query) {
-                    if (query.length()>0) {
+                    if (query.length() > 0) {
                         adjustViewsToSearching();
                         setNewQuery(query);
-                    }else{
+                    } else {
                         adjustViewsToNoSearching();
                     }
                 }
 
                 private void setNewQuery(String query) {
                     mGuitarSongbookViewModel.searchByQuery(query);
+                }
+            };
+
+    private MenuItem.OnActionExpandListener onActionExpandListener =
+            new MenuItem.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    return true;
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    getActivity().onBackPressed();
+                    return true;
                 }
             };
 
