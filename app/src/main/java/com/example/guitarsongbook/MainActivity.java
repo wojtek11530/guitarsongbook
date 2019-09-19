@@ -1,12 +1,9 @@
 package com.example.guitarsongbook;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.ArtistListFragment;
-import com.example.guitarsongbook.fragments.SearchResultFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -31,7 +28,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
 
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
@@ -102,34 +98,6 @@ public class MainActivity extends AppCompatActivity
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         mSearching = mPreferences.getBoolean(SEARCH_KEY, false);
 
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            doMySearch(query);
-        }
-    }
-
-    private void doMySearch(String query) {
-
-        /*
-        if (!mSearching) {
-            mSearching = true;
-        }else{
-            fragmentManager.popBackStack();
-        }*/
-        SearchResultFragment searchResultFragment = SearchResultFragment.newInstance(query);
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container_fl_, searchResultFragment);
-        fragmentTransaction.addToBackStack(null).commit();
     }
 
 
