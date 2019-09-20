@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -28,6 +29,7 @@ import com.example.guitarsongbook.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SearchFragment extends Fragment {
 
@@ -48,6 +50,8 @@ public class SearchFragment extends Fragment {
     private List<Song> mFoundSongs = new ArrayList<>();
     private List<Artist> mFoundArtists = new ArrayList<>();
 
+    private CharSequence mNotEmptyQuery;
+
     public static final String QUERY_KEY = "QUERY_KEY";
 
     public SearchFragment() {
@@ -55,13 +59,15 @@ public class SearchFragment extends Fragment {
     }
 
     public static SearchFragment newInstance() { //String query) {
-        SearchFragment fragment = new SearchFragment();
-        return fragment;
+        return new SearchFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mNotEmptyQuery = savedInstanceState.getCharSequence(QUERY_KEY);
+        }
         setHasOptionsMenu(true);
     }
 
@@ -75,7 +81,7 @@ public class SearchFragment extends Fragment {
     private void configureSearching(Menu menu) {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-        MenuItem searchItem = (MenuItem) menu.findItem(R.id.action_search);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setOnActionExpandListener(onActionExpandListener);
 
         searchView = (SearchView) searchItem.getActionView();
@@ -83,8 +89,10 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(onQueryTextListener);
 
         searchItem.expandActionView();
+        if (mNotEmptyQuery != null) {
+            searchView.setQuery(mNotEmptyQuery, false);
+        }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,7 +111,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
                 mSongListAdapter.setArtists(artists);
-
             }
         });
 
@@ -128,7 +135,6 @@ public class SearchFragment extends Fragment {
                 adjustResultsViewsVisibility();
             }
         });
-
         return view;
     }
 
@@ -173,6 +179,7 @@ public class SearchFragment extends Fragment {
             mFoundSongsRecyclerView.setVisibility(View.VISIBLE);
         }
     }
+
     private void adjustArtistViewsVisibility() {
         if (mFoundArtists.isEmpty()) {
             mFoundArtistsHeader.setVisibility(View.GONE);
@@ -199,8 +206,14 @@ public class SearchFragment extends Fragment {
                 }
 
                 @Override
-                public boolean onQueryTextChange(String newText) {
-                    performSearching(newText);
+                public boolean onQueryTextChange(String query) {
+                    if (searchView.isIconified()) {
+                        return true;
+                    }
+                    if(!query.equals("")) {
+                        mNotEmptyQuery = query;
+                    }
+                    performSearching(query);
                     return true;
                 }
 
@@ -226,11 +239,15 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public boolean onMenuItemActionCollapse(MenuItem item) {
-                    getActivity().onBackPressed();
+                    Objects.requireNonNull(getActivity()).onBackPressed();
                     return true;
                 }
             };
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putCharSequence(QUERY_KEY, mNotEmptyQuery);
+        super.onSaveInstanceState(outState);
+    }
 }
 

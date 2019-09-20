@@ -33,12 +33,6 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     FragmentManager fragmentManager;
 
-    private SharedPreferences mPreferences;
-    private final String sharedPrefFile = "com.example.guitarsongbook";
-    private final String SEARCH_KEY = "SEARCH_KEY";
-
-    private boolean mSearching;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,12 +88,7 @@ public class MainActivity extends AppCompatActivity
                 onBackPressed();
             }
         });
-
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        mSearching = mPreferences.getBoolean(SEARCH_KEY, false);
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -107,7 +96,6 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.getBackStackEntryCount() > 0) {
-            //mSearching = false;
             fragmentManager.popBackStack();
         } else {
             super.onBackPressed();
@@ -152,13 +140,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        preferencesEditor.putBoolean(SEARCH_KEY, mSearching);
-        preferencesEditor.apply();
     }
 }

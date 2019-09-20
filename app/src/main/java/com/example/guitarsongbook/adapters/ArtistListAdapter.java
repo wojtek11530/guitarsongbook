@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Transaction;
 
 import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
@@ -78,8 +80,10 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
             Long artistId = artistsSongsToDisplay.getMId();
 
             SongListFragment songListFragment = SongListFragment.newInstance(artistId);
-            ((MainActivity) context).getSupportFragmentManager().beginTransaction().
-                    replace(R.id.fragment_container_fl_, songListFragment).addToBackStack(null).commit();
+            FragmentTransaction transaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container_fl_, songListFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 }
