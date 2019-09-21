@@ -41,6 +41,7 @@ import java.util.Map;
  */
 public class SongDisplayFragment extends Fragment {
 
+
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
     private Song mSongToDisplay;
@@ -62,7 +63,7 @@ public class SongDisplayFragment extends Fragment {
 
     private ConstraintLayout mAutoScrollBar;
     private ImageButton mRunAutScrollImageButton;
-    private SeekBar mAutoScrollSeekbar;
+    private SeekBar mAutoScrollSeekBar;
     private ImageButton mCloseAutoScrollBarImageButton;
 
     private boolean mAutoScrollRunning = false;
@@ -80,7 +81,7 @@ public class SongDisplayFragment extends Fragment {
     private ImageButton mResetTransposeImageButton;
 
     private int mTransposeValue = 0;
-    private Map<SongChordJoinDao.ChordInSong, Boolean> chordToIsTranspoed = new HashMap<SongChordJoinDao.ChordInSong, Boolean>();
+    private Map<SongChordJoinDao.ChordInSong, Boolean> chordToIsTransposed = new HashMap<SongChordJoinDao.ChordInSong, Boolean>();
     private static final int MAX_TRANSPOSE_VALUE = 6;
     private static final int MIN_TRANSPOSE_VALUE = -6;
 
@@ -89,11 +90,14 @@ public class SongDisplayFragment extends Fragment {
 
     private static final String SONG_DATA_KEY = "SONG_DATA_KEY";
     private static final String ARTIST_DATA_KEY = "ARTIST_DATA_KEY";
-    private static final String SPECIFIC_CHORDS_DAT_KEY = "SPECIFIC_CHORDS_DAT_KEY";
+    private static final String SPECIFIC_CHORDS_DATA_KEY = "SPECIFIC_CHORDS_DATA_KEY";
     private static final String AUTO_SCROLL_DELAY_VALUE_KEY = "AUTO_SCROLL_DELAY_VALUE_KEY";
     private static final String IS_AUTO_SCROLL_RUNNING_VALUE_KEY = "IS_AUTO_SCROLL_RUNNING_VALUE_KEY";
     private static final String IS_AUTO_SCROLL_BAR_ON = "IS_AUTO_SCROLL_BAR_ON";
     private static final String IS_TRANSPOSE_BAR_ON = "IS_TRANSPOSE_BAR_ON";
+    private static final String TRANSPOSABLE_CHORDS_DATA_KEY = "TRANSPOSABLE_CHORDS_DATA_KEY";
+    private static final String TRANSPOSE_VALUE_KEY = "TRANSPOSE_VALUE_KEY";
+
 
     public SongDisplayFragment() {
     }
@@ -134,16 +138,14 @@ public class SongDisplayFragment extends Fragment {
         if (savedInstanceState != null) {
             mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
             mArtistOfSong = savedInstanceState.getParcelable(ARTIST_DATA_KEY);
-            mSpecificChordsInSong = savedInstanceState.getParcelableArrayList(SPECIFIC_CHORDS_DAT_KEY);
+            mSpecificChordsInSong = savedInstanceState.getParcelableArrayList(SPECIFIC_CHORDS_DATA_KEY);
 
-            mTransposableSpecificChordsInSong = new ArrayList<>();
-            for (SongChordJoinDao.ChordInSong chordInSong : mSpecificChordsInSong) {
-                mTransposableSpecificChordsInSong.add(new SongChordJoinDao.ChordInSong(chordInSong));
-            }
+            mTransposableSpecificChordsInSong = savedInstanceState.getParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY);
+            mTransposeValue = savedInstanceState.getInt(TRANSPOSE_VALUE_KEY);
 
             mSongDisplayAdapter.setSong(mSongToDisplay);
             mSongDisplayAdapter.setArtist(mArtistOfSong);
-            mSongDisplayAdapter.setSpecyficChords(mSpecificChordsInSong);
+            mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
 
             mFavourite = mSongToDisplay.getMIsFavourite();
 
@@ -173,7 +175,7 @@ public class SongDisplayFragment extends Fragment {
                         for (SongChordJoinDao.ChordInSong chordInSong : mSpecificChordsInSong) {
                             mTransposableSpecificChordsInSong.add(new SongChordJoinDao.ChordInSong(chordInSong));
                         }
-                        mSongDisplayAdapter.setSpecyficChords(chords);
+                        mSongDisplayAdapter.setSpecificChords(chords);
                     }
                 });
             }
@@ -280,7 +282,7 @@ public class SongDisplayFragment extends Fragment {
         @Override
         public void onClick(View v) {
             mTransposableSpecificChordsInSong = mSpecificChordsInSong;
-            mSongDisplayAdapter.setSpecyficChords(mTransposableSpecificChordsInSong);
+            mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
             mTransposeValue = 0;
             adjustTransposeBar();
         }
@@ -294,9 +296,9 @@ public class SongDisplayFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            chordToIsTranspoed.clear();
+            chordToIsTransposed.clear();
             for (final SongChordJoinDao.ChordInSong chordInSong : mTransposableSpecificChordsInSong) {
-                chordToIsTranspoed.put(chordInSong, false);
+                chordToIsTransposed.put(chordInSong, false);
             }
 
             for (final SongChordJoinDao.ChordInSong chordInSong : mTransposableSpecificChordsInSong) {
@@ -346,15 +348,15 @@ public class SongDisplayFragment extends Fragment {
         @Override
         public void onChanged(@Nullable final Chord chord) {
             chordInSong.setChord(chord);
-            chordToIsTranspoed.put(chordInSong, true);
-            if (ifAllChordsAreTransposed()) {
-                mSongDisplayAdapter.setSpecyficChords(mTransposableSpecificChordsInSong);
+            chordToIsTransposed.put(chordInSong, true);
+            if (areAllChordsTransposed()) {
+                mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
             }
         }
     }
 
-    private boolean ifAllChordsAreTransposed() {
-        return !chordToIsTranspoed.values().contains(false);
+    private boolean areAllChordsTransposed() {
+        return !chordToIsTransposed.values().contains(false);
     }
 
     private void adjustTransposeBar() {
@@ -388,7 +390,7 @@ public class SongDisplayFragment extends Fragment {
         mAutoScrollBar = view.findViewById(R.id.autoscroll_bar);
         mRunAutScrollImageButton = view.findViewById(R.id.run_autoscroll_btn_);
         mCloseAutoScrollBarImageButton = view.findViewById(R.id.close_autoscroll_bar_btn_);
-        mAutoScrollSeekbar = view.findViewById(R.id.autoscroll_seek_bar);
+        mAutoScrollSeekBar = view.findViewById(R.id.autoscroll_seek_bar);
 
         mCloseAutoScrollBarImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -404,7 +406,7 @@ public class SongDisplayFragment extends Fragment {
             }
         });
 
-        mAutoScrollSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mAutoScrollSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChangedValue = 0;
 
             @Override
@@ -425,7 +427,7 @@ public class SongDisplayFragment extends Fragment {
         if (savedInstanceState != null) {
             int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
             int progress = calculateSeekBarProgressByDelay(autoScrollDelay);
-            mAutoScrollSeekbar.setProgress(progress);
+            mAutoScrollSeekBar.setProgress(progress);
         }
     }
 
@@ -436,16 +438,17 @@ public class SongDisplayFragment extends Fragment {
 
     private int getAutoScrollDelayBySeekBarProgress(float progressChangedValue) {
         return MIN_AUTO_SCROLL_DELAY + (int) (MIN_MAX_DELAY_INTERVAL *
-                (1 - progressChangedValue / mAutoScrollSeekbar.getMax()));
+                (1 - progressChangedValue / mAutoScrollSeekBar.getMax()));
     }
 
     private int calculateSeekBarProgressByDelay(int autoscrollDelay) {
-        return mAutoScrollSeekbar.getMax() * (1 - (autoscrollDelay - MIN_AUTO_SCROLL_DELAY) / MIN_MAX_DELAY_INTERVAL);
+        return mAutoScrollSeekBar.getMax() * (1 - (autoscrollDelay - MIN_AUTO_SCROLL_DELAY) / MIN_MAX_DELAY_INTERVAL);
     }
 
     private void initToolBarFeatures(Bundle savedInstanceState) {
 
         adjustAddToFavouriteMenuITem();
+        adjustTransposeBar();
 
         if (savedInstanceState != null) {
             int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
@@ -518,12 +521,15 @@ public class SongDisplayFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(SONG_DATA_KEY, mSongToDisplay);
         outState.putParcelable(ARTIST_DATA_KEY, mArtistOfSong);
-        outState.putParcelableArrayList(SPECIFIC_CHORDS_DAT_KEY, new ArrayList<>(mSpecificChordsInSong));
+        outState.putParcelableArrayList(SPECIFIC_CHORDS_DATA_KEY, new ArrayList<>(mSpecificChordsInSong));
 
         outState.putInt(AUTO_SCROLL_DELAY_VALUE_KEY, timerRunnable.getAutoScrollingDelayInMilisec());
         outState.putBoolean(IS_AUTO_SCROLL_RUNNING_VALUE_KEY, mAutoScrollRunning);
         outState.putBoolean(IS_AUTO_SCROLL_BAR_ON, mAutoScrollBarOn);
+
         outState.putBoolean(IS_TRANSPOSE_BAR_ON, mTransposeBarOn);
+        outState.putParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY, new ArrayList<>(mTransposableSpecificChordsInSong));
+        outState.putInt(TRANSPOSE_VALUE_KEY, mTransposeValue);
 
         super.onSaveInstanceState(outState);
     }

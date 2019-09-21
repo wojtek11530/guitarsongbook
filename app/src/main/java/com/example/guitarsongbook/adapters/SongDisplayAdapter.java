@@ -135,7 +135,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         setRecyclerViewItemsByFields();
     }
 
-    public void setSpecyficChords(List<SongChordJoinDao.ChordInSong> chords) {
+    public void setSpecificChords(List<SongChordJoinDao.ChordInSong> chords) {
         mSpecificChords = chords;
         setRecyclerViewItemsByFields();
     }
@@ -276,7 +276,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             mLyricsLineTextView.setText(Html.fromHtml(typeLineOfLyricsItem.getLyricsInLine()));
 
             final ArrayList<Chord> chordsInLine = typeLineOfLyricsItem.getChordsInLine();
-
 
             //int columnsNumber = mChordsLineAdapter.getCharAmountOfAllChords() == 0 ? 1 : mChordsLineAdapter.getCharAmountOfAllChords();
             //int columnsNumber = chordsInLine.size() > 0 ? chordsInLine.size() : 1;
