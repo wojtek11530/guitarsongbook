@@ -281,7 +281,10 @@ public class SongDisplayFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            mTransposableSpecificChordsInSong = mSpecificChordsInSong;
+            mTransposableSpecificChordsInSong = new ArrayList<>();
+            for (SongChordJoinDao.ChordInSong chordInSong : mSpecificChordsInSong) {
+                mTransposableSpecificChordsInSong.add(new SongChordJoinDao.ChordInSong(chordInSong));
+            }
             mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
             mTransposeValue = 0;
             adjustTransposeBar();
