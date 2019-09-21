@@ -1,12 +1,9 @@
 package com.example.guitarsongbook;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.ArtistListFragment;
-import com.example.guitarsongbook.fragments.SearchResultFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -32,16 +29,9 @@ import androidx.fragment.app.FragmentTransaction;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     FragmentManager fragmentManager;
-
-    private SharedPreferences mPreferences;
-    private final String sharedPrefFile = "com.example.guitarsongbook";
-    private final String SEARCH_KEY = "SEARCH_KEY";
-
-    private boolean mSearching;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +56,7 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                     .commit();
-        }else{
+        } else {
             if (fragmentManager.getBackStackEntryCount() > 0) {
                 toggle.setDrawerIndicatorEnabled(false);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -98,40 +88,7 @@ public class MainActivity extends AppCompatActivity
                 onBackPressed();
             }
         });
-
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        mSearching = mPreferences.getBoolean(SEARCH_KEY, false);
-
     }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            doMySearch(query);
-        }
-    }
-
-    private void doMySearch(String query) {
-
-        /*
-        if (!mSearching) {
-            mSearching = true;
-        }else{
-            fragmentManager.popBackStack();
-        }*/
-        SearchResultFragment searchResultFragment = SearchResultFragment.newInstance(query);
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container_fl_, searchResultFragment);
-        fragmentTransaction.addToBackStack(null).commit();
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -139,7 +96,6 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.getBackStackEntryCount() > 0) {
-            //mSearching = false;
             fragmentManager.popBackStack();
         } else {
             super.onBackPressed();
@@ -154,29 +110,29 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_setting) {
 
-        }else{
+        } else {
             Fragment fragment = null;
-            fragmentManager.popBackStack();
-            //mSearching = false;
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
             if (id == R.id.nav_all_songs) {
                 fragment = SongListFragment.newInstance(null, null, false);
-            }else if (id == R.id.nav_favourite_songs) {
+            } else if (id == R.id.nav_favourite_songs) {
                 fragment = SongListFragment.newInstance(null, null, true);
-            }else if (id == R.id.nav_artists) {
+            } else if (id == R.id.nav_artists) {
                 fragment = ArtistListFragment.newInstance();
-            }else if (id == R.id.nav_polish_songs) {
+            } else if (id == R.id.nav_polish_songs) {
                 fragment = SongListFragment.newInstance(Kind.POLISH, null, false);
             } else if (id == R.id.nav_foreign) {
                 fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false);
             } else if (id == R.id.nav_rock) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false);
-            }else if (id == R.id.nav_pop) {
+            } else if (id == R.id.nav_pop) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.POP, false);
-            }else if (id == R.id.nav_folk) {
+            } else if (id == R.id.nav_folk) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            if (fragment!=null) {
+            if (fragment != null) {
                 fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).commit();
             }
         }
@@ -184,13 +140,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        preferencesEditor.putBoolean(SEARCH_KEY, mSearching);
-        preferencesEditor.apply();
     }
 }

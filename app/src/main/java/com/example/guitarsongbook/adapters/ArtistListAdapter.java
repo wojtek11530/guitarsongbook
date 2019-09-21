@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Transaction;
 
 import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
@@ -18,7 +20,7 @@ import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
 
-public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ArtistViewHolder>{
+public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ArtistViewHolder> {
 
     private Context context;
     private final LayoutInflater mInflater;
@@ -55,7 +57,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         else return 0;
     }
 
-    public void setArtists(List<Artist> artists){
+    public void setArtists(List<Artist> artists) {
         mArtists = artists;
         notifyDataSetChanged();
     }
@@ -74,12 +76,14 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         public void onClick(View v) {
             int position = getAdapterPosition();
 
-            Artist artistsSOngsToDisplay = mArtists.get(position);
-            Long artistId = artistsSOngsToDisplay.getMId();
+            Artist artistsSongsToDisplay = mArtists.get(position);
+            Long artistId = artistsSongsToDisplay.getMId();
 
             SongListFragment songListFragment = SongListFragment.newInstance(artistId);
-            ((MainActivity) context).getSupportFragmentManager().beginTransaction().
-                    replace(R.id.fragment_container_fl_, songListFragment).addToBackStack(null).commit();
+            FragmentTransaction transaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container_fl_, songListFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 }

@@ -58,21 +58,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     }
 
     private Artist findArtistById(Long mArtistId) {
-        Artist  artistToReturn = null;
-        for (Artist artist:mArtists){
-            if (mArtistId.equals(artist.getMId())){
+        Artist artistToReturn = null;
+        for (Artist artist : mArtists) {
+            if (mArtistId.equals(artist.getMId())) {
                 artistToReturn = artist;
             }
         }
         return artistToReturn;
     }
 
-    public void setSongs(List<Song> songs){
+    public void setSongs(List<Song> songs) {
         mSongs = songs;
         notifyDataSetChanged();
     }
 
-    public void setArtists(List<Artist> artists){
+    public void setArtists(List<Artist> artists) {
         mArtists = artists;
         notifyDataSetChanged();
     }

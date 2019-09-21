@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArtistListFragment extends SearchViewFragment {
+public class ArtistListFragment extends SearchLaunchingFragment {
 
     private RecyclerView artistListRecyclerView;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
@@ -48,6 +48,7 @@ public class ArtistListFragment extends SearchViewFragment {
         setHasOptionsMenu(true);
     }
     */
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

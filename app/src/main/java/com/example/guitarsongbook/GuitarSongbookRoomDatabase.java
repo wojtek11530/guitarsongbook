@@ -58,8 +58,11 @@ import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     public abstract ArtistDao artistDao();
+
     public abstract SongDao songDao();
+
     public abstract ChordDao chordDao();
+
     public abstract SongChordJoinDao songChordJoinDao();
 
     private static GuitarSongbookRoomDatabase INSTANCE;
@@ -125,7 +128,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
     */
 
 
-
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final SongDao mSongDao;
@@ -186,15 +188,16 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             }
             String chordsJsonString = writer.toString();
 
-            Type chordsListType = new TypeToken<ArrayList<Chord>>() {}.getType();
+            Type chordsListType = new TypeToken<ArrayList<Chord>>() {
+            }.getType();
             Gson gson = new GsonBuilder().create();
             ArrayList<Chord> chordsArray = gson.fromJson(chordsJsonString, chordsListType);
 
-            for (Chord chord:chordsArray){
+            for (Chord chord : chordsArray) {
                 mChordDao.insert(chord);
             }
 
-            for (Chord chord:chordsArray){
+            for (Chord chord : chordsArray) {
                 Chord currentChordFromDb = mChordDao.getChordBySymbol(chord.getMSymbol());
 
                 Chord previousChord = mChordDao.getChordBySymbol(currentChordFromDb.getMPreviousChordSymbol());
@@ -228,17 +231,18 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             }
             String jsonString = writer.toString();
 
-            Type songsListType = new TypeToken<ArrayList<Song>>() {}.getType();
+            Type songsListType = new TypeToken<ArrayList<Song>>() {
+            }.getType();
             gson = new GsonBuilder().create();
             ArrayList<Song> songsArray = gson.fromJson(jsonString, songsListType);
 
-            for (Song song:songsArray){
+            for (Song song : songsArray) {
                 Long id;
                 String artistName = song.getMArtistName();
                 Artist artist = mArtistDao.getArtistByName(artistName);
-                if (artist == null){
+                if (artist == null) {
                     id = mArtistDao.insert(new Artist(artistName));
-                }else{
+                } else {
                     id = artist.getMId();
                 }
                 song.setmArtistId(id);
@@ -246,18 +250,18 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                 long songId = mSongDao.insert(song);
 
                 int lineNumber = 0;
-                for (String chordsLine:song.getMChords()){
+                for (String chordsLine : song.getMChords()) {
                     String[] chordsInLineSymbols = chordsLine.split(" ");
 
-                    for (int numberOfChordInLine=0; numberOfChordInLine<chordsInLineSymbols.length; numberOfChordInLine++){
+                    for (int numberOfChordInLine = 0; numberOfChordInLine < chordsInLineSymbols.length; numberOfChordInLine++) {
                         Chord currentChord = mChordDao.getChordBySymbol(chordsInLineSymbols[numberOfChordInLine]);
-                        if (currentChord!=null){
+                        if (currentChord != null) {
                             mSongChordJoinDao.insert(
                                     new SongChordJoin(
-                                        songId,
-                                        currentChord.getMId(),
-                                        lineNumber,
-                                        numberOfChordInLine
+                                            songId,
+                                            currentChord.getMId(),
+                                            lineNumber,
+                                            numberOfChordInLine
                                     )
                             );
                         }

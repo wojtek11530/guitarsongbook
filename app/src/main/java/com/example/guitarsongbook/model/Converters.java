@@ -18,7 +18,8 @@ public class Converters {
 
     @TypeConverter
     public static ArrayList<String> fromString(String value) {
-        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+        Type listType = new TypeToken<ArrayList<String>>() {
+        }.getType();
         return new Gson().fromJson(value, listType);
     }
 
@@ -53,7 +54,7 @@ public class Converters {
             return POP;
         } else if (status == FOLK.getCode()) {
             return FOLK;
-        }else {
+        } else {
             throw new IllegalArgumentException("Could not recognize status");
         }
     }
