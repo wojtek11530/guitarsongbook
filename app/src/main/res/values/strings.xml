@@ -39,7 +39,7 @@
     <string name="semitones">półtonów</string>
     <string name="semitones_plural_for_2_3_4">półtony</string>
     <string name="no_results_communicate">Nie znaleziono wyników.</string>
-    <string name="screen_blanking_preference_summary">Ustaw, czy ekran podczas wyświetlania piosenki może zostać wygaszony.</string>
+    <string name="screen_blanking_preference_summary">Ustaw, czy ekran podczas wyświetlania piosenki ma być wygaszany czy nie.</string>
     <string name="screen_blanking_preference_title">Wygaszanie ekranu</string>
 
     <string name="font_size_preference_title">Wielkość czcionki</string>
