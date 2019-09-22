@@ -39,4 +39,20 @@
     <string name="semitones">półtonów</string>
     <string name="semitones_plural_for_2_3_4">półtony</string>
     <string name="no_results_communicate">Nie znaleziono wyników.</string>
+    <string name="screen_blanking_preference_summary">Ustaw, czy ekran podczas wyświetlania piosenki może zostać wygaszony.</string>
+    <string name="screen_blanking_preference_title">Wygaszanie ekranu</string>
+
+    <string name="font_size_preference_title">Wielkość czcionki</string>
+
+    <string-array name="font_size_entries">
+        <item>16</item>
+        <item>20</item>
+        <item>24</item>
+    </string-array>
+
+    <string-array name="font_size_entry_values">
+        <item>16</item>
+        <item>20</item>
+        <item>24</item>
+    </string-array>
 </resources>
