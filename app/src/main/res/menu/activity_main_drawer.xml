@@ -8,7 +8,8 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_all_songs"
-            android:title="@string/all_songs" />
+            android:title="@string/all_songs"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_favourite_songs"
             android:title="@string/favourite_songs" />

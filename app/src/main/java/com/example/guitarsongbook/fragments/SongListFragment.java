@@ -1,12 +1,9 @@
 package com.example.guitarsongbook.fragments;
 
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -14,13 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
+import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.SongListAdapter;
 import com.example.guitarsongbook.model.Artist;
@@ -29,24 +24,25 @@ import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
-import java.util.zip.Inflater;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SongListFragment extends SearchLaunchingFragment {
 
+
     private RecyclerView songListRecyclerView;
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
-    public static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
-    public static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
-    public static final String QUERY_KEY = "QUERY_KEY";
-    public static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
-    public static final String IS_FAVOURITE_SONG_LIST_KEY = "IS_FAVOURITE_SONG_LIST_KEY";
+    private static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
+    private static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
+    private static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
+    private static final String IS_FAVOURITE_SONG_LIST_KEY = "IS_FAVOURITE_SONG_LIST_KEY";
+    private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
 
-    public static SongListFragment newInstance(Kind kind, MusicGenre genre, boolean isFavouriteSongList) {
+    public static SongListFragment newInstance(Kind kind, MusicGenre genre, boolean isFavouriteSongList, int checkedMenuItemId) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         if (kind != null) {
@@ -56,14 +52,8 @@ public class SongListFragment extends SearchLaunchingFragment {
         } else if (isFavouriteSongList) {
             arguments.putBoolean(IS_FAVOURITE_SONG_LIST_KEY, isFavouriteSongList);
         }
-        fragment.setArguments(arguments);
-        return fragment;
-    }
 
-    public static SongListFragment newInstance(String query) {
-        SongListFragment fragment = new SongListFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString(QUERY_KEY, query);
+        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -95,17 +85,14 @@ public class SongListFragment extends SearchLaunchingFragment {
 
         Kind kind = null;
         MusicGenre genre = null;
-        String query = null;
         Long artistId = null;
-        Boolean isFavouriteSongList = false;
+        boolean isFavouriteSongList = false;
 
 
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
         } else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
             genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
-        } else if (getArguments().containsKey(QUERY_KEY)) {
-            query = getArguments().getString(QUERY_KEY);
         } else if (getArguments().containsKey(ARTIST_ID_KEY)) {
             artistId = getArguments().getLong(ARTIST_ID_KEY);
         } else if (getArguments().containsKey(IS_FAVOURITE_SONG_LIST_KEY)) {
@@ -121,13 +108,6 @@ public class SongListFragment extends SearchLaunchingFragment {
             });
         } else if (genre != null) {
             mGuitarSongbookViewModel.getSongByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
-                @Override
-                public void onChanged(@Nullable final List<Song> songs) {
-                    adapter.setSongs(songs);
-                }
-            });
-        } else if (query != null) {
-            mGuitarSongbookViewModel.getSongByQuery(query).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
@@ -162,6 +142,14 @@ public class SongListFragment extends SearchLaunchingFragment {
                 adapter.setArtists(artists);
             }
         });
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)){
+            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
+            mainActivity.checkItem(itemId);
+        }else {
+            mainActivity.unCheckAllItemInNavigationDrawer();
+        }
 
         return view;
     }

@@ -1,6 +1,5 @@
 package com.example.guitarsongbook;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.ArtistListFragment;
@@ -9,6 +8,7 @@ import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
 
+import android.view.Menu;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             fragmentManager.popBackStack();
-            SongListFragment songListFragment = SongListFragment.newInstance(null, null, false);
+            SongListFragment songListFragment = SongListFragment.newInstance(null, null, false, navigationView.getCheckedItem().getItemId());
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                     .commit();
@@ -123,21 +123,21 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
             if (id == R.id.nav_all_songs) {
-                fragment = SongListFragment.newInstance(null, null, false);
+                fragment = SongListFragment.newInstance(null, null, false, id);
             } else if (id == R.id.nav_favourite_songs) {
-                fragment = SongListFragment.newInstance(null, null, true);
+                fragment = SongListFragment.newInstance(null, null, true, id);
             } else if (id == R.id.nav_artists) {
-                fragment = ArtistListFragment.newInstance();
+                fragment = ArtistListFragment.newInstance(id);
             } else if (id == R.id.nav_polish_songs) {
-                fragment = SongListFragment.newInstance(Kind.POLISH, null, false);
+                fragment = SongListFragment.newInstance(Kind.POLISH, null, false, id);
             } else if (id == R.id.nav_foreign) {
-                fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false);
+                fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false, id);
             } else if (id == R.id.nav_rock) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false);
+                fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false, id);
             } else if (id == R.id.nav_pop) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.POP, false);
+                fragment = SongListFragment.newInstance(null, MusicGenre.POP, false, id);
             } else if (id == R.id.nav_folk) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false);
+                fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false, id);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (fragment != null) {
@@ -148,5 +148,26 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void checkItem(int itemId){
+        navigationView.getMenu().findItem(itemId).setChecked(true);
+    }
+
+    public void unCheckAllItemInNavigationDrawer(){
+        unCheckAllMenuItems(navigationView.getMenu());
+    }
+
+    private void unCheckAllMenuItems(Menu menu){
+        int size = menu.size();
+        for (int i = 0; i < size; i++) {
+            MenuItem item = menu.getItem(i);
+            if(item.hasSubMenu()) {
+                // Un check sub menu items
+                unCheckAllMenuItems(item.getSubMenu());
+            } else {
+                item.setChecked(false);
+            }
+        }
     }
 }

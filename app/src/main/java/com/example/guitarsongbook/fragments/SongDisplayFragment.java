@@ -27,6 +27,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
+import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.SongDisplayAdapter;
 import com.example.guitarsongbook.daos.SongChordJoinDao;
@@ -39,12 +40,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SongDisplayFragment extends Fragment {
-
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
@@ -198,6 +199,8 @@ public class SongDisplayFragment extends Fragment {
                     }
                 });
             }
+
+            ((MainActivity) Objects.requireNonNull(getActivity())).unCheckAllItemInNavigationDrawer();
         }
 
         initToolBarFeatures(savedInstanceState);
