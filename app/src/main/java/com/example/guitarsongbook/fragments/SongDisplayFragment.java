@@ -1,6 +1,8 @@
 package com.example.guitarsongbook.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -163,7 +167,7 @@ public class SongDisplayFragment extends Fragment {
                         mSongDisplayAdapter.setSong(song);
 
                         mFavourite = mSongToDisplay.getMIsFavourite();
-                        adjustAddToFavouriteMenuITem();
+                        adjustAddToFavouriteMenuItem();
                     }
                 });
 
@@ -197,11 +201,19 @@ public class SongDisplayFragment extends Fragment {
         }
 
         initToolBarFeatures(savedInstanceState);
+
+        Context context = getContext();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean blankingScreenOn = sharedPref.getBoolean(
+                context.getResources().getString(R.string.switch_screen_blanking_pref_key),
+                true);
+        mSongLyricsRecyclerView.setKeepScreenOn(!blankingScreenOn);
+
         return view;
     }
 
 
-    private void adjustAddToFavouriteMenuITem() {
+    private void adjustAddToFavouriteMenuItem() {
         if (mFavourite) {
             mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.added_to_favourite));
         } else {
@@ -233,7 +245,7 @@ public class SongDisplayFragment extends Fragment {
                     case R.id.add_to_favourites:
                         mSongToDisplay.switchIsFavourite();
                         mGuitarSongbookViewModel.update(mSongToDisplay);
-                        adjustAddToFavouriteMenuITem();
+                        adjustAddToFavouriteMenuItem();
                         return mFavourite;
                 }
                 return false;
@@ -450,7 +462,7 @@ public class SongDisplayFragment extends Fragment {
 
     private void initToolBarFeatures(Bundle savedInstanceState) {
 
-        adjustAddToFavouriteMenuITem();
+        adjustAddToFavouriteMenuItem();
         adjustTransposeBar();
 
         if (savedInstanceState != null) {

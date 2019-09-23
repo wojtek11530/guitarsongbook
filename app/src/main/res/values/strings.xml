@@ -6,7 +6,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-
     <string name="polish">Polskie</string>
     <string name="foreign">Zagraniczne</string>
     <string name="title_placeholder"></string>
@@ -27,8 +26,6 @@
     <string name="chord_pic_descrpition">Chord</string>
     <string name="chord">Akord</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transpose">Transponuj</string>
     <string name="autoscrolling">Autoprzewijanie</string>
     <string name="add_to_favourite">Dodaj do ulubionych</string>
@@ -39,20 +36,29 @@
     <string name="semitones">półtonów</string>
     <string name="semitones_plural_for_2_3_4">półtony</string>
     <string name="no_results_communicate">Nie znaleziono wyników.</string>
-    <string name="screen_blanking_preference_summary">Ustaw, czy ekran podczas wyświetlania piosenki ma być wygaszany czy nie.</string>
+    <string name="screen_blanking_preference_summary">Wygaszaj ekran podczas wyświetlania piosenki.</string>
     <string name="screen_blanking_preference_title">Wygaszanie ekranu</string>
 
-    <string name="font_size_preference_title">Wielkość czcionki</string>
+    <string name="chord_text_size_preference_title">Wielkość akordów</string>
+    <string name="switch_screen_blanking_pref_key">switch_screen_blanking</string>
+    <string name="chord_text_size_pref_key">chord_text_size</string>
+    <string name="lyrics_text_size_key">lyric_text_size</string>
+    <string name="lyrics_text_size_preference_title">Wielkość tekstu piosenki</string>
+    <string name="lyrics_and_chords_default_text_size">20</string>
 
     <string-array name="font_size_entries">
         <item>16</item>
+        <item>18</item>
         <item>20</item>
+        <item>22</item>
         <item>24</item>
     </string-array>
 
     <string-array name="font_size_entry_values">
         <item>16</item>
+        <item>18</item>
         <item>20</item>
+        <item>22</item>
         <item>24</item>
     </string-array>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.MainActivity;
@@ -25,9 +27,20 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
 
     private ArrayList<Chord> mChordsInLine;
 
+    int mFontSize = 20;
+
     public ChordsLineAdapter(Context context) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
+
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String fontSizePreferenceValue = sharedPref.getString(
+                context.getResources().getString(R.string.chord_text_size_pref_key),
+                context.getResources().getString(R.string.lyrics_and_chords_default_text_size));
+        assert fontSizePreferenceValue != null;
+        mFontSize = Integer.valueOf(fontSizePreferenceValue);
+
     }
 
     @NonNull
@@ -69,6 +82,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         public ChordsLineHolder(@NonNull View itemView) {
             super(itemView);
             mChordInLineTextView = itemView.findViewById(R.id.chord_in_line_txt_);
+            mChordInLineTextView.setTextSize(mFontSize);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

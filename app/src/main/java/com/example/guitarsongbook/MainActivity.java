@@ -26,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity
                 onBackPressed();
             }
         });
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
     }
 
     @Override
@@ -109,13 +113,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment = null;
+
         if (id == R.id.nav_setting) {
-
+            fragment = new SettingsFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, new SettingsFragment()).commit();
-
+            fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).addToBackStack(null).commit();
         } else {
-            Fragment fragment = null;
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
             if (id == R.id.nav_all_songs) {
