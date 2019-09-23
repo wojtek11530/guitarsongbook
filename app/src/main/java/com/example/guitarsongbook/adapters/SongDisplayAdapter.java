@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -9,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.daos.SongChordJoinDao;
@@ -26,6 +26,7 @@ import java.util.List;
 
 public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.SongViewHolder> {
 
+    private final int mFontSize;
     private Context context;
     private final LayoutInflater mInflater;
 
@@ -123,6 +124,13 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
     public SongDisplayAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String fontSizePreferenceValue = sharedPref.getString(
+                context.getResources().getString(R.string.lyrics_text_size_key),
+                context.getResources().getString(R.string.lyrics_and_chords_default_text_size));
+        assert fontSizePreferenceValue != null;
+        mFontSize = Integer.valueOf(fontSizePreferenceValue);
     }
 
     public void setSong(Song song) {
@@ -263,6 +271,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             mLyricsLineTextView = itemView.findViewById(R.id.song_lyric_line_txt_);
             mChordsLineRecyclerView = itemView.findViewById(R.id.song_chord_line_txt_);
 
+            mLyricsLineTextView.setTextSize(mFontSize);
+
             mChordsLineAdapter = new ChordsLineAdapter(context);
             mChordsLineRecyclerView.setAdapter(mChordsLineAdapter);
             //mChordsLineRecyclerView.setNestedScrollingEnabled(false);
@@ -277,25 +287,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
             final ArrayList<Chord> chordsInLine = typeLineOfLyricsItem.getChordsInLine();
 
-            //int columnsNumber = mChordsLineAdapter.getCharAmountOfAllChords() == 0 ? 1 : mChordsLineAdapter.getCharAmountOfAllChords();
-            //int columnsNumber = chordsInLine.size() > 0 ? chordsInLine.size() : 1;
-            //GridLayoutManager layoutManager = new GridLayoutManager(context, columnsNumber);
-
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
-
-            //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(columnsNumber, StaggeredGridLayoutManager.VERTICAL);
-            //layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-
-            /*gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    return  chordsInLine.get(position).getMSymbol().length();
-                }
-            });
-            */
-            //mChordsLineRecyclerView.setHasFixedSize(true);
             mChordsLineRecyclerView.setLayoutManager(layoutManager);
-            //mChordsLineRecyclerView.setHasFixedSize(true);
             mChordsLineAdapter.setChordsInLine(chordsInLine);
 
         }

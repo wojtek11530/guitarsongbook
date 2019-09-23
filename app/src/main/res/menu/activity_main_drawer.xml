@@ -8,7 +8,8 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_all_songs"
-            android:title="@string/all_songs" />
+            android:title="@string/all_songs"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_favourite_songs"
             android:title="@string/favourite_songs" />
@@ -44,7 +45,7 @@
 
     <group
         android:id="@+id/menu_bottom"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_setting"
             android:title="@string/settings" />

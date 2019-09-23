@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
+import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.ArtistListAdapter;
 import com.example.guitarsongbook.adapters.SongListAdapter;
@@ -74,6 +75,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
+
         configureSearching(menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -135,6 +137,9 @@ public class SearchFragment extends Fragment {
                 adjustResultsViewsVisibility();
             }
         });
+
+        ((MainActivity) Objects.requireNonNull(getActivity())).unCheckAllItemInNavigationDrawer();
+
         return view;
     }
 

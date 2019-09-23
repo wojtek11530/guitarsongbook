@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
+import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.ArtistListAdapter;
 import com.example.guitarsongbook.adapters.SongListAdapter;
@@ -32,8 +33,13 @@ public class ArtistListFragment extends SearchLaunchingFragment {
     private RecyclerView artistListRecyclerView;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
-    public static ArtistListFragment newInstance() {
+    private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
+
+    public static ArtistListFragment newInstance(int checkedMenuItemId) {
         ArtistListFragment fragment = new ArtistListFragment();
+        Bundle arguments = new Bundle();
+        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
+        fragment.setArguments(arguments);
         return fragment;
     }
 
@@ -68,6 +74,13 @@ public class ArtistListFragment extends SearchLaunchingFragment {
                 adapter.setArtists(artists);
             }
         });
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)){
+            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
+            mainActivity.checkItem(itemId);
+        }
+
         return view;
     }
 

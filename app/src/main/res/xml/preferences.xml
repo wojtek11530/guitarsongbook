@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:defaultValue="@string/lyrics_and_chords_default_text_size"
+        android:entries="@array/font_size_entries"
+        android:entryValues="@array/font_size_entry_values"
+        android:key="@string/lyrics_text_size_key"
+        android:title="@string/lyrics_text_size_preference_title"
+        app:useSimpleSummaryProvider="true"
+        app:iconSpaceReserved="false" />
+
+    <ListPreference
+        android:defaultValue="@string/lyrics_and_chords_default_text_size"
+        android:entries="@array/font_size_entries"
+        android:entryValues="@array/font_size_entry_values"
+        android:key="@string/chord_text_size_pref_key"
+        android:title="@string/chord_text_size_preference_title"
+        app:useSimpleSummaryProvider="true"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/switch_screen_blanking_pref_key"
+        android:summary="@string/screen_blanking_preference_summary"
+        android:title="@string/screen_blanking_preference_title"
+        app:iconSpaceReserved="false" />
+</PreferenceScreen>
