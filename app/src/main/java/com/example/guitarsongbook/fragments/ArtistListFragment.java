@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +17,8 @@ import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.ArtistListAdapter;
-import com.example.guitarsongbook.adapters.SongListAdapter;
 import com.example.guitarsongbook.model.Artist;
-import com.example.guitarsongbook.model.Kind;
-import com.example.guitarsongbook.model.MusicGenre;
+import com.l4digital.fastscroll.FastScrollRecyclerView;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ import java.util.List;
  */
 public class ArtistListFragment extends SearchLaunchingFragment {
 
-    private RecyclerView artistListRecyclerView;
+    private FastScrollRecyclerView artistListRecyclerView;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
     private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";

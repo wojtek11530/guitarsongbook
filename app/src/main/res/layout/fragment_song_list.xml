@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.SongListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:clipToPadding="false"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+    <com.l4digital.fastscroll.FastScrollRecyclerView
         android:id="@+id/song_list_rv_"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:bubbleColor="@color/colorPrimary"
+        app:bubbleTextColor="#ffffff"
+        app:handleColor="#999999"
+        app:bubbleSize="small" />
 
 
 </FrameLayout>

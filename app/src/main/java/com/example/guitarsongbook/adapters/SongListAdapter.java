@@ -17,10 +17,10 @@ import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.fragments.SongDisplayFragment;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Song;
-
+import com.l4digital.fastscroll.FastScroller;
 import java.util.List;
 
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder> {
+public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder> implements FastScroller.SectionIndexer {
 
     private Context context;
     private final LayoutInflater mInflater;
@@ -82,6 +82,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         if (mSongs != null)
             return mSongs.size();
         else return 0;
+    }
+
+    @Override
+    public CharSequence getSectionText(int position) {
+        return mSongs.get(position).getMTitle().substring(0,1).toUpperCase();
     }
 
     public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
