@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="0dp"
-    android:layout_marginBottom="0dp"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:padding="4dp">
+    android:paddingStart="20dp"
+    android:paddingTop="4dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="4dp">
 
     <TextView
         android:id="@+id/song_title_txt_"

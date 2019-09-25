@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
+import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        disableNavigationViewScrollbars(navigationView);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -106,6 +108,16 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
+    private void disableNavigationViewScrollbars(NavigationView navigationView) {
+        if (navigationView != null) {
+            NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
+            if (navigationMenuView != null) {
+                navigationMenuView.setVerticalScrollBarEnabled(false);
+            }
+        }
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

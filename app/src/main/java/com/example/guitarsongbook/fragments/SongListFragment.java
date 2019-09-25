@@ -24,7 +24,6 @@ import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,6 +81,7 @@ public class SongListFragment extends SearchLaunchingFragment {
         final SongListAdapter adapter = new SongListAdapter(getContext());
         songListRecyclerView.setAdapter(adapter);
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         Kind kind = null;
         MusicGenre genre = null;
