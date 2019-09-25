@@ -21,7 +21,6 @@
         android:id="@+id/artist_txt_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         tools:text="placeholder text" />
 </LinearLayout>
