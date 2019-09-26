@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import static com.example.guitarsongbook.model.Kind.FOREIGN;
 import static com.example.guitarsongbook.model.Kind.POLISH;
+import static com.example.guitarsongbook.model.MusicGenre.DISCO_POLO;
 import static com.example.guitarsongbook.model.MusicGenre.FOLK;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
@@ -54,7 +55,9 @@ public class Converters {
             return POP;
         } else if (status == FOLK.getCode()) {
             return FOLK;
-        } else {
+        } else if (status == DISCO_POLO.getCode()) {
+            return DISCO_POLO;
+        }else {
             throw new IllegalArgumentException("Could not recognize status");
         }
     }

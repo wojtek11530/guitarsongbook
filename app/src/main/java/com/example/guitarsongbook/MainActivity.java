@@ -118,8 +118,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
@@ -150,6 +148,8 @@ public class MainActivity extends AppCompatActivity
                 fragment = SongListFragment.newInstance(null, MusicGenre.POP, false, id);
             } else if (id == R.id.nav_folk) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false, id);
+            } else if (id == R.id.nav_disco_polo) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.DISCO_POLO, false, id);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (fragment != null) {
