@@ -122,6 +122,7 @@
     "mNextChordSymbol": "Cm"
   },
 
+
   {
     "mPreviousChordSymbol": "H7",
     "mSymbol": "C7",
@@ -183,6 +184,7 @@
     "mNextChordSymbol": "C7"
   },
 
+
   {
     "mPreviousChordSymbol": "Hm7",
     "mSymbol": "Cm7",
@@ -242,5 +244,67 @@
     "mPreviousChordSymbol": "Bm7",
     "mSymbol": "Hm7",
     "mNextChordSymbol": "Cm7"
+  },
+
+
+  {
+    "mPreviousChordSymbol": "Hadd9",
+    "mSymbol": "Cadd9",
+    "mNextChordSymbol": "Cisadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Cadd9",
+    "mSymbol": "Cisadd9",
+    "mNextChordSymbol": "Dadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Cisadd9",
+    "mSymbol": "Dadd9",
+    "mNextChordSymbol": "Disadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Dadd9",
+    "mSymbol": "Disadd9",
+    "mNextChordSymbol": "Eadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Disadd9",
+    "mSymbol": "Eadd9",
+    "mNextChordSymbol": "Fadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Eadd9",
+    "mSymbol": "Fadd9",
+    "mNextChordSymbol": "Fisadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Fadd9",
+    "mSymbol": "Fisadd9",
+    "mNextChordSymbol": "Gadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Fisadd9",
+    "mSymbol": "Gadd9",
+    "mNextChordSymbol": "Gisadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Gadd9",
+    "mSymbol": "Gisadd9",
+    "mNextChordSymbol": "Aadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Gisadd9",
+    "mSymbol": "Aadd9",
+    "mNextChordSymbol": "Badd9"
+  },
+  {
+    "mPreviousChordSymbol": "Aadd9",
+    "mSymbol": "Badd9",
+    "mNextChordSymbol": "Hadd9"
+  },
+  {
+    "mPreviousChordSymbol": "Badd9",
+    "mSymbol": "Hadd9",
+    "mNextChordSymbol": "Cadd9"
   }
 ]
