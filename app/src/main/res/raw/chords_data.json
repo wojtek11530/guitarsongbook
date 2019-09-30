@@ -306,5 +306,129 @@
     "mPreviousChordSymbol": "Badd9",
     "mSymbol": "Hadd9",
     "mNextChordSymbol": "Cadd9"
+  },
+
+
+  {
+    "mPreviousChordSymbol": "Hsus2",
+    "mSymbol": "Csus2",
+    "mNextChordSymbol": "Cissus2"
+  },
+  {
+    "mPreviousChordSymbol": "Csus2",
+    "mSymbol": "Cissus2",
+    "mNextChordSymbol": "Dsus2"
+  },
+  {
+    "mPreviousChordSymbol": "Cissus2",
+    "mSymbol": "Dsus2",
+    "mNextChordSymbol": "Dissus2"
+  },
+  {
+    "mPreviousChordSymbol": "Dsus2",
+    "mSymbol": "Dissus2",
+    "mNextChordSymbol": "Esus2"
+  },
+  {
+    "mPreviousChordSymbol": "Dissus2",
+    "mSymbol": "Esus2",
+    "mNextChordSymbol": "Fsus2"
+  },
+  {
+    "mPreviousChordSymbol": "Esus2",
+    "mSymbol": "Fsus2",
+    "mNextChordSymbol": "Fissus2"
+  },
+  {
+    "mPreviousChordSymbol": "Fsus2",
+    "mSymbol": "Fissus2",
+    "mNextChordSymbol": "Gsus2"
+  },
+  {
+    "mPreviousChordSymbol": "Fissus2",
+    "mSymbol": "Gsus2",
+    "mNextChordSymbol": "Gissus2"
+  },
+  {
+    "mPreviousChordSymbol": "Gsus2",
+    "mSymbol": "Gissus2",
+    "mNextChordSymbol": "Asus2"
+  },
+  {
+    "mPreviousChordSymbol": "Gissus2",
+    "mSymbol": "Asus2",
+    "mNextChordSymbol": "Bsus2"
+  },
+  {
+    "mPreviousChordSymbol": "Asus2",
+    "mSymbol": "Bsus2",
+    "mNextChordSymbol": "Hsus2"
+  },
+  {
+    "mPreviousChordSymbol": "Bsus2",
+    "mSymbol": "Hsus2",
+    "mNextChordSymbol": "Csus2"
+  },
+
+
+  {
+    "mPreviousChordSymbol": "Hsus4",
+    "mSymbol": "Csus4",
+    "mNextChordSymbol": "Cissus4"
+  },
+  {
+    "mPreviousChordSymbol": "Csus4",
+    "mSymbol": "Cissus4",
+    "mNextChordSymbol": "Dsus4"
+  },
+  {
+    "mPreviousChordSymbol": "Cissus4",
+    "mSymbol": "Dsus4",
+    "mNextChordSymbol": "Dissus4"
+  },
+  {
+    "mPreviousChordSymbol": "Dsus4",
+    "mSymbol": "Dissus4",
+    "mNextChordSymbol": "Esus4"
+  },
+  {
+    "mPreviousChordSymbol": "Dissus4",
+    "mSymbol": "Esus4",
+    "mNextChordSymbol": "Fsus4"
+  },
+  {
+    "mPreviousChordSymbol": "Esus4",
+    "mSymbol": "Fsus4",
+    "mNextChordSymbol": "Fissus4"
+  },
+  {
+    "mPreviousChordSymbol": "Fsus4",
+    "mSymbol": "Fissus4",
+    "mNextChordSymbol": "Gsus4"
+  },
+  {
+    "mPreviousChordSymbol": "Fissus4",
+    "mSymbol": "Gsus4",
+    "mNextChordSymbol": "Gissus4"
+  },
+  {
+    "mPreviousChordSymbol": "Gsus4",
+    "mSymbol": "Gissus4",
+    "mNextChordSymbol": "Asus4"
+  },
+  {
+    "mPreviousChordSymbol": "Gissus4",
+    "mSymbol": "Asus4",
+    "mNextChordSymbol": "Bsus4"
+  },
+  {
+    "mPreviousChordSymbol": "Asus4",
+    "mSymbol": "Bsus4",
+    "mNextChordSymbol": "Hsus4"
+  },
+  {
+    "mPreviousChordSymbol": "Bsus4",
+    "mSymbol": "Hsus4",
+    "mNextChordSymbol": "Csus4"
   }
 ]
