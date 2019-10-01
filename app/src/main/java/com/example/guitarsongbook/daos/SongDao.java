@@ -25,7 +25,7 @@ public interface SongDao {
     @Query("DELETE FROM song_table")
     void deleteAll();
 
-    @Query("SELECT * from song_table ORDER BY title ASC")
+    @Query("SELECT * from song_table ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getAllSongs();
 
     @Query("SELECT * FROM song_table WHERE song_id = :id LIMIT 1")
