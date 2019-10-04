@@ -430,5 +430,66 @@
     "mPreviousChordSymbol": "Bsus4",
     "mSymbol": "Hsus4",
     "mNextChordSymbol": "Csus4"
+  },
+
+  {
+    "mPreviousChordSymbol": "H2",
+    "mSymbol": "C2",
+    "mNextChordSymbol": "Cis2"
+  },
+  {
+    "mPreviousChordSymbol": "C2",
+    "mSymbol": "Cis2",
+    "mNextChordSymbol": "D2"
+  },
+  {
+    "mPreviousChordSymbol": "Cis2",
+    "mSymbol": "D2",
+    "mNextChordSymbol": "Dis2"
+  },
+  {
+    "mPreviousChordSymbol": "D2",
+    "mSymbol": "Dis2",
+    "mNextChordSymbol": "E2"
+  },
+  {
+    "mPreviousChordSymbol": "Dis2",
+    "mSymbol": "E2",
+    "mNextChordSymbol": "F2"
+  },
+  {
+    "mPreviousChordSymbol": "E2",
+    "mSymbol": "F2",
+    "mNextChordSymbol": "Fis2"
+  },
+  {
+    "mPreviousChordSymbol": "F2",
+    "mSymbol": "Fis2",
+    "mNextChordSymbol": "G2"
+  },
+  {
+    "mPreviousChordSymbol": "Fis2",
+    "mSymbol": "G2",
+    "mNextChordSymbol": "Gis2"
+  },
+  {
+    "mPreviousChordSymbol": "G2",
+    "mSymbol": "Gis2",
+    "mNextChordSymbol": "A2"
+  },
+  {
+    "mPreviousChordSymbol": "Gis2",
+    "mSymbol": "A2",
+    "mNextChordSymbol": "B2"
+  },
+  {
+    "mPreviousChordSymbol": "A2",
+    "mSymbol": "B2",
+    "mNextChordSymbol": "H2"
+  },
+  {
+    "mPreviousChordSymbol": "B2",
+    "mSymbol": "H2",
+    "mNextChordSymbol": "C2"
   }
 ]

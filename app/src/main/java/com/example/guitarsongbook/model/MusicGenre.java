@@ -4,7 +4,9 @@ public enum MusicGenre {
     ROCK(0),
     POP(1),
     FOLK(2),
-    DISCO_POLO(3);
+    DISCO_POLO(3),
+    COUNTRY(4),
+    REGGEA(5);
 
     private int code;
 

@@ -26,4 +26,5 @@
         android:summary="@string/screen_blanking_preference_summary"
         android:title="@string/screen_blanking_preference_title"
         app:iconSpaceReserved="false" />
+
 </PreferenceScreen>

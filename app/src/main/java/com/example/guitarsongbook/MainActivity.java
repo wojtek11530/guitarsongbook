@@ -150,6 +150,10 @@ public class MainActivity extends AppCompatActivity
                 fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false, id);
             } else if (id == R.id.nav_disco_polo) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.DISCO_POLO, false, id);
+            }else if (id == R.id.nav_country) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.COUNTRY, false, id);
+            }else if (id == R.id.nav_reggea) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.REGGEA, false, id);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (fragment != null) {
