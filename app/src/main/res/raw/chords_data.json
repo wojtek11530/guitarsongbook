@@ -491,5 +491,68 @@
     "mPreviousChordSymbol": "B2",
     "mSymbol": "H2",
     "mNextChordSymbol": "C2"
+  },
+
+  {
+    "mPreviousChordSymbol": "H5",
+    "mSymbol": "C5",
+    "mNextChordSymbol": "Cis5"
+  },
+  {
+    "mPreviousChordSymbol": "C5",
+    "mSymbol": "Cis5",
+    "mNextChordSymbol": "D5"
+  },
+  {
+    "mPreviousChordSymbol": "Cis5",
+    "mSymbol": "D5",
+    "mNextChordSymbol": "Dis5"
+  },
+  {
+    "mPreviousChordSymbol": "D5",
+    "mSymbol": "Dis5",
+    "mNextChordSymbol": "E5"
+  },
+  {
+    "mPreviousChordSymbol": "Dis5",
+    "mSymbol": "E5",
+    "mNextChordSymbol": "F5"
+  },
+  {
+    "mPreviousChordSymbol": "E5",
+    "mSymbol": "F5",
+    "mNextChordSymbol": "Fis5"
+  },
+  {
+    "mPreviousChordSymbol": "F5",
+    "mSymbol": "Fis5",
+    "mNextChordSymbol": "G5"
+  },
+  {
+    "mPreviousChordSymbol": "Fis5",
+    "mSymbol": "G5",
+    "mNextChordSymbol": "Gis5"
+  },
+  {
+    "mPreviousChordSymbol": "G5",
+    "mSymbol": "Gis5",
+    "mNextChordSymbol": "A5"
+  },
+  {
+    "mPreviousChordSymbol": "Gis5",
+    "mSymbol": "A5",
+    "mNextChordSymbol": "B5"
+  },
+  {
+    "mPreviousChordSymbol": "A5",
+    "mSymbol": "B5",
+    "mNextChordSymbol": "H5"
+  },
+  {
+    "mPreviousChordSymbol": "B5",
+    "mSymbol": "H5",
+    "mNextChordSymbol": "C5"
   }
+
+
 ]
