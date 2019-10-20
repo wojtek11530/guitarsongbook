@@ -552,7 +552,67 @@
     "mPreviousChordSymbol": "B5",
     "mSymbol": "H5",
     "mNextChordSymbol": "C5"
+  },
+
+
+  {
+    "mPreviousChordSymbol": "H/Fis",
+    "mSymbol": "C/G",
+    "mNextChordSymbol": "Cis/Gis"
+  },
+  {
+    "mPreviousChordSymbol": "C/G",
+    "mSymbol": "Cis/Gis",
+    "mNextChordSymbol": "D/A"
+  },
+  {
+    "mPreviousChordSymbol": "Cis/Gis",
+    "mSymbol": "D/A",
+    "mNextChordSymbol": "Dis/B"
+  },
+  {
+    "mPreviousChordSymbol": "D/A",
+    "mSymbol": "Dis/B",
+    "mNextChordSymbol": "E/H"
+  },
+  {
+    "mPreviousChordSymbol": "Dis/B",
+    "mSymbol": "E/H",
+    "mNextChordSymbol": "F/C"
+  },
+  {
+    "mPreviousChordSymbol": "E/H",
+    "mSymbol": "F/C",
+    "mNextChordSymbol": "Fis/Cis"
+  },
+  {
+    "mPreviousChordSymbol": "F/C",
+    "mSymbol": "Fis/Cis",
+    "mNextChordSymbol": "G/D"
+  },
+  {
+    "mPreviousChordSymbol": "Fis/Cis",
+    "mSymbol": "G/D",
+    "mNextChordSymbol": "Gis/Dis"
+  },
+  {
+    "mPreviousChordSymbol": "G/D",
+    "mSymbol": "Gis/Dis",
+    "mNextChordSymbol": "A/E"
+  },
+  {
+    "mPreviousChordSymbol": "Gis/Dis",
+    "mSymbol": "A/E",
+    "mNextChordSymbol": "B/F"
+  },
+  {
+    "mPreviousChordSymbol": "A/E",
+    "mSymbol": "B/F",
+    "mNextChordSymbol": "H/Fis"
+  },
+  {
+    "mPreviousChordSymbol": "B/F",
+    "mSymbol": "H/Fis",
+    "mNextChordSymbol": "C/G"
   }
-
-
 ]
