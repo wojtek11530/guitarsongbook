@@ -614,5 +614,71 @@
     "mPreviousChordSymbol": "B/F",
     "mSymbol": "H/Fis",
     "mNextChordSymbol": "C/G"
+  },
+
+
+
+  {
+    "mPreviousChordSymbol": "Hmaj7",
+    "mSymbol": "Cmaj7",
+    "mNextChordSymbol": "Cismaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Cmaj7",
+    "mSymbol": "Cismaj7",
+    "mNextChordSymbol": "Dmaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Cismaj7",
+    "mSymbol": "Dmaj7",
+    "mNextChordSymbol": "Dismaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Dmaj7",
+    "mSymbol": "Dismaj7",
+    "mNextChordSymbol": "Emaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Dismaj7",
+    "mSymbol": "Emaj7",
+    "mNextChordSymbol": "Fmaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Emaj7",
+    "mSymbol": "Fmaj7",
+    "mNextChordSymbol": "Fismaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Fmaj7",
+    "mSymbol": "Fismaj7",
+    "mNextChordSymbol": "Gmaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Fismaj7",
+    "mSymbol": "Gmaj7",
+    "mNextChordSymbol": "Gismaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Gmaj7",
+    "mSymbol": "Gismaj7",
+    "mNextChordSymbol": "Amaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Gismaj7",
+    "mSymbol": "Amaj7",
+    "mNextChordSymbol": "Bmaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Amaj7",
+    "mSymbol": "Bmaj7",
+    "mNextChordSymbol": "Hmaj7"
+  },
+  {
+    "mPreviousChordSymbol": "Bmaj7",
+    "mSymbol": "Hmaj7",
+    "mNextChordSymbol": "Cmaj7"
   }
+
+
+
 ]
