@@ -1,5 +1,85 @@
 [
   {
+    "mTitle": "Biały miś",
+    "mKind": "POLISH",
+    "mMusicGenre": "FESTIVE",
+    "mLyrics": [
+      "\u003cb\u003eRefren\u003c/b\u003e",
+      "Hej dziewczyno, spójrz na misia,",
+      "On przypomni przypomni chłopca ci",
+      "Nieszczęśliwego białego misia,",
+      "Który w oczach ma tylko szare łzy.",
+      "\u003cb\u003eZwrotka 1\u003c/b\u003e",
+      "Biały miś dla dziewczyny,",
+      "Którą kocham i będę kochał wciąż,",
+      "Lecz dziewczyna jest już z innym",
+      "A ja kocham i będę kochał wciąż,",
+      "\u003cb\u003eRefren\u003c/b\u003e",
+      "Hej dziewczyno, spójrz na misia,",
+      "On przypomni przypomni chłopca ci",
+      "Nieszczęśliwego białego misia,",
+      "Który w oczach ma tylko szare łzy.",
+      "\u003cb\u003eZwrotka 2\u003c/b\u003e",
+      "Płynie czas jak ta rzeka,",
+      "i nie wrócą, nie wrócą tamte dni.",
+      "W moim sercu jest dziś rana",
+      "którą zatrzeć możesz tylko ty.",
+      "\u003cb\u003eRefren\u003c/b\u003e",
+      "Hej dziewczyno, spójrz na misia,",
+      "on przypomni przypomni chłopca ci",
+      "nieszczęśliwego białego misia,",
+      "który w oczach ma tylko szare łzy",
+      "\u003cb\u003eZwrotka 3\u003c/b\u003e",
+      "Biały miś nie kochany",
+      "Porzucony już dawno w ciemny kąt",
+      "Już dziewczyna go nie weźmie",
+      "Nie przytuli do swoich ciepłych rąk",
+      "\u003cb\u003eRefren\u003c/b\u003e",
+      "Hej dziewczyno, spójrz na misia,",
+      "On przypomni przypomni chłopca ci",
+      "Nieszczęśliwego białego misia,",
+      "Który w oczach ma tylko szare łzy"
+    ],
+    "mChords": [
+      "",
+      "C Dm",
+      "F G Am E",
+      "C Dm",
+      "F G Am E",
+      "",
+      "Am Dm",
+      "F G Am E",
+      "Am Dm",
+      "F G Am E",
+      "",
+      "C Dm",
+      "F G Am E",
+      "C Dm",
+      "F G Am E",
+      "",
+      "Am Dm",
+      "F G Am E",
+      "Am Dm",
+      "F G Am E",
+      "",
+      "C Dm",
+      "F G Am E",
+      "C Dm",
+      "F G Am E",
+      "",
+      "Am Dm",
+      "F G Am E",
+      "Am Dm",
+      "F G Am E",
+      "",
+      "C Dm",
+      "F G Am E",
+      "C Dm",
+      "F G Am E"
+    ]
+  },
+
+  {
     "mTitle": "W piwnicy u dziadka",
     "mArtistName": "Happysad",
     "mKind": "POLISH",
@@ -6630,7 +6710,7 @@
     "mTitle": "Cisza",
     "mArtistName": "Kamil Bednarek",
     "mKind": "POLISH",
-    "mMusicGenre": "REGGEA",
+    "mMusicGenre": "REGGAE",
     "mLyrics": [
       "\u003cb\u003eWstęp\u003c/b\u003e",
       "Na na na na... ",
@@ -14370,10 +14450,10 @@
       "F E",
       "Am G C F E",
       "Am G C F E"
-
-
     ]
   },
+
+
 
   {
     "mTitle": "piosenka",

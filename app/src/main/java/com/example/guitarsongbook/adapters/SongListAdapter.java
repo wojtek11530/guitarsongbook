@@ -46,10 +46,13 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             Song current = mSongs.get(position);
             holder.mTitleTextView.setText(current.getMTitle());
 
-
-            Artist artist = findArtistById(current.getMArtistId());
-            if (artist != null) {
-                holder.mArtistTextView.setText(artist.getMName());
+            if (current.getMArtistId() != null) {
+                Artist artist = findArtistById(current.getMArtistId());
+                if (artist != null) {
+                    holder.mArtistTextView.setText(artist.getMName());
+                }
+            }else{
+                holder.mArtistTextView.setText("");
             }
         } else {
             // Covers the case of data not being ready yet.
@@ -109,8 +112,13 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             Song songToDisplay = mSongs.get(position);
             Long songId = songToDisplay.getMId();
             Long artistId = songToDisplay.getMArtistId();
+            SongDisplayFragment songDisplayFragment;
+            if (artistId == null){
+                songDisplayFragment = SongDisplayFragment.newInstance(songId);
+            }else{
+                songDisplayFragment = SongDisplayFragment.newInstance(songId, artistId);
+            }
 
-            SongDisplayFragment songDisplayFragment = SongDisplayFragment.newInstance(songId, artistId);
             ((MainActivity) context).getSupportFragmentManager().beginTransaction().
                     replace(R.id.fragment_container_fl_, songDisplayFragment).addToBackStack(null).commit();
         }

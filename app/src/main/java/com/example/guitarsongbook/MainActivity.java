@@ -153,7 +153,9 @@ public class MainActivity extends AppCompatActivity
             }else if (id == R.id.nav_country) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.COUNTRY, false, id);
             }else if (id == R.id.nav_reggea) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.REGGEA, false, id);
+                fragment = SongListFragment.newInstance(null, MusicGenre.REGGAE, false, id);
+            }else if (id == R.id.nav_festive) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.FESTIVE, false, id);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (fragment != null) {

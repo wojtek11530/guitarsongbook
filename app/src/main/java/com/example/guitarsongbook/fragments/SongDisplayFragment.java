@@ -116,6 +116,14 @@ public class SongDisplayFragment extends Fragment {
         return songDisplayFragment;
     }
 
+    public static SongDisplayFragment newInstance(Long songId) {
+        SongDisplayFragment songDisplayFragment = new SongDisplayFragment();
+        Bundle arguments = new Bundle();
+        arguments.putLong(SONG_ID_KEY, songId);
+        songDisplayFragment.setArguments(arguments);
+        return songDisplayFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

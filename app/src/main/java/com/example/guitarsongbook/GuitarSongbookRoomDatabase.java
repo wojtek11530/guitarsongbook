@@ -37,7 +37,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 11, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 12, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
@@ -193,7 +193,9 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
         private void completeSongData(Song song) {
             Long artistId = getSongArtistId(song);
-            song.setmArtistId(artistId);
+            if (artistId != null) {
+                song.setmArtistId(artistId);
+            }
             song.setmIsFavourite(false);
         }
 
@@ -223,13 +225,17 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         }
 
         private Long getSongArtistId(Song song) {
-            long artistId;
+            Long artistId;
             String artistName = song.getMArtistName();
-            Artist artist = mArtistDao.getArtistByName(artistName);
-            if (artist == null) {
-                artistId = mArtistDao.insert(new Artist(artistName));
-            } else {
-                artistId = artist.getMId();
+            if (artistName == null){
+                artistId = null;
+            }else {
+                Artist artist = mArtistDao.getArtistByName(artistName);
+                if (artist == null) {
+                    artistId = mArtistDao.insert(new Artist(artistName));
+                } else {
+                    artistId = artist.getMId();
+                }
             }
             return artistId;
         }

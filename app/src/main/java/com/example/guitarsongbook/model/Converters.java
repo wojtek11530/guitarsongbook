@@ -12,9 +12,10 @@ import static com.example.guitarsongbook.model.Kind.FOREIGN;
 import static com.example.guitarsongbook.model.Kind.POLISH;
 import static com.example.guitarsongbook.model.MusicGenre.COUNTRY;
 import static com.example.guitarsongbook.model.MusicGenre.DISCO_POLO;
+import static com.example.guitarsongbook.model.MusicGenre.FESTIVE;
 import static com.example.guitarsongbook.model.MusicGenre.FOLK;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
-import static com.example.guitarsongbook.model.MusicGenre.REGGEA;
+import static com.example.guitarsongbook.model.MusicGenre.REGGAE;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 
 public class Converters {
@@ -61,8 +62,10 @@ public class Converters {
             return DISCO_POLO;
         }else if (status == COUNTRY.getCode()) {
             return COUNTRY;
-        }else if (status == REGGEA.getCode()) {
-            return REGGEA;
+        }else if (status == REGGAE.getCode()) {
+            return REGGAE;
+        }else if (status == FESTIVE.getCode()) {
+            return FESTIVE;
         }else {
             throw new IllegalArgumentException("Could not recognize status");
         }

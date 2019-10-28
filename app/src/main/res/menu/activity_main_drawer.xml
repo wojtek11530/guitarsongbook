@@ -47,7 +47,10 @@
                 android:title="@string/country" />
             <item
                 android:id="@+id/nav_reggea"
-                android:title="@string/reggea" />
+                android:title="@string/reggae" />
+            <item
+                android:id="@+id/nav_festive"
+                android:title="@string/festive" />
         </group>
         </menu>
     </item>
