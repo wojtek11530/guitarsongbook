@@ -82,7 +82,6 @@ public class SongListFragment extends SearchLaunchingFragment {
         songListRecyclerView.setAdapter(adapter);
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         Kind kind = null;
         MusicGenre genre = null;
         Long artistId = null;

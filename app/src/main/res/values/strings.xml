@@ -6,15 +6,22 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="polish">Polskie</string>
-    <string name="foreign">Zagraniczne</string>
     <string name="title_placeholder"></string>
     <string name="artist_placeholder">Placeholder</string>
     <string name="no_song_label">No Song</string>
+
+    <string name="polish">Polskie</string>
+    <string name="foreign">Zagraniczne</string>
+
     <string name="music_genre">Gatunek</string>
     <string name="rock">Rock</string>
     <string name="pop">Pop</string>
     <string name="folk">Folk</string>
+    <string name="disco_polo">Disco Polo</string>
+    <string name="country">Country</string>
+    <string name="reggae">Reggae</string>
+    <string name="festive">Biesiadne</string>
+
     <string name="settings">Ustawienia</string>
     <string name="all_songs">Wszystkie piosenki</string>
     <string name="search_hint">Szukaj piosenki, artysty…</string>
@@ -45,6 +52,8 @@
     <string name="lyrics_text_size_key">lyric_text_size</string>
     <string name="lyrics_text_size_preference_title">Wielkość tekstu piosenki</string>
     <string name="lyrics_and_chords_default_text_size">20</string>
+    <string name="shanty">Szanty</string>
+
 
     <string-array name="font_size_entries">
         <item>16</item>

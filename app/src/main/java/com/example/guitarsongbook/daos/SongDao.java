@@ -25,24 +25,24 @@ public interface SongDao {
     @Query("DELETE FROM song_table")
     void deleteAll();
 
-    @Query("SELECT * from song_table ORDER BY title ASC")
+    @Query("SELECT * from song_table ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getAllSongs();
 
     @Query("SELECT * FROM song_table WHERE song_id = :id LIMIT 1")
     LiveData<Song> getSongById(Long id);
 
-    @Query("SELECT * FROM song_table WHERE kind = :kind ORDER BY title ASC")
+    @Query("SELECT * FROM song_table WHERE kind = :kind ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getSongsByKind(Kind kind);
 
-    @Query("SELECT * FROM song_table WHERE music_genre = :genre ORDER BY title ASC")
+    @Query("SELECT * FROM song_table WHERE music_genre = :genre ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getSongByMusicGenre(MusicGenre genre);
 
-    @Query("SELECT * FROM song_table WHERE title LIKE :query ORDER BY title ASC")
+    @Query("SELECT * FROM song_table WHERE title LIKE :query ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getSongByQuery(String query);
 
-    @Query("SELECT * FROM song_table WHERE artist_id = :artistId")
+    @Query("SELECT * FROM song_table WHERE artist_id = :artistId ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getSongByArtistId(Long artistId);
 
-    @Query("SELECT * FROM song_table WHERE is_favourite = 1")
+    @Query("SELECT * FROM song_table WHERE is_favourite = 1 ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getFavouriteSongs();
 }

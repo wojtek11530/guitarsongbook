@@ -76,7 +76,6 @@ public interface SongChordJoinDao {
             this.chordNumber = chordNumber;
         }
 
-
         @Override
         public int describeContents() {
             return 0;

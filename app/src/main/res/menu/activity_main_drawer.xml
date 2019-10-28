@@ -39,6 +39,21 @@
             <item
                 android:id="@+id/nav_folk"
                 android:title="@string/folk" />
+            <item
+                android:id="@+id/nav_disco_polo"
+                android:title="@string/disco_polo" />
+            <item
+                android:id="@+id/nav_country"
+                android:title="@string/country" />
+            <item
+                android:id="@+id/nav_reggea"
+                android:title="@string/reggae" />
+            <item
+                android:id="@+id/nav_festive"
+                android:title="@string/festive" />
+            <item
+                android:id="@+id/nav_shanty"
+                android:title="@string/shanty" />
         </group>
         </menu>
     </item>

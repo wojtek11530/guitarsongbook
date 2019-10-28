@@ -19,7 +19,7 @@ public interface ArtistDao {
     @Query("DELETE FROM artist_table")
     void deleteAll();
 
-    @Query("SELECT * from artist_table ORDER BY name ASC")
+    @Query("SELECT * from artist_table ORDER BY name COLLATE LOCALIZED")
     LiveData<List<Artist>> getAllArtists();
 
     @Query("SELECT * FROM artist_table WHERE id = :id LIMIT 1")
@@ -28,6 +28,6 @@ public interface ArtistDao {
     @Query("SELECT * FROM artist_table WHERE name = :name")
     Artist getArtistByName(String name);
 
-    @Query("SELECT * FROM artist_table WHERE name LIKE :query ORDER BY name ASC")
+    @Query("SELECT * FROM artist_table WHERE name LIKE :query ORDER BY name COLLATE LOCALIZED")
     LiveData<List<Artist>> getArtistsByQuery(String query);
 }

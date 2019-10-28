@@ -28,7 +28,7 @@ public class Song implements Parcelable {
     private String mTitle;
 
     @ColumnInfo(name = "artist_id")
-    private long mArtistId;
+    private Long mArtistId;
 
     @ColumnInfo(name = "kind")
     private Kind mKind;
@@ -48,7 +48,7 @@ public class Song implements Parcelable {
     @Ignore
     private String mArtistName;
 
-    public Song(long mId, String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, Boolean mIsFavourite) {
+    public Song(long mId, String mTitle, Long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, Boolean mIsFavourite) {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mArtistId = mArtistId;
@@ -58,6 +58,7 @@ public class Song implements Parcelable {
         this.mChords = mChords;
         this.mIsFavourite = mIsFavourite;
     }
+
 
     @Ignore
     public Song(String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, String mArtistName) {
@@ -86,11 +87,11 @@ public class Song implements Parcelable {
         this.mTitle = mTitle;
     }
 
-    public long getMArtistId() {
+    public Long getMArtistId() {
         return mArtistId;
     }
 
-    public void setmArtistId(long mArtistId) {
+    public void setmArtistId(Long mArtistId) {
         this.mArtistId = mArtistId;
     }
 

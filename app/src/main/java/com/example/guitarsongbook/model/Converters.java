@@ -10,9 +10,14 @@ import java.util.ArrayList;
 
 import static com.example.guitarsongbook.model.Kind.FOREIGN;
 import static com.example.guitarsongbook.model.Kind.POLISH;
+import static com.example.guitarsongbook.model.MusicGenre.COUNTRY;
+import static com.example.guitarsongbook.model.MusicGenre.DISCO_POLO;
+import static com.example.guitarsongbook.model.MusicGenre.FESTIVE;
 import static com.example.guitarsongbook.model.MusicGenre.FOLK;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
+import static com.example.guitarsongbook.model.MusicGenre.REGGAE;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
+import static com.example.guitarsongbook.model.MusicGenre.SHANTY;
 
 public class Converters {
 
@@ -54,7 +59,17 @@ public class Converters {
             return POP;
         } else if (status == FOLK.getCode()) {
             return FOLK;
-        } else {
+        } else if (status == DISCO_POLO.getCode()) {
+            return DISCO_POLO;
+        }else if (status == COUNTRY.getCode()) {
+            return COUNTRY;
+        }else if (status == REGGAE.getCode()) {
+            return REGGAE;
+        }else if (status == FESTIVE.getCode()) {
+            return FESTIVE;
+        }else if (status == SHANTY.getCode()) {
+            return SHANTY;
+        }else {
             throw new IllegalArgumentException("Could not recognize status");
         }
     }

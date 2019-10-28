@@ -69,8 +69,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
     public class TypeArtistName implements ListItem {
         private String artistName;
 
-        public TypeArtistName(String songName) {
-            this.artistName = songName;
+        public TypeArtistName(String artistName) {
+            this.artistName = artistName;
         }
 
         public String getArtistName() {
@@ -149,14 +149,16 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
     }
 
     private void setRecyclerViewItemsByFields() {
-        if (mSpecificChords != null && mSong != null && mArtist != null) {
+        if (mSpecificChords != null && mSong != null) {
 
             mItems = new ArrayList<>();
             mItems.add(new TypeSongTitle(mSong.getMTitle()));
-            mItems.add(new TypeArtistName(mArtist.getMName()));
+
+            if (mArtist != null) {
+                mItems.add(new TypeArtistName(mArtist.getMName()));
+            }
 
             ArrayList<String> lyrics = mSong.getMLyrics();
-            //mChords = new ArrayList<ArrayList<Chord>>();
             ArrayList<TypeLineOfLyrics> typeLineOfLyricsArrayList = new ArrayList<>();
 
             for (int i = 0; i < lyrics.size(); i++) {
@@ -275,7 +277,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
             mChordsLineAdapter = new ChordsLineAdapter(context);
             mChordsLineRecyclerView.setAdapter(mChordsLineAdapter);
-            //mChordsLineRecyclerView.setNestedScrollingEnabled(false);
             mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
         }
 
