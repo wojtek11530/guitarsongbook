@@ -17,6 +17,7 @@ import static com.example.guitarsongbook.model.MusicGenre.FOLK;
 import static com.example.guitarsongbook.model.MusicGenre.POP;
 import static com.example.guitarsongbook.model.MusicGenre.REGGAE;
 import static com.example.guitarsongbook.model.MusicGenre.ROCK;
+import static com.example.guitarsongbook.model.MusicGenre.SHANTY;
 
 public class Converters {
 
@@ -66,6 +67,8 @@ public class Converters {
             return REGGAE;
         }else if (status == FESTIVE.getCode()) {
             return FESTIVE;
+        }else if (status == SHANTY.getCode()) {
+            return SHANTY;
         }else {
             throw new IllegalArgumentException("Could not recognize status");
         }

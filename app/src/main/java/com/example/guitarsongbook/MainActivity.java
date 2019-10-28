@@ -156,6 +156,8 @@ public class MainActivity extends AppCompatActivity
                 fragment = SongListFragment.newInstance(null, MusicGenre.REGGAE, false, id);
             }else if (id == R.id.nav_festive) {
                 fragment = SongListFragment.newInstance(null, MusicGenre.FESTIVE, false, id);
+            }else if (id == R.id.nav_shanty) {
+                fragment = SongListFragment.newInstance(null, MusicGenre.SHANTY, false, id);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (fragment != null) {

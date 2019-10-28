@@ -52,6 +52,7 @@
     <string name="lyrics_text_size_key">lyric_text_size</string>
     <string name="lyrics_text_size_preference_title">Wielkość tekstu piosenki</string>
     <string name="lyrics_and_chords_default_text_size">20</string>
+    <string name="shanty">Szanty</string>
 
 
     <string-array name="font_size_entries">

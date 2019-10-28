@@ -7,7 +7,8 @@ public enum MusicGenre {
     DISCO_POLO(3),
     COUNTRY(4),
     REGGAE(5),
-    FESTIVE(6);
+    FESTIVE(6),
+    SHANTY(7);
 
 
     private int code;
