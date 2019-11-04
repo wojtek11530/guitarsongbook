@@ -51,11 +51,20 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
+    private static String databaseDir = "database/guitar_songbook_database.db";
+
     public static GuitarSongbookRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (GuitarSongbookRoomDatabase.class) {
                 if (INSTANCE == null) {
                     // Create database here
+                    INSTANCE = Room
+                            .databaseBuilder(context.getApplicationContext(),
+                            GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
+                            .createFromAsset(databaseDir)
+                            .build();
+
+                    /*
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
                             .fallbackToDestructiveMigration()
@@ -68,6 +77,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                                 }
                             })
                             .build();
+
+                     */
                 }
             }
         }

@@ -52,21 +52,6 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/transpose_up_btn_"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/autoscroll_button_size"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/transpose_up_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/transpose_down_btn_"
-            app:layout_constraintStart_toEndOf="@+id/transpose_linear_layout_with_txt_"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/transpose_down_btn_"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/autoscroll_button_size"
@@ -77,9 +62,24 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/transpose_down_button"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/transpose_up_btn_"
+            app:layout_constraintStart_toEndOf="@+id/transpose_linear_layout_with_txt_"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/transpose_up_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/autoscroll_button_size"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/transpose_up_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/close_transpose_bar_btn_"
             app:layout_constraintStart_toEndOf="@+id/transpose_linear_layout_with_txt_"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/transpose_reset_btn_"
@@ -93,7 +93,7 @@
             android:src="@drawable/ic_refresh_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/close_transpose_bar_btn_"
-            app:layout_constraintStart_toEndOf="@+id/transpose_down_btn_"
+            app:layout_constraintStart_toEndOf="@+id/transpose_up_btn_"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -174,6 +174,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/song_display_navigation_bar"/>
+        app:menu="@menu/song_display_navigation_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
