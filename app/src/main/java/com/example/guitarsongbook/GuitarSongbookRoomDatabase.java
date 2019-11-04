@@ -61,8 +61,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                             .fallbackToDestructiveMigration()
                             .addCallback(new Callback() {
                                 @Override
-                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                                    super.onOpen(db);
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
                                     new PopulateDbAsync(INSTANCE, context.getResources()).execute();
 
                                 }
