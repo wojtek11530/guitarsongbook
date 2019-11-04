@@ -20,9 +20,9 @@
     "mNextChordSymbol": "E"
   },
   {
-  "mPreviousChordSymbol": "Dis",
-  "mSymbol": "E",
-  "mNextChordSymbol": "F"
+    "mPreviousChordSymbol": "Dis",
+    "mSymbol": "E",
+    "mNextChordSymbol": "F"
   },
   {
     "mPreviousChordSymbol": "E",
@@ -309,6 +309,7 @@
   },
 
 
+
   {
     "mPreviousChordSymbol": "Hsus2",
     "mSymbol": "Csus2",
@@ -369,6 +370,8 @@
     "mSymbol": "Hsus2",
     "mNextChordSymbol": "Csus2"
   },
+
+
 
 
   {
@@ -432,66 +435,7 @@
     "mNextChordSymbol": "Csus4"
   },
 
-  {
-    "mPreviousChordSymbol": "H2",
-    "mSymbol": "C2",
-    "mNextChordSymbol": "Cis2"
-  },
-  {
-    "mPreviousChordSymbol": "C2",
-    "mSymbol": "Cis2",
-    "mNextChordSymbol": "D2"
-  },
-  {
-    "mPreviousChordSymbol": "Cis2",
-    "mSymbol": "D2",
-    "mNextChordSymbol": "Dis2"
-  },
-  {
-    "mPreviousChordSymbol": "D2",
-    "mSymbol": "Dis2",
-    "mNextChordSymbol": "E2"
-  },
-  {
-    "mPreviousChordSymbol": "Dis2",
-    "mSymbol": "E2",
-    "mNextChordSymbol": "F2"
-  },
-  {
-    "mPreviousChordSymbol": "E2",
-    "mSymbol": "F2",
-    "mNextChordSymbol": "Fis2"
-  },
-  {
-    "mPreviousChordSymbol": "F2",
-    "mSymbol": "Fis2",
-    "mNextChordSymbol": "G2"
-  },
-  {
-    "mPreviousChordSymbol": "Fis2",
-    "mSymbol": "G2",
-    "mNextChordSymbol": "Gis2"
-  },
-  {
-    "mPreviousChordSymbol": "G2",
-    "mSymbol": "Gis2",
-    "mNextChordSymbol": "A2"
-  },
-  {
-    "mPreviousChordSymbol": "Gis2",
-    "mSymbol": "A2",
-    "mNextChordSymbol": "B2"
-  },
-  {
-    "mPreviousChordSymbol": "A2",
-    "mSymbol": "B2",
-    "mNextChordSymbol": "H2"
-  },
-  {
-    "mPreviousChordSymbol": "B2",
-    "mSymbol": "H2",
-    "mNextChordSymbol": "C2"
-  },
+
 
   {
     "mPreviousChordSymbol": "H5",
@@ -555,66 +499,6 @@
   },
 
 
-  {
-    "mPreviousChordSymbol": "H/Fis",
-    "mSymbol": "C/G",
-    "mNextChordSymbol": "Cis/Gis"
-  },
-  {
-    "mPreviousChordSymbol": "C/G",
-    "mSymbol": "Cis/Gis",
-    "mNextChordSymbol": "D/A"
-  },
-  {
-    "mPreviousChordSymbol": "Cis/Gis",
-    "mSymbol": "D/A",
-    "mNextChordSymbol": "Dis/B"
-  },
-  {
-    "mPreviousChordSymbol": "D/A",
-    "mSymbol": "Dis/B",
-    "mNextChordSymbol": "E/H"
-  },
-  {
-    "mPreviousChordSymbol": "Dis/B",
-    "mSymbol": "E/H",
-    "mNextChordSymbol": "F/C"
-  },
-  {
-    "mPreviousChordSymbol": "E/H",
-    "mSymbol": "F/C",
-    "mNextChordSymbol": "Fis/Cis"
-  },
-  {
-    "mPreviousChordSymbol": "F/C",
-    "mSymbol": "Fis/Cis",
-    "mNextChordSymbol": "G/D"
-  },
-  {
-    "mPreviousChordSymbol": "Fis/Cis",
-    "mSymbol": "G/D",
-    "mNextChordSymbol": "Gis/Dis"
-  },
-  {
-    "mPreviousChordSymbol": "G/D",
-    "mSymbol": "Gis/Dis",
-    "mNextChordSymbol": "A/E"
-  },
-  {
-    "mPreviousChordSymbol": "Gis/Dis",
-    "mSymbol": "A/E",
-    "mNextChordSymbol": "B/F"
-  },
-  {
-    "mPreviousChordSymbol": "A/E",
-    "mSymbol": "B/F",
-    "mNextChordSymbol": "H/Fis"
-  },
-  {
-    "mPreviousChordSymbol": "B/F",
-    "mSymbol": "H/Fis",
-    "mNextChordSymbol": "C/G"
-  },
 
 
 
