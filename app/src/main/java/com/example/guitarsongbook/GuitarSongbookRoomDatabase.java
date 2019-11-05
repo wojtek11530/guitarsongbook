@@ -65,8 +65,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                             .createFromAsset(databaseDir)
                             .build();
 
-
-
                     /*
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
@@ -80,8 +78,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                                 }
                             })
                             .build();
-
-
                      */
 
                 }
@@ -255,10 +251,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             }
             return artistId;
         }
-
-
-
-
     }
 }
 

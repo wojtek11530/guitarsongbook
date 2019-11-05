@@ -44,14 +44,6 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         // Required empty public constructor
     }
 
-    /*
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-    */
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

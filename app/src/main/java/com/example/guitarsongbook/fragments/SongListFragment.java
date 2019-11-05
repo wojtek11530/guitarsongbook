@@ -30,9 +30,7 @@ import java.util.List;
  */
 public class SongListFragment extends SearchLaunchingFragment {
 
-
     private RecyclerView songListRecyclerView;
-
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
     private static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";

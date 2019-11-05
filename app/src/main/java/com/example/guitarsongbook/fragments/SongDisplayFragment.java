@@ -96,9 +96,11 @@ public class SongDisplayFragment extends Fragment {
     private static final String SONG_DATA_KEY = "SONG_DATA_KEY";
     private static final String ARTIST_DATA_KEY = "ARTIST_DATA_KEY";
     private static final String SPECIFIC_CHORDS_DATA_KEY = "SPECIFIC_CHORDS_DATA_KEY";
+
     private static final String AUTO_SCROLL_DELAY_VALUE_KEY = "AUTO_SCROLL_DELAY_VALUE_KEY";
     private static final String IS_AUTO_SCROLL_RUNNING_VALUE_KEY = "IS_AUTO_SCROLL_RUNNING_VALUE_KEY";
     private static final String IS_AUTO_SCROLL_BAR_ON = "IS_AUTO_SCROLL_BAR_ON";
+
     private static final String IS_TRANSPOSE_BAR_ON = "IS_TRANSPOSE_BAR_ON";
     private static final String TRANSPOSABLE_CHORDS_DATA_KEY = "TRANSPOSABLE_CHORDS_DATA_KEY";
     private static final String TRANSPOSE_VALUE_KEY = "TRANSPOSE_VALUE_KEY";
