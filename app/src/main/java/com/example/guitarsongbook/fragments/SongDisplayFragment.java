@@ -74,7 +74,7 @@ public class SongDisplayFragment extends Fragment {
     private boolean mAutoScrollRunning = false;
 
     private static final int MIN_AUTO_SCROLL_DELAY = 1;
-    private static final int MIN_MAX_DELAY_INTERVAL = 349;
+    private static final int MIN_MAX_DELAY_INTERVAL = 74;
     private static final int MAX_AUTO_SCROLL_DELAY = MIN_AUTO_SCROLL_DELAY + MIN_MAX_DELAY_INTERVAL;
 
     private ConstraintLayout mTransposeBar;

@@ -30,6 +30,9 @@ public class Chord implements Parcelable {
     @ColumnInfo(name = "symbol")
     private String mSymbol;
 
+    @ColumnInfo(name = "display_symbol")
+    private String mDisplaySymbol;
+
     @ColumnInfo(name = "next_chord_symbol")
     private String mNextChordSymbol;
 
@@ -43,9 +46,11 @@ public class Chord implements Parcelable {
     private Long mPreviousChordId;
 
 
-    public Chord(Long mId, String mSymbol, String mNextChordSymbol, Long mNextChordId, String mPreviousChordSymbol, Long mPreviousChordId) {
+    public Chord(Long mId, String mSymbol, String mNextChordSymbol, Long mNextChordId,
+                 String mPreviousChordSymbol, Long mPreviousChordId, String mDisplaySymbol) {
         this.mId = mId;
         this.mSymbol = mSymbol;
+        this.mDisplaySymbol = mDisplaySymbol;
         this.mNextChordSymbol = mNextChordSymbol;
         this.mNextChordId = mNextChordId;
         this.mPreviousChordSymbol = mPreviousChordSymbol;
@@ -53,8 +58,9 @@ public class Chord implements Parcelable {
     }
 
     @Ignore
-    public Chord(String mSymbol, String mNextChordSymbol, String mPreviousChordSymbol) {
+    public Chord(String mSymbol, String mNextChordSymbol, String mPreviousChordSymbol, String mDisplaySymbol) {
         this.mSymbol = mSymbol;
+        this.mDisplaySymbol = mDisplaySymbol;
         this.mNextChordSymbol = mNextChordSymbol;
         this.mPreviousChordSymbol = mPreviousChordSymbol;
     }
@@ -73,6 +79,14 @@ public class Chord implements Parcelable {
 
     public void setMSymbol(String mSymbol) {
         this.mSymbol = mSymbol;
+    }
+
+    public String getMDisplaySymbol() {
+        return mDisplaySymbol;
+    }
+
+    public void setMDisplaySymbol(String mDisplaySymbol) {
+        this.mDisplaySymbol = mDisplaySymbol;
     }
 
     public Long getMNextChordId() {
@@ -105,6 +119,10 @@ public class Chord implements Parcelable {
 
     public void setMPreviousChordSymbol(String mPreviousChordSymbol) {
         this.mPreviousChordSymbol = mPreviousChordSymbol;
+    }
+
+    public String getSymbolToDisplay(){
+        return mDisplaySymbol == null? mSymbol: mDisplaySymbol;
     }
 
 

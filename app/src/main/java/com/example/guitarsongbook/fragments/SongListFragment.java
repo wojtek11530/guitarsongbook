@@ -99,35 +99,35 @@ public class SongListFragment extends SearchLaunchingFragment {
         }
 
         if (kind != null) {
-            mGuitarSongbookViewModel.getSongsByKind(kind).observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getSongsTitleAndArtistIdByKind(kind).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
         } else if (genre != null) {
-            mGuitarSongbookViewModel.getSongByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getSongTitleAndArtistIdByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
         } else if (artistId != null) {
-            mGuitarSongbookViewModel.getSongByArtistId(artistId).observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getSongTitleAndAuthorIdByArtistId(artistId).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
         } else if (isFavouriteSongList) {
-            mGuitarSongbookViewModel.getFavouriteSongs().observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getFavouriteSongsTitleAndArtistId().observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
         } else {
-            mGuitarSongbookViewModel.getAllSongs().observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getAllSongsTitleAndArtistsId().observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);

@@ -45,4 +45,25 @@ public interface SongDao {
 
     @Query("SELECT * FROM song_table WHERE is_favourite = 1 ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getFavouriteSongs();
+
+
+    @Query("SELECT song_id, title, artist_id from song_table ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getAllSongsTitleAndArtistId();
+
+    @Query("SELECT song_id, title, artist_id FROM song_table WHERE kind = :kind ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongsTitleAndArtistIdByKind(Kind kind);
+
+    @Query("SELECT song_id, title, artist_id FROM song_table WHERE music_genre = :genre ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongTitleAndArtistIdByMusicGenre(MusicGenre genre);
+
+    @Query("SELECT song_id, title, artist_id FROM song_table WHERE title LIKE :query ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongTitleAndArtistIdByQuery(String query);
+
+    @Query("SELECT song_id, title, artist_id FROM song_table WHERE artist_id = :artistId ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongTitleAndArtistIdByArtistId(Long artistId);
+
+    @Query("SELECT song_id, title, artist_id FROM song_table WHERE is_favourite = 1 ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getFavouriteSongsTitleAndArtistId();
+
+
 }

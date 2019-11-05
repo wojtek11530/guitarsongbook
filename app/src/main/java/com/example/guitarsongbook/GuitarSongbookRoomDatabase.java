@@ -37,7 +37,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 12, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 13, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
@@ -58,11 +58,14 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             synchronized (GuitarSongbookRoomDatabase.class) {
                 if (INSTANCE == null) {
                     // Create database here
+
                     INSTANCE = Room
                             .databaseBuilder(context.getApplicationContext(),
                             GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
                             .createFromAsset(databaseDir)
                             .build();
+
+
 
                     /*
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
@@ -78,7 +81,9 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                             })
                             .build();
 
+
                      */
+
                 }
             }
         }
