@@ -145,7 +145,7 @@ public class SongListFragment extends SearchLaunchingFragment {
             int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
             mainActivity.checkItem(itemId);
         }else {
-            mainActivity.unCheckAllItemInNavigationDrawer();
+            mainActivity.uncheckAllItemInNavigationDrawer();
         }
 
         return view;

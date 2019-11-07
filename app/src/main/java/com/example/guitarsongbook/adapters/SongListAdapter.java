@@ -72,17 +72,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     public void setSongs(List<Song> songs) {
         mSongs = songs;
-        notifyDataSetChanged();
+        if (mArtists!=null) {
+            notifyDataSetChanged();
+        }
     }
 
     public void setArtists(List<Artist> artists) {
         mArtists = artists;
-        notifyDataSetChanged();
+        if (mSongs!=null) {
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (mSongs != null)
+        if (mSongs != null && mArtists != null)
             return mSongs.size();
         else return 0;
     }

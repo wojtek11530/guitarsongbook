@@ -138,7 +138,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        ((MainActivity) Objects.requireNonNull(getActivity())).unCheckAllItemInNavigationDrawer();
+        ((MainActivity) Objects.requireNonNull(getActivity())).uncheckAllItemInNavigationDrawer();
 
         return view;
     }
