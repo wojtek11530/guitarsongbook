@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.daos;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -64,6 +65,31 @@ public interface SongDao {
 
     @Query("SELECT song_id, title, artist_id FROM song_table WHERE is_favourite = 1 ORDER BY title COLLATE LOCALIZED")
     LiveData<List<Song>> getFavouriteSongsTitleAndArtistId();
+
+    @Query("SELECT artist_id, COUNT(song_id) AS song_number FROM song_table GROUP BY artist_id")
+    LiveData<List<ArtistSongsCount>> getArtistSongsCount();
+
+    class ArtistSongsCount {
+
+        @ColumnInfo(name = "song_number")
+        private Integer songsNumber;
+
+        @ColumnInfo(name = "artist_id")
+        private Long artistId;
+
+        public ArtistSongsCount(Integer songsNumber, Long artistId) {
+            this.songsNumber = songsNumber;
+            this.artistId = artistId;
+        }
+
+        public Integer getSongsNumber() {
+            return songsNumber;
+        }
+
+        public Long getArtistId() {
+            return artistId;
+        }
+    }
 
 
 }

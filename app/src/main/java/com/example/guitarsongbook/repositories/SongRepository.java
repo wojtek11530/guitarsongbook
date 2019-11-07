@@ -87,6 +87,10 @@ public class SongRepository {
         return mSongDao.getSongTitleAndArtistIdByQuery(query);
     }
 
+    public LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount(){
+        return mSongDao.getArtistSongsCount();
+    }
+
 
     private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {
 

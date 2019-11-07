@@ -16,4 +16,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         tools:text="placeholder text" />
+    <TextView
+        android:id="@+id/artist_songs_count_txt_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/SongCounts"
+        tools:text="placeholder text" />
 </LinearLayout>

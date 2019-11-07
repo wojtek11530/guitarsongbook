@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import com.example.guitarsongbook.daos.SongChordJoinDao;
+import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Kind;
@@ -116,7 +117,9 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
         return mSongRepository.getSongTitleAndArtistIdByMusicGenre(genre);
     }
 
-
+    public  LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount(){
+        return mSongRepository.getArtistSongsCount();
+    }
 
     public LiveData<Artist> getArtistById(Long id) {
         return mArtistRepository.getArtistById(id);
