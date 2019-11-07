@@ -58,6 +58,7 @@
     <string name="song">piosenka</string>
     <string name="songs_plural">piosenek</string>
     <string name="songs_plural_for_2_3_4">piosenki</string>
+    <string name="no_favourite_songs_communicate">Brak ulubionych piosenek.</string>
 
 
     <string-array name="font_size_entries">
