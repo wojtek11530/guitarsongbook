@@ -43,11 +43,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     @Override
     public void onBindViewHolder(@NonNull final SongViewHolder holder, int position) {
         if (mSongs != null) {
-            Song current = mSongs.get(position);
-            holder.mTitleTextView.setText(current.getMTitle());
+            Song currentSong = mSongs.get(position);
+            holder.mTitleTextView.setText(currentSong.getMTitle());
 
-            if (current.getMArtistId() != null) {
-                Artist artist = findArtistById(current.getMArtistId());
+            if (currentSong.getMArtistId() != null) {
+                Artist artist = findArtistById(currentSong.getMArtistId());
                 if (artist != null) {
                     holder.mArtistTextView.setText(artist.getMName());
                 }
@@ -72,17 +72,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     public void setSongs(List<Song> songs) {
         mSongs = songs;
-        notifyDataSetChanged();
+        if (mArtists!=null) {
+            notifyDataSetChanged();
+        }
     }
 
     public void setArtists(List<Artist> artists) {
         mArtists = artists;
-        notifyDataSetChanged();
+        if (mSongs!=null) {
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (mSongs != null)
+        if (mSongs != null && mArtists != null)
             return mSongs.size();
         else return 0;
     }

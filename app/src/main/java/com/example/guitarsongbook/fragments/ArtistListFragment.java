@@ -17,6 +17,7 @@ import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.ArtistListAdapter;
+import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
 import com.l4digital.fastscroll.FastScrollRecyclerView;
 
@@ -44,14 +45,6 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         // Required empty public constructor
     }
 
-    /*
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-    */
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,6 +62,13 @@ public class ArtistListFragment extends SearchLaunchingFragment {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
                 adapter.setArtists(artists);
+            }
+        });
+
+        mGuitarSongbookViewModel.getArtistSongsCount().observe(this, new Observer<List<SongDao.ArtistSongsCount>>() {
+            @Override
+            public void onChanged(@Nullable final List<SongDao.ArtistSongsCount> artistSongsCounts) {
+                adapter.setArtistsSongsNumber(artistSongsCounts);
             }
         });
 

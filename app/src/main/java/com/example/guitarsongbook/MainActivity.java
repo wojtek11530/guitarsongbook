@@ -171,20 +171,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void checkItem(int itemId){
+        uncheckAllItemInNavigationDrawer();
         navigationView.getMenu().findItem(itemId).setChecked(true);
     }
 
-    public void unCheckAllItemInNavigationDrawer(){
-        unCheckAllMenuItems(navigationView.getMenu());
+    public void uncheckAllItemInNavigationDrawer(){
+        uncheckAllMenuItems(navigationView.getMenu());
     }
 
-    private void unCheckAllMenuItems(Menu menu){
+    private void uncheckAllMenuItems(Menu menu){
         int size = menu.size();
         for (int i = 0; i < size; i++) {
             MenuItem item = menu.getItem(i);
             if(item.hasSubMenu()) {
                 // Un check sub menu items
-                unCheckAllMenuItems(item.getSubMenu());
+                uncheckAllMenuItems(item.getSubMenu());
             } else {
                 item.setChecked(false);
             }

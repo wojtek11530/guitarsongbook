@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.fragments;
 
 
+import android.opengl.Visibility;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.MainActivity;
@@ -30,9 +32,8 @@ import java.util.List;
  */
 public class SongListFragment extends SearchLaunchingFragment {
 
-
     private RecyclerView songListRecyclerView;
-
+    private TextView noFavouriteSongTextView;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
     private static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
@@ -75,7 +76,7 @@ public class SongListFragment extends SearchLaunchingFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_list, container, false);
         songListRecyclerView = view.findViewById(R.id.song_list_rv_);
-
+        noFavouriteSongTextView = view.findViewById(R.id.no_favourite_song_txt_);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
         final SongListAdapter adapter = new SongListAdapter(getContext());
@@ -99,35 +100,40 @@ public class SongListFragment extends SearchLaunchingFragment {
         }
 
         if (kind != null) {
-            mGuitarSongbookViewModel.getSongsByKind(kind).observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getSongsTitleAndArtistIdByKind(kind).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
         } else if (genre != null) {
-            mGuitarSongbookViewModel.getSongByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getSongTitleAndArtistIdByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
         } else if (artistId != null) {
-            mGuitarSongbookViewModel.getSongByArtistId(artistId).observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getSongTitleAndAuthorIdByArtistId(artistId).observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
                 }
             });
         } else if (isFavouriteSongList) {
-            mGuitarSongbookViewModel.getFavouriteSongs().observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getFavouriteSongsTitleAndArtistId().observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
+                    int visibility = 0;
+                    if (songs != null) {
+                        visibility = songs.isEmpty()? View.VISIBLE: View.GONE;
+                    }
+                    noFavouriteSongTextView.setVisibility(visibility);
                     adapter.setSongs(songs);
                 }
             });
         } else {
-            mGuitarSongbookViewModel.getAllSongs().observe(this, new Observer<List<Song>>() {
+            mGuitarSongbookViewModel.getAllSongsTitleAndArtistsId().observe(this, new Observer<List<Song>>() {
                 @Override
                 public void onChanged(@Nullable final List<Song> songs) {
                     adapter.setSongs(songs);
@@ -143,11 +149,11 @@ public class SongListFragment extends SearchLaunchingFragment {
         });
 
         MainActivity mainActivity = (MainActivity) getActivity();
-        if (getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)){
+        if (getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
             int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
             mainActivity.checkItem(itemId);
-        }else {
-            mainActivity.unCheckAllItemInNavigationDrawer();
+        } else {
+            mainActivity.uncheckAllItemInNavigationDrawer();
         }
 
         return view;
