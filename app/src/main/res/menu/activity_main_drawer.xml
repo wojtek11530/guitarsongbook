@@ -9,22 +9,29 @@
         <item
             android:id="@+id/nav_all_songs"
             android:title="@string/all_songs"
-            android:checked="true"/>
+            android:icon="@drawable/ic_songs"
+            android:checked="true"
+            />
         <item
             android:id="@+id/nav_favourite_songs"
-            android:title="@string/favourite_songs" />
+            android:title="@string/favourite_songs"
+            android:icon="@drawable/ic_favorite"
+            />
         <item
             android:id="@+id/nav_artists"
-            android:title="@string/artists" />
+            android:title="@string/artists"
+            android:icon="@drawable/ic_artist"/>
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_polish_songs"
-            android:title="@string/polish" />
+            android:title="@string/polish"
+            android:icon="@drawable/ic_polish"/>
         <item
             android:id="@+id/nav_foreign"
-            android:title="@string/foreign" />
+            android:title="@string/foreign"
+            android:icon="@drawable/ic_foreign"/>
     </group>
 
     <item android:title="@string/music_genre">
@@ -32,28 +39,36 @@
         <group android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_rock"
-                android:title="@string/rock" />
+                android:title="@string/rock"
+                android:icon="@drawable/ic_rock"/>
             <item
                 android:id="@+id/nav_pop"
-                android:title="@string/pop" />
+                android:title="@string/pop"
+                android:icon="@drawable/ic_pop"/>
             <item
                 android:id="@+id/nav_folk"
-                android:title="@string/folk" />
+                android:title="@string/folk"
+                android:icon="@drawable/ic_folk"/>
             <item
                 android:id="@+id/nav_disco_polo"
-                android:title="@string/disco_polo" />
+                android:title="@string/disco_polo"
+                android:icon="@drawable/ic_disco_polo"/>
             <item
                 android:id="@+id/nav_country"
-                android:title="@string/country" />
+                android:title="@string/country"
+                android:icon="@drawable/ic_country"/>
             <item
                 android:id="@+id/nav_reggea"
-                android:title="@string/reggae" />
+                android:title="@string/reggae"
+                android:icon="@drawable/ic_reggae"/>
             <item
                 android:id="@+id/nav_festive"
-                android:title="@string/festive" />
+                android:title="@string/festive"
+                android:icon="@drawable/ic_festive"/>
             <item
                 android:id="@+id/nav_shanty"
-                android:title="@string/shanty" />
+                android:title="@string/shanty"
+                android:icon="@drawable/ic_shanty"/>
         </group>
         </menu>
     </item>
@@ -63,7 +78,8 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_setting"
-            android:title="@string/settings" />
+            android:title="@string/settings"
+            android:icon="@drawable/ic_settings_black_24dp"/>
     </group>
 
 
