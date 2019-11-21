@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,15 +127,34 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
+            startSongListFragment(position);
 
-            Artist artistsSongsToDisplay = mArtists.get(position);
-            Long artistId = artistsSongsToDisplay.getMId();
 
-            SongListFragment songListFragment = SongListFragment.newInstance(artistId);
-            FragmentTransaction transaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container_fl_, songListFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
         }
+    }
+
+    private void startSongListFragment(int position) {
+        SongListFragment songListFragment = getSongListFragment(position);
+        changeFragmentWithDelay(songListFragment);
+    }
+
+    private void changeFragmentWithDelay(final SongListFragment songListFragment) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((MainActivity) context).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container_fl_, songListFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }, 250);
+
+    }
+
+    private SongListFragment getSongListFragment(int position) {
+        Artist artistsSongsToDisplay = mArtists.get(position);
+        Long artistId = artistsSongsToDisplay.getMId();
+        return SongListFragment.newInstance(artistId);
     }
 }
