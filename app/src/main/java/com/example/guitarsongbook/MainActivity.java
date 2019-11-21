@@ -30,11 +30,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     FragmentManager fragmentManager;
+    private Integer chosenItemId;
+    private int currentItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        drawer.addDrawerListener(this);
         disableNavigationViewScrollbars(navigationView);
 
         fragmentManager = getSupportFragmentManager();
@@ -61,28 +64,14 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                     .commit();
         } else {
-            if (fragmentManager.getBackStackEntryCount() > 0) {
-                toggle.setDrawerIndicatorEnabled(false);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            } else {
-                toggle.setDrawerIndicatorEnabled(true);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toggle.syncState();
-            }
+            adjustDisplayingDrawerIndicator();
         }
 
         // Set back button
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    toggle.setDrawerIndicatorEnabled(false);
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else {
-                    toggle.setDrawerIndicatorEnabled(true);
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                    toggle.syncState();
-                }
+                adjustDisplayingDrawerIndicator();
             }
         });
 
@@ -95,6 +84,17 @@ public class MainActivity extends AppCompatActivity
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+    }
+
+    private void adjustDisplayingDrawerIndicator() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            toggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            toggle.setDrawerIndicatorEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toggle.syncState();
+        }
     }
 
     @Override
@@ -121,74 +121,108 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        Fragment fragment = null;
-
-        if (id == R.id.nav_setting) {
-            fragment = new SettingsFragment();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).addToBackStack(null).commit();
-        } else {
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-            if (id == R.id.nav_all_songs) {
-                fragment = SongListFragment.newInstance(null, null, false, id);
-            } else if (id == R.id.nav_favourite_songs) {
-                fragment = SongListFragment.newInstance(null, null, true, id);
-            } else if (id == R.id.nav_artists) {
-                fragment = ArtistListFragment.newInstance(id);
-            } else if (id == R.id.nav_polish_songs) {
-                fragment = SongListFragment.newInstance(Kind.POLISH, null, false, id);
-            } else if (id == R.id.nav_foreign) {
-                fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false, id);
-            } else if (id == R.id.nav_rock) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false, id);
-            } else if (id == R.id.nav_pop) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.POP, false, id);
-            } else if (id == R.id.nav_folk) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false, id);
-            } else if (id == R.id.nav_disco_polo) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.DISCO_POLO, false, id);
-            }else if (id == R.id.nav_country) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.COUNTRY, false, id);
-            }else if (id == R.id.nav_reggea) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.REGGAE, false, id);
-            }else if (id == R.id.nav_festive) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.FESTIVE, false, id);
-            }else if (id == R.id.nav_shanty) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.SHANTY, false, id);
-            }
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            if (fragment != null) {
-                fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).commit();
-            }
+        if (currentItemId != item.getItemId()) {
+            chosenItemId = item.getItemId();
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void checkItem(int itemId){
+    public void setCurrentItemId(int itemId) {
+        currentItemId = itemId;
         uncheckAllItemInNavigationDrawer();
         navigationView.getMenu().findItem(itemId).setChecked(true);
     }
 
-    public void uncheckAllItemInNavigationDrawer(){
+    public void uncheckAllItemInNavigationDrawer() {
         uncheckAllMenuItems(navigationView.getMenu());
     }
 
-    private void uncheckAllMenuItems(Menu menu){
+    private void uncheckAllMenuItems(Menu menu) {
         int size = menu.size();
         for (int i = 0; i < size; i++) {
             MenuItem item = menu.getItem(i);
-            if(item.hasSubMenu()) {
+            if (item.hasSubMenu()) {
                 // Un check sub menu items
                 uncheckAllMenuItems(item.getSubMenu());
             } else {
                 item.setChecked(false);
             }
         }
+    }
+
+    @Override
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(@NonNull View drawerView) {
+        if (chosenItemId != null) {
+            Fragment fragment = getFragmentForItemId();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            if (fragment != null) {
+                if (chosenItemId == R.id.nav_setting) {
+                    fragmentTransaction.addToBackStack(null);
+                } else {
+                    fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+                fragmentTransaction
+                        .setCustomAnimations(android.R.anim.slide_out_right, android.R.anim.slide_out_right)
+                        .replace(R.id.fragment_container_fl_, fragment)
+                        .commit();
+                currentItemId = chosenItemId;
+                chosenItemId = null;
+            }
+
+        }
+
+    }
+
+    private Fragment getFragmentForItemId() {
+        Fragment fragment = null;
+
+        if (chosenItemId == R.id.nav_setting) {
+            fragment = new SettingsFragment();
+        } else if (chosenItemId == R.id.nav_all_songs) {
+            fragment = SongListFragment.newInstance(null, null, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_favourite_songs) {
+            fragment = SongListFragment.newInstance(null, null, true, chosenItemId);
+        } else if (chosenItemId == R.id.nav_artists) {
+            fragment = ArtistListFragment.newInstance(chosenItemId);
+        } else if (chosenItemId == R.id.nav_polish_songs) {
+            fragment = SongListFragment.newInstance(Kind.POLISH, null, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_foreign) {
+            fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_rock) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_pop) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.POP, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_folk) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_disco_polo) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.DISCO_POLO, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_country) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.COUNTRY, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_reggea) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.REGGAE, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_festive) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.FESTIVE, false, chosenItemId);
+        } else if (chosenItemId == R.id.nav_shanty) {
+            fragment = SongListFragment.newInstance(null, MusicGenre.SHANTY, false, chosenItemId);
+        }
+        return fragment;
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 }

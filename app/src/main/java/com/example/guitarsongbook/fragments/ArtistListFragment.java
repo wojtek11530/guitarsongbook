@@ -75,7 +75,7 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         if (getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)){
             int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
-            mainActivity.checkItem(itemId);
+            mainActivity.setCurrentItemId(itemId);
         }
 
         return view;
