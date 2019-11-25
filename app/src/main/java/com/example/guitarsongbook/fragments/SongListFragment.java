@@ -77,6 +77,8 @@ public class SongListFragment extends SearchLaunchingFragment {
         songListRecyclerView = view.findViewById(R.id.song_list_rv_);
         noFavouriteSongTextView = view.findViewById(R.id.no_favourite_song_txt_);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        getActivity().setTitle(getContext().getString(R.string.app_name));
+
 
         final SongListAdapter adapter = new SongListAdapter(getContext());
         songListRecyclerView.setAdapter(adapter);

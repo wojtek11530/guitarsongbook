@@ -51,8 +51,8 @@ public class ArtistListFragment extends SearchLaunchingFragment {
 
         View view =  inflater.inflate(R.layout.fragment_artist_list, container, false);
         artistListRecyclerView = view.findViewById(R.id.artist_list_rv_);
-
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        getActivity().setTitle(getContext().getString(R.string.app_name));
 
         final ArtistListAdapter adapter = new ArtistListAdapter(getContext());
         artistListRecyclerView.setAdapter(adapter);
