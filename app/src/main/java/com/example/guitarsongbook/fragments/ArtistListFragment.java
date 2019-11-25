@@ -61,20 +61,6 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         return view;
     }
 
-    private void handleMainActivityFeatures() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        assert mainActivity != null;
-        mainActivity.setTitle(Objects.requireNonNull(getContext()).getString(R.string.app_name));
-        setCurrentItemInNavigationView(mainActivity);
-    }
-
-    private void setCurrentItemInNavigationView(MainActivity mainActivity) {
-        if (getArguments() != null && getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
-            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
-            mainActivity.setCurrentItemId(itemId);
-        }
-    }
-
     private void initRecyclerView(View view) {
         artistListRecyclerView = view.findViewById(R.id.artist_list_rv_);
         adapter = new ArtistListAdapter(getContext());
@@ -98,5 +84,21 @@ public class ArtistListFragment extends SearchLaunchingFragment {
             }
         });
     }
+
+    private void handleMainActivityFeatures() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        assert mainActivity != null;
+        mainActivity.setTitle(Objects.requireNonNull(getContext()).getString(R.string.app_name));
+        setCurrentItemInNavigationView(mainActivity);
+    }
+
+    private void setCurrentItemInNavigationView(MainActivity mainActivity) {
+        if (getArguments() != null && getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
+            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
+            mainActivity.setCurrentItemId(itemId);
+        }
+    }
+
+
 
 }

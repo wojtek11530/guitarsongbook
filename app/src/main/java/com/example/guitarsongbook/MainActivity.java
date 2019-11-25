@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity
 
     private void startFragmentForLaunchedApp() {
         fragmentManager.popBackStack();
-        SongListFragment songListFragment = SongListFragment.newInstance(null, null,
-                false, Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
+        SongListFragment songListFragment =
+                SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
                 .commit();
@@ -214,31 +214,31 @@ public class MainActivity extends AppCompatActivity
         if (chosenItemId == R.id.nav_setting) {
             fragment = new SettingsFragment();
         } else if (chosenItemId == R.id.nav_all_songs) {
-            fragment = SongListFragment.newInstance(null, null, false, chosenItemId);
+            fragment = SongListFragment.newInstance(chosenItemId);
         } else if (chosenItemId == R.id.nav_favourite_songs) {
-            fragment = SongListFragment.newInstance(null, null, true, chosenItemId);
+            fragment = SongListFragment.newInstance(true, chosenItemId);
         } else if (chosenItemId == R.id.nav_artists) {
             fragment = ArtistListFragment.newInstance(chosenItemId);
         } else if (chosenItemId == R.id.nav_polish_songs) {
-            fragment = SongListFragment.newInstance(Kind.POLISH, null, false, chosenItemId);
+            fragment = SongListFragment.newInstance(Kind.POLISH, chosenItemId);
         } else if (chosenItemId == R.id.nav_foreign) {
-            fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false, chosenItemId);
+            fragment = SongListFragment.newInstance(Kind.FOREIGN, chosenItemId);
         } else if (chosenItemId == R.id.nav_rock) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.ROCK, chosenItemId);
         } else if (chosenItemId == R.id.nav_pop) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.POP, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.POP, chosenItemId);
         } else if (chosenItemId == R.id.nav_folk) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.FOLK, chosenItemId);
         } else if (chosenItemId == R.id.nav_disco_polo) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.DISCO_POLO, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.DISCO_POLO, chosenItemId);
         } else if (chosenItemId == R.id.nav_country) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.COUNTRY, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.COUNTRY, chosenItemId);
         } else if (chosenItemId == R.id.nav_reggea) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.REGGAE, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.REGGAE, chosenItemId);
         } else if (chosenItemId == R.id.nav_festive) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.FESTIVE, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.FESTIVE, chosenItemId);
         } else if (chosenItemId == R.id.nav_shanty) {
-            fragment = SongListFragment.newInstance(null, MusicGenre.SHANTY, false, chosenItemId);
+            fragment = SongListFragment.newInstance(MusicGenre.SHANTY, chosenItemId);
         }
         return fragment;
     }
