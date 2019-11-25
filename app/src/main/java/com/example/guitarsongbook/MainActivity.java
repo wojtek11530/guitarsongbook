@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     FragmentManager fragmentManager;
     private Integer chosenItemId;
-    private int currentItemId;
+    private Integer currentItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        if (currentItemId != item.getItemId()) {
+        if (currentItemId == null || currentItemId != item.getItemId()) {
             chosenItemId = item.getItemId();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void uncheckAllItemInNavigationDrawer() {
+        currentItemId = null;
         uncheckAllMenuItems(navigationView.getMenu());
     }
 
