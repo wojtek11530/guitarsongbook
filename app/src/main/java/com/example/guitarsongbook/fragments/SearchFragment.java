@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
 
     private CharSequence mNotEmptyQuery;
 
-    public static final String QUERY_KEY = "QUERY_KEY";
+    private static final String QUERY_KEY = "QUERY_KEY";
 
     public SearchFragment() {
         // Required empty public constructor
@@ -73,21 +73,24 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
-
         configureSearching(menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void configureSearching(Menu menu) {
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getActivity()).getSystemService(Context.SEARCH_SERVICE);
+        configureSearchView(menu, searchManager);
+    }
 
+    private void configureSearchView(Menu menu, SearchManager searchManager) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setOnActionExpandListener(onActionExpandListener);
 
         searchView = (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));
         searchView.setOnQueryTextListener(onQueryTextListener);
 
         searchItem.expandActionView();
@@ -101,42 +104,11 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
         intiViews(view);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
-        mSongListAdapter = new SongListAdapter(getContext());
-        mFoundSongsRecyclerView.setAdapter(mSongListAdapter);
-        mFoundSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
-            @Override
-            public void onChanged(@Nullable final List<Artist> artists) {
-                mSongListAdapter.setArtists(artists);
-            }
-        });
-
-        mGuitarSongbookViewModel.getQueriedSongs().observe(this, new Observer<List<Song>>() {
-            @Override
-            public void onChanged(@Nullable final List<Song> songs) {
-                mSongListAdapter.setSongs(songs);
-                setFoundSongs(songs);
-                adjustResultsViewsVisibility();
-            }
-        });
-
-        mArtistListAdapter = new ArtistListAdapter(getContext());
-        mFoundArtistsRecyclerView.setAdapter(mArtistListAdapter);
-        mFoundArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mGuitarSongbookViewModel.getQueriedArtists().observe(SearchFragment.this, new Observer<List<Artist>>() {
-            @Override
-            public void onChanged(@Nullable final List<Artist> artists) {
-                mArtistListAdapter.setArtists(artists);
-                setFoundArtists(artists);
-                adjustResultsViewsVisibility();
-            }
-        });
+        configureRecyclerViews();
+        configureViewModelObservers();
 
         ((MainActivity) Objects.requireNonNull(getActivity())).uncheckAllItemInNavigationDrawer();
 
@@ -165,12 +137,58 @@ public class SearchFragment extends Fragment {
         mNoResultsCommunicateTextView.setVisibility(View.GONE);
     }
 
-    public void setFoundSongs(List<Song> mFoundSong) {
+
+    private void configureRecyclerViews() {
+        configureFoundArtistRecyclerView();
+        configureFoundSongsRecyclerView();
+    }
+
+    private void configureFoundSongsRecyclerView() {
+        mArtistListAdapter = new ArtistListAdapter(getContext());
+        mFoundArtistsRecyclerView.setAdapter(mArtistListAdapter);
+        mFoundArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void configureFoundArtistRecyclerView() {
+        mSongListAdapter = new SongListAdapter(getContext());
+        mFoundSongsRecyclerView.setAdapter(mSongListAdapter);
+        mFoundSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void configureViewModelObservers() {
+        mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
+            @Override
+            public void onChanged(@Nullable final List<Artist> artists) {
+                mSongListAdapter.setArtists(artists);
+            }
+        });
+
+        mGuitarSongbookViewModel.getQueriedSongs().observe(this, new Observer<List<Song>>() {
+            @Override
+            public void onChanged(@Nullable final List<Song> songs) {
+                mSongListAdapter.setSongs(songs);
+                setFoundSongs(songs);
+                adjustResultsViewsVisibility();
+            }
+        });
+
+
+        mGuitarSongbookViewModel.getQueriedArtists().observe(SearchFragment.this, new Observer<List<Artist>>() {
+            @Override
+            public void onChanged(@Nullable final List<Artist> artists) {
+                mArtistListAdapter.setArtists(artists);
+                setFoundArtists(artists);
+                adjustResultsViewsVisibility();
+            }
+        });
+    }
+
+    private void setFoundSongs(List<Song> mFoundSong) {
         this.mFoundSongs = mFoundSong;
         adjustSongViewsVisibility();
     }
 
-    public void setFoundArtists(List<Artist> mFoundArtists) {
+    private void setFoundArtists(List<Artist> mFoundArtists) {
         this.mFoundArtists = mFoundArtists;
         adjustArtistViewsVisibility();
     }
@@ -215,7 +233,7 @@ public class SearchFragment extends Fragment {
                     if (searchView.isIconified()) {
                         return true;
                     }
-                    if(!query.equals("")) {
+                    if (!query.equals("")) {
                         mNotEmptyQuery = query;
                     }
                     performSearching(query);

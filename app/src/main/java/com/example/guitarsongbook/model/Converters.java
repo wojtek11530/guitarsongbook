@@ -31,8 +31,7 @@ public class Converters {
     @TypeConverter
     public static String fromArrayList(ArrayList<String> list) {
         Gson gson = new Gson();
-        String json = gson.toJson(list);
-        return json;
+        return gson.toJson(list);
     }
 
     @TypeConverter
@@ -61,15 +60,15 @@ public class Converters {
             return FOLK;
         } else if (status == DISCO_POLO.getCode()) {
             return DISCO_POLO;
-        }else if (status == COUNTRY.getCode()) {
+        } else if (status == COUNTRY.getCode()) {
             return COUNTRY;
-        }else if (status == REGGAE.getCode()) {
+        } else if (status == REGGAE.getCode()) {
             return REGGAE;
-        }else if (status == FESTIVE.getCode()) {
+        } else if (status == FESTIVE.getCode()) {
             return FESTIVE;
-        }else if (status == SHANTY.getCode()) {
+        } else if (status == SHANTY.getCode()) {
             return SHANTY;
-        }else {
+        } else {
             throw new IllegalArgumentException("Could not recognize status");
         }
     }

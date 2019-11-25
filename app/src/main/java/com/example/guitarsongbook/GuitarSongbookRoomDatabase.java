@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.guitarsongbook.daos.ArtistDao;
 import com.example.guitarsongbook.daos.ChordDao;

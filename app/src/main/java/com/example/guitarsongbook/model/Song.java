@@ -59,7 +59,6 @@ public class Song implements Parcelable {
         this.mIsFavourite = mIsFavourite;
     }
 
-
     @Ignore
     public Song(String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, String mArtistName) {
         this.mTitle = mTitle;
@@ -142,7 +141,6 @@ public class Song implements Parcelable {
     public void setmIsFavourite(Boolean mIsFavourite) {
         this.mIsFavourite = mIsFavourite;
     }
-
 
 
     @Override
