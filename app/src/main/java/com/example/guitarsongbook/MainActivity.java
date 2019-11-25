@@ -171,19 +171,20 @@ public class MainActivity extends AppCompatActivity
             if (fragment != null) {
                 if (chosenItemId == R.id.nav_setting) {
                     fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                            R.anim.enter_from_left, R.anim.exit_to_right);
                 } else {
                     fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    fragmentTransaction
+                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                 }
                 fragmentTransaction
-                        .setCustomAnimations(android.R.anim.slide_out_right, android.R.anim.slide_out_right)
                         .replace(R.id.fragment_container_fl_, fragment)
                         .commit();
                 currentItemId = chosenItemId;
                 chosenItemId = null;
             }
-
         }
-
     }
 
     private Fragment getFragmentForItemId() {

@@ -144,8 +144,10 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
             @Override
             public void run() {
                 ((MainActivity) context).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container_fl_, songListFragment)
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                                R.anim.enter_from_left, R.anim.exit_to_right)
                         .addToBackStack(null)
+                        .replace(R.id.fragment_container_fl_, songListFragment)
                         .commit();
             }
         }, 250);

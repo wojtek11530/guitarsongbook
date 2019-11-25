@@ -140,6 +140,8 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView = view.findViewById(R.id.lyrics_rv_);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
+        getActivity().setTitle("");
+
         mSongDisplayAdapter = new SongDisplayAdapter(getContext());
 
         mSongLyricsRecyclerView.setAdapter(mSongDisplayAdapter);
