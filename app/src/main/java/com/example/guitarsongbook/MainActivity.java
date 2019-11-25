@@ -29,10 +29,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
     NavigationView navigationView;
+    Toolbar toolbar;
+    DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     FragmentManager fragmentManager;
     private Integer chosenItemId;
@@ -41,72 +45,51 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        drawer.addDrawerListener(this);
-        disableNavigationViewScrollbars(navigationView);
-
-        fragmentManager = getSupportFragmentManager();
+        initializeViews();
+        configureFragmentManager();
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         if (savedInstanceState == null) {
-            fragmentManager.popBackStack();
-            SongListFragment songListFragment = SongListFragment.newInstance(null, null, false, navigationView.getCheckedItem().getItemId());
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
+            startFragmentForLaunchedApp();
         } else {
             adjustDisplayingDrawerIndicator();
         }
-
-        // Set back button
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                adjustDisplayingDrawerIndicator();
-            }
-        });
-
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
     }
 
-    private void adjustDisplayingDrawerIndicator() {
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            toggle.setDrawerIndicatorEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } else {
-            toggle.setDrawerIndicatorEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            toggle.syncState();
-        }
+    private void startFragmentForLaunchedApp() {
+        fragmentManager.popBackStack();
+        SongListFragment songListFragment = SongListFragment.newInstance(null, null,
+                false, Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+                .commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStack();
-        } else {
-            super.onBackPressed();
-        }
+
+    private void initializeViews() {
+        setContentView(R.layout.activity_main);
+        initToolbar();
+        initNavigationView();
+        initDrawer();
+    }
+
+    private void initNavigationView() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        disableNavigationViewScrollbars(navigationView);
+    }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void initDrawer() {
+        drawer = findViewById(R.id.drawer_layout);
+        initToggleForDrawerAndToolbar();
+        drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(this);
     }
 
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
@@ -118,13 +101,55 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void initToggleForDrawerAndToolbar() {
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.syncState();
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void configureFragmentManager() {
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                adjustDisplayingDrawerIndicator();
+            }
+        });
+    }
+
+    private void adjustDisplayingDrawerIndicator() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            toggle.setDrawerIndicatorEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        } else {
+            toggle.setDrawerIndicatorEnabled(true);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            toggle.syncState();
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         if (currentItemId == null || currentItemId != item.getItemId()) {
             chosenItemId = item.getItemId();
         }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -145,7 +170,6 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < size; i++) {
             MenuItem item = menu.getItem(i);
             if (item.hasSubMenu()) {
-                // Un check sub menu items
                 uncheckAllMenuItems(item.getSubMenu());
             } else {
                 item.setChecked(false);
@@ -171,13 +195,9 @@ public class MainActivity extends AppCompatActivity
 
             if (fragment != null) {
                 if (chosenItemId == R.id.nav_setting) {
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                            R.anim.enter_from_left, R.anim.exit_to_right);
+                    setTransactionForSettingFragment(fragmentTransaction);
                 } else {
-                    fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    fragmentTransaction
-                            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+                    setTransactionForNoSettingFragments(fragmentTransaction);
                 }
                 fragmentTransaction
                         .replace(R.id.fragment_container_fl_, fragment)
@@ -222,6 +242,18 @@ public class MainActivity extends AppCompatActivity
         }
         return fragment;
     }
+
+    private void setTransactionForSettingFragment(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                R.anim.enter_from_left, R.anim.exit_to_right);
+    }
+
+    private void setTransactionForNoSettingFragments(FragmentTransaction fragmentTransaction) {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+    }
+
 
     @Override
     public void onDrawerStateChanged(int newState) {
