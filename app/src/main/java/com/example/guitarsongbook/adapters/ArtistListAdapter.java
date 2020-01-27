@@ -128,8 +128,6 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         public void onClick(View v) {
             int position = getAdapterPosition();
             startSongListFragment(position);
-
-
         }
     }
 

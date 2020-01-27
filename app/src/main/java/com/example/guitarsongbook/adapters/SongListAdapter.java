@@ -142,8 +142,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
                 ((MainActivity) context).getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                                 R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.fragment_container_fl_, songDisplayFragment)
                         .addToBackStack(null)
+                        .replace(R.id.fragment_container_fl_, songDisplayFragment)
                         .commit();
             }
         }, 250);

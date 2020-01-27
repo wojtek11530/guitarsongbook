@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,10 @@ public class SongListFragment extends SearchLaunchingFragment {
     private static final String IS_FAVOURITE_SONG_LIST_KEY = "IS_FAVOURITE_SONG_LIST_KEY";
     private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
 
+
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
+    private Parcelable mListState = null;
 
     public static SongListFragment newInstance(int checkedMenuItemId) {
         SongListFragment fragment = new SongListFragment();
@@ -99,13 +105,28 @@ public class SongListFragment extends SearchLaunchingFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_list, container, false);
-        initViews(view);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        initViews(view);
         configureRecyclerView();
         configureViewModelObservers();
         handleMainActivityFeatures();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    songListRecyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+                }
+            }, 50);
+        }
+        songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void initViews(View view) {
@@ -116,7 +137,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     private void configureRecyclerView() {
         adapter = new SongListAdapter(getContext());
         songListRecyclerView.setAdapter(adapter);
-        songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void configureViewModelObservers() {
@@ -143,6 +164,7 @@ public class SongListFragment extends SearchLaunchingFragment {
             configureAllSongsObserver();
         }
         configureAllArtistObserver();
+
     }
 
     private void configureAllArtistObserver() {
@@ -219,4 +241,14 @@ public class SongListFragment extends SearchLaunchingFragment {
             mainActivity.uncheckAllItemInNavigationDrawer();
         }
     }
+
+    @Override
+    public void onPause() {
+        mBundleRecyclerViewState = new Bundle();
+        mListState = songListRecyclerView.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
+        super.onPause();
+    }
+
+
 }

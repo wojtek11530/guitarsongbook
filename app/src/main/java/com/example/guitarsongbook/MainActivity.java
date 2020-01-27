@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity
         SongListFragment songListFragment =
                 SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
+        fragmentTransaction
+                .replace(R.id.fragment_container_fl_, songListFragment)
                 .commit();
     }
 

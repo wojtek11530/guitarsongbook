@@ -55,7 +55,7 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         View view =  inflater.inflate(R.layout.fragment_artist_list, container, false);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
         initRecyclerView(view);
-        setViewModelObservers(adapter);
+        setViewModelObservers();
         handleMainActivityFeatures();
 
         return view;
@@ -68,7 +68,7 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         artistListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void setViewModelObservers(final ArtistListAdapter adapter) {
+    private void setViewModelObservers() {
         mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
