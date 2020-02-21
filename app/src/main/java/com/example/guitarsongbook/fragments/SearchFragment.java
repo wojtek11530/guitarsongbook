@@ -25,6 +25,7 @@ import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.ArtistListAdapter;
 import com.example.guitarsongbook.adapters.SongListAdapter;
+import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Song;
 
@@ -163,6 +164,14 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        mGuitarSongbookViewModel.getArtistSongsCount().observe(this, new Observer<List<SongDao.ArtistSongsCount>>() {
+            @Override
+            public void onChanged(@Nullable final List<SongDao.ArtistSongsCount> artistSongsCounts) {
+                assert artistSongsCounts != null;
+                mArtistListAdapter.setArtistsSongsNumber(artistSongsCounts);
+            }
+        });
+
         mGuitarSongbookViewModel.getQueriedSongs().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
@@ -171,7 +180,6 @@ public class SearchFragment extends Fragment {
                 adjustResultsViewsVisibility();
             }
         });
-
 
         mGuitarSongbookViewModel.getQueriedArtists().observe(SearchFragment.this, new Observer<List<Artist>>() {
             @Override
