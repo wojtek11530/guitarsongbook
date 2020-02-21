@@ -177,7 +177,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
                 typeLineOfLyrics.getChordsInLine().add(chord);
             }
 
-
             for (TypeLineOfLyrics typeLineOfLyrics : typeLineOfLyricsArrayList) {
                 mItems.add(typeLineOfLyrics);
             }

@@ -22,13 +22,16 @@ import com.example.guitarsongbook.model.Artist;
 import com.l4digital.fastscroll.FastScrollRecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ArtistListFragment extends SearchLaunchingFragment {
 
+
     private FastScrollRecyclerView artistListRecyclerView;
+    private ArtistListAdapter adapter;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
     private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
@@ -50,14 +53,22 @@ public class ArtistListFragment extends SearchLaunchingFragment {
                              Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_artist_list, container, false);
-        artistListRecyclerView = view.findViewById(R.id.artist_list_rv_);
-
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        initRecyclerView(view);
+        setViewModelObservers();
+        handleMainActivityFeatures();
 
-        final ArtistListAdapter adapter = new ArtistListAdapter(getContext());
+        return view;
+    }
+
+    private void initRecyclerView(View view) {
+        artistListRecyclerView = view.findViewById(R.id.artist_list_rv_);
+        adapter = new ArtistListAdapter(getContext());
         artistListRecyclerView.setAdapter(adapter);
         artistListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
 
+    private void setViewModelObservers() {
         mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
@@ -68,17 +79,26 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         mGuitarSongbookViewModel.getArtistSongsCount().observe(this, new Observer<List<SongDao.ArtistSongsCount>>() {
             @Override
             public void onChanged(@Nullable final List<SongDao.ArtistSongsCount> artistSongsCounts) {
+                assert artistSongsCounts != null;
                 adapter.setArtistsSongsNumber(artistSongsCounts);
             }
         });
-
-        MainActivity mainActivity = (MainActivity) getActivity();
-        if (getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)){
-            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
-            mainActivity.checkItem(itemId);
-        }
-
-        return view;
     }
+
+    private void handleMainActivityFeatures() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        assert mainActivity != null;
+        mainActivity.setTitle(Objects.requireNonNull(getContext()).getString(R.string.app_name));
+        setCurrentItemInNavigationView(mainActivity);
+    }
+
+    private void setCurrentItemInNavigationView(MainActivity mainActivity) {
+        if (getArguments() != null && getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
+            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
+            mainActivity.setCurrentItemId(itemId);
+        }
+    }
+
+
 
 }

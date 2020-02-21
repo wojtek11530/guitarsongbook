@@ -122,7 +122,6 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
             mChord = mChordsInLine.get(position);
             if (mChord != null) {
                 String chordSymbol = mChord.getSymbolToDisplay();
-
                 mChordInLineTextView.setText(chordSymbol);
             }
         }

@@ -59,7 +59,6 @@ public class Song implements Parcelable {
         this.mIsFavourite = mIsFavourite;
     }
 
-
     @Ignore
     public Song(String mTitle, long mArtistId, Kind mKind, MusicGenre mMusicGenre, ArrayList<String> mLyrics, ArrayList<String> mChords, String mArtistName) {
         this.mTitle = mTitle;
@@ -145,6 +144,11 @@ public class Song implements Parcelable {
 
 
 
+
+    public void switchIsFavourite() {
+        mIsFavourite = !mIsFavourite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -154,7 +158,11 @@ public class Song implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.mId);
         dest.writeString(this.mTitle);
-        dest.writeLong(this.mArtistId);
+        int indicatorArtistIdNull = (this.mArtistId == null) ? 0 : 1;
+        long artistIdPrimitive = (this.mArtistId == null) ? 0 : this.mArtistId;
+        dest.writeInt(indicatorArtistIdNull);
+        dest.writeLong(artistIdPrimitive);
+        dest.writeValue(this.mArtistId);
         dest.writeInt(this.mKind == null ? -1 : this.mKind.ordinal());
         dest.writeInt(this.mMusicGenre == null ? -1 : this.mMusicGenre.ordinal());
         dest.writeStringList(this.mLyrics);
@@ -166,7 +174,16 @@ public class Song implements Parcelable {
     protected Song(Parcel in) {
         this.mId = in.readLong();
         this.mTitle = in.readString();
-        this.mArtistId = in.readLong();
+
+        int indicatorArtistIdNull = in.readInt();
+        long artistIdPrimitive = in.readLong();
+        if(indicatorArtistIdNull == 0){
+            this.mArtistId = null;
+        }
+        else{
+            this.mArtistId = artistIdPrimitive;
+        }
+        //this.mArtistId = (Long) in.readValue(Long.class.getClassLoader());
         int tmpMKind = in.readInt();
         this.mKind = tmpMKind == -1 ? null : Kind.values()[tmpMKind];
         int tmpMMusicGenre = in.readInt();
@@ -189,7 +206,5 @@ public class Song implements Parcelable {
         }
     };
 
-    public void switchIsFavourite() {
-        mIsFavourite = !mIsFavourite;
-    }
+
 }

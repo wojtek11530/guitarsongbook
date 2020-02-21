@@ -136,32 +136,17 @@ public class SongDisplayFragment extends Fragment {
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_display, container, false);
-
-        mSongLyricsRecyclerView = view.findViewById(R.id.lyrics_rv_);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
-        mSongDisplayAdapter = new SongDisplayAdapter(getContext());
+        getActivity().setTitle("");
 
-        mSongLyricsRecyclerView.setAdapter(mSongDisplayAdapter);
-        mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        initLyricsRecyclerView(view);
         initBottomNavigationView(view);
         initAutoScrollBar(view, savedInstanceState);
         initTransposeBar(view, savedInstanceState);
 
         if (savedInstanceState != null) {
-            mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
-            mArtistOfSong = savedInstanceState.getParcelable(ARTIST_DATA_KEY);
-            mSpecificChordsInSong = savedInstanceState.getParcelableArrayList(SPECIFIC_CHORDS_DATA_KEY);
-
-            mTransposableSpecificChordsInSong = savedInstanceState.getParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY);
-            mTransposeValue = savedInstanceState.getInt(TRANSPOSE_VALUE_KEY);
-
-            mSongDisplayAdapter.setSong(mSongToDisplay);
-            mSongDisplayAdapter.setArtist(mArtistOfSong);
-            mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
-
-            mFavourite = mSongToDisplay.getMIsFavourite();
+            restoreDataFromSavedInstanceState(savedInstanceState);
 
         } else if (getArguments() != null) {
             Long songId = null;
@@ -175,7 +160,6 @@ public class SongDisplayFragment extends Fragment {
                     public void onChanged(@Nullable final Song song) {
                         mSongToDisplay = song;
                         mSongDisplayAdapter.setSong(song);
-
                         mFavourite = mSongToDisplay.getMIsFavourite();
                         adjustAddToFavouriteMenuItem();
                     }
@@ -213,15 +197,31 @@ public class SongDisplayFragment extends Fragment {
         }
 
         initToolBarFeatures(savedInstanceState);
-
-        Context context = getContext();
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean blankingScreenOn = sharedPref.getBoolean(
-                context.getResources().getString(R.string.switch_screen_blanking_pref_key),
-                true);
-        mSongLyricsRecyclerView.setKeepScreenOn(!blankingScreenOn);
-
+        configureBlankingScreen();
         return view;
+    }
+
+
+    private void restoreDataFromSavedInstanceState(Bundle savedInstanceState) {
+        mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
+        mArtistOfSong = savedInstanceState.getParcelable(ARTIST_DATA_KEY);
+        mSpecificChordsInSong = savedInstanceState.getParcelableArrayList(SPECIFIC_CHORDS_DATA_KEY);
+
+        mTransposableSpecificChordsInSong = savedInstanceState.getParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY);
+        mTransposeValue = savedInstanceState.getInt(TRANSPOSE_VALUE_KEY);
+
+        mSongDisplayAdapter.setSong(mSongToDisplay);
+        mSongDisplayAdapter.setArtist(mArtistOfSong);
+        mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
+
+        mFavourite = mSongToDisplay.getMIsFavourite();
+    }
+
+    private void initLyricsRecyclerView(View view) {
+        mSongLyricsRecyclerView = view.findViewById(R.id.lyrics_rv_);
+        mSongDisplayAdapter = new SongDisplayAdapter(getContext());
+        mSongLyricsRecyclerView.setAdapter(mSongDisplayAdapter);
+        mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
 
@@ -279,6 +279,13 @@ public class SongDisplayFragment extends Fragment {
     }
 
     private void initTransposeBar(View view, Bundle savedInstanceState) {
+        findTransposeBarViews(view);
+        setOnClickListenersForTransposeBarViews();
+
+    }
+
+
+    private void findTransposeBarViews(View view) {
         mTransposeBar = view.findViewById(R.id.transpose_bar);
 
         mTransposeValueTextView = view.findViewById(R.id.transpose_value_txt_);
@@ -287,7 +294,9 @@ public class SongDisplayFragment extends Fragment {
         mTransposeDownImageButton = view.findViewById(R.id.transpose_down_btn_);
         mResetTransposeImageButton = view.findViewById(R.id.transpose_reset_btn_);
         mCloseTransposeBarImageButton = view.findViewById(R.id.close_transpose_bar_btn_);
+    }
 
+    private void setOnClickListenersForTransposeBarViews() {
         mCloseTransposeBarImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,7 +307,6 @@ public class SongDisplayFragment extends Fragment {
         mTransposeUpImageButton.setOnClickListener(new TransposeUpOnClickListener());
         mTransposeDownImageButton.setOnClickListener(new TransposeDownOnClickListener());
         mResetTransposeImageButton.setOnClickListener(new ResetTransposeButtonOnClickListener());
-
     }
 
     private class ResetTransposeButtonOnClickListener implements View.OnClickListener {
@@ -414,11 +422,20 @@ public class SongDisplayFragment extends Fragment {
     }
 
     private void initAutoScrollBar(View view, final Bundle savedInstanceState) {
+        findAutoScrollBarViews(view);
+        setAutoScrollBarViewsListeners();
+        restoreStateForAutoScrolling(savedInstanceState);
+    }
+
+    private void findAutoScrollBarViews(View view) {
         mAutoScrollBar = view.findViewById(R.id.autoscroll_bar);
         mRunAutScrollImageButton = view.findViewById(R.id.run_autoscroll_btn_);
         mCloseAutoScrollBarImageButton = view.findViewById(R.id.close_autoscroll_bar_btn_);
         mAutoScrollSeekBar = view.findViewById(R.id.autoscroll_seek_bar);
+    }
 
+
+    private void setAutoScrollBarViewsListeners() {
         mCloseAutoScrollBarImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -450,7 +467,10 @@ public class SongDisplayFragment extends Fragment {
                 setSpeedOfAutoScrolling(progressChangedValue);
             }
         });
+    }
 
+
+    private void restoreStateForAutoScrolling(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             int autoScrollDelay = savedInstanceState.getInt(AUTO_SCROLL_DELAY_VALUE_KEY);
             int progress = calculateSeekBarProgressByDelay(autoScrollDelay);
@@ -542,6 +562,16 @@ public class SongDisplayFragment extends Fragment {
         mTransposeMenuItem.setChecked(mTransposeBarOn);
         mAutoScrollMenuItem.setChecked(mAutoScrollBarOn);
         mAddToFavouriteMenuItem.setChecked(mFavourite);
+    }
+
+    private void configureBlankingScreen() {
+        Context context = getContext();
+        assert context != null;
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean blankingScreenOn = sharedPref.getBoolean(
+                context.getResources().getString(R.string.switch_screen_blanking_pref_key),
+                true);
+        mSongLyricsRecyclerView.setKeepScreenOn(!blankingScreenOn);
     }
 
     @Override

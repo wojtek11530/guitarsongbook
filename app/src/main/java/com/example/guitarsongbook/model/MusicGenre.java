@@ -10,7 +10,6 @@ public enum MusicGenre {
     FESTIVE(6),
     SHANTY(7);
 
-
     private int code;
 
     MusicGenre(int code) {
