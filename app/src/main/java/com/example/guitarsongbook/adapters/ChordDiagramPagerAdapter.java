@@ -23,7 +23,6 @@ public class ChordDiagramPagerAdapter extends PagerAdapter {
         this.chordDiagramDrawableIds = chordDiagramDrawableIds;
     }
 
-
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.chord_diagram_pager_item, null);

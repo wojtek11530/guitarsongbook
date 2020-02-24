@@ -21,6 +21,7 @@
     <string name="country">Country</string>
     <string name="reggae">Reggae</string>
     <string name="festive">Biesiadne</string>
+    <string name="shanty">Szanty</string>
 
     <string name="settings">Ustawienia</string>
     <string name="all_songs">Wszystkie piosenki</string>
@@ -52,7 +53,13 @@
     <string name="lyrics_text_size_key">lyric_text_size</string>
     <string name="lyrics_text_size_preference_title">Wielkość tekstu piosenki</string>
     <string name="lyrics_and_chords_default_text_size">20</string>
-    <string name="shanty">Szanty</string>
+
+
+    <string name="song">piosenka</string>
+    <string name="songs_plural">piosenek</string>
+    <string name="songs_plural_for_2_3_4">piosenki</string>
+    <string name="no_favourite_songs_communicate">Brak ulubionych piosenek.</string>
+    <string name="search">Search</string>
 
 
     <string-array name="font_size_entries">

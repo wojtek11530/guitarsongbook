@@ -91,7 +91,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
 
                     Chord chordToDisplay = mChordsInLine.get(position);
 
-                    String chordDialogTitle = context.getString(R.string.chord) + " " + mChord.getMSymbol();
+                    String chordDialogTitle = context.getString(R.string.chord) + " " + mChord.getSymbolToDisplay();
 
                     String chordSymbolInLowerCase = mChord.getMSymbol().toLowerCase();
                     Resources resources = context.getResources();
@@ -121,7 +121,8 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         public void bindTo(int position) {
             mChord = mChordsInLine.get(position);
             if (mChord != null) {
-                mChordInLineTextView.setText(mChord.getMSymbol());
+                String chordSymbol = mChord.getSymbolToDisplay();
+                mChordInLineTextView.setText(chordSymbol);
             }
         }
     }

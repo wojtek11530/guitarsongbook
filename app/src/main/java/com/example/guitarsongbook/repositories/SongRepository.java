@@ -32,7 +32,7 @@ public class SongRepository {
         new SongRepository.updateAsyncTask(mSongDao).execute(song);
     }
 
-    public LiveData<List<Song>> getmAllSongs() {
+    public LiveData<List<Song>> getAllSongs() {
         return mAllSongs;
     }
 
@@ -48,11 +48,6 @@ public class SongRepository {
         return mSongDao.getSongByMusicGenre(genre);
     }
 
-    public LiveData<List<Song>> getSongByQuery(String query) {
-        query = "%" + query + "%";
-        return mSongDao.getSongByQuery(query);
-    }
-
     public LiveData<List<Song>> getSongByArtistId(Long artistId) {
         return mSongDao.getSongByArtistId(artistId);
     }
@@ -60,6 +55,42 @@ public class SongRepository {
     public LiveData<List<Song>> getFavouriteSongs() {
         return mSongDao.getFavouriteSongs();
     }
+
+
+    public LiveData<List<Song>> getSongByQuery(String query) {
+        query = "%" + query + "%";
+        return mSongDao.getSongByQuery(query);
+    }
+
+    public LiveData<List<Song>> getAllSongsTitleAndArtistsId() {
+        return mSongDao.getAllSongsTitleAndArtistId();
+    }
+
+    public LiveData<List<Song>> getSongTitleAndArtistIdByArtistId(Long artistId) {
+        return mSongDao.getSongTitleAndArtistIdByArtistId(artistId);
+    }
+
+    public LiveData<List<Song>> getFavouriteSongsTitleAndArtistId() {
+        return mSongDao.getFavouriteSongsTitleAndArtistId();
+    }
+
+    public LiveData<List<Song>> getSongsTitleAndArtistIdByKind(Kind kind) {
+        return mSongDao.getSongsTitleAndArtistIdByKind(kind);
+    }
+
+    public LiveData<List<Song>> getSongTitleAndArtistIdByMusicGenre(MusicGenre genre) {
+        return mSongDao.getSongTitleAndArtistIdByMusicGenre(genre);
+    }
+
+    public LiveData<List<Song>> getSongTitleAndArtistIdByQuery(String query) {
+        query = "%" + query + "%";
+        return mSongDao.getSongTitleAndArtistIdByQuery(query);
+    }
+
+    public LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount(){
+        return mSongDao.getArtistSongsCount();
+    }
+
 
     private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {
 

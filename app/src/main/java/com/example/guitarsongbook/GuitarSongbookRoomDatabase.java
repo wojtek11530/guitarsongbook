@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.guitarsongbook.daos.ArtistDao;
 import com.example.guitarsongbook.daos.ChordDao;
@@ -37,7 +35,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 12, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 13, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
@@ -51,23 +49,35 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
+    private static String databaseDir = "database/guitar_songbook_database.db";
+
     public static GuitarSongbookRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (GuitarSongbookRoomDatabase.class) {
                 if (INSTANCE == null) {
                     // Create database here
+
+                    INSTANCE = Room
+                            .databaseBuilder(context.getApplicationContext(),
+                            GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
+                            .createFromAsset(databaseDir)
+                            .build();
+
+                    /*
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
                             .fallbackToDestructiveMigration()
                             .addCallback(new Callback() {
                                 @Override
-                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                                    super.onOpen(db);
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
                                     new PopulateDbAsync(INSTANCE, context.getResources()).execute();
 
                                 }
                             })
                             .build();
+                     */
+
                 }
             }
         }
@@ -239,10 +249,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             }
             return artistId;
         }
-
-
-
-
     }
 }
 

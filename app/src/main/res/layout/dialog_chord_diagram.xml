@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/chord_in_dialog_symbol_txt_"
+        style="@style/TitleOfDisplayedSong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TitleOfDisplayedSong"
-        android:text="@string/artist_placeholder"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"/>
+        android:layout_marginBottom="4dp"
+        android:gravity="center_horizontal"
+        android:text="@string/artist_placeholder" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/chordDiagramPager"
-        android:layout_width="wrap_content"
-        android:overScrollMode="never"
-        android:layout_height="250dp" />
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:overScrollMode="never" />
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        app:ci_drawable="@drawable/circle_indicator_drawable"
-        app:ci_drawable_unselected="@drawable/circle_indicator_unselected_drawable"
+        android:layout_height="32dp"
         android:padding="8dp"
-        android:layout_height="32dp"/>
+        app:ci_drawable="@drawable/circle_indicator_drawable"
+        app:ci_drawable_unselected="@drawable/circle_indicator_unselected_drawable" />
 
 
 </LinearLayout>

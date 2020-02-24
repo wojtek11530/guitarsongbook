@@ -29,84 +29,68 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
     NavigationView navigationView;
+    Toolbar toolbar;
+    DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     FragmentManager fragmentManager;
+    private Integer chosenItemId;
+    private Integer currentItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        disableNavigationViewScrollbars(navigationView);
-
-        fragmentManager = getSupportFragmentManager();
-
-        if (savedInstanceState == null) {
-            fragmentManager.popBackStack();
-            SongListFragment songListFragment = SongListFragment.newInstance(null, null, false, navigationView.getCheckedItem().getItemId());
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, songListFragment)
-                    .commit();
-        } else {
-            if (fragmentManager.getBackStackEntryCount() > 0) {
-                toggle.setDrawerIndicatorEnabled(false);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            } else {
-                toggle.setDrawerIndicatorEnabled(true);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toggle.syncState();
-            }
-        }
-
-        // Set back button
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    toggle.setDrawerIndicatorEnabled(false);
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else {
-                    toggle.setDrawerIndicatorEnabled(true);
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                    toggle.syncState();
-                }
-            }
-        });
-
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
+        initializeViews();
+        configureFragmentManager();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        if (savedInstanceState == null) {
+            startFragmentForLaunchedApp();
+        } else {
+            adjustDisplayingDrawerIndicator();
+        }
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStack();
-        } else {
-            super.onBackPressed();
-        }
+    private void startFragmentForLaunchedApp() {
+        fragmentManager.popBackStack();
+        SongListFragment songListFragment =
+                SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction
+                .replace(R.id.fragment_container_fl_, songListFragment)
+                .commit();
+    }
+
+
+    private void initializeViews() {
+        setContentView(R.layout.activity_main);
+        initToolbar();
+        initNavigationView();
+        initDrawer();
+    }
+
+    private void initNavigationView() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        disableNavigationViewScrollbars(navigationView);
+    }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void initDrawer() {
+        drawer = findViewById(R.id.drawer_layout);
+        initToggleForDrawerAndToolbar();
+        drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(this);
     }
 
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
@@ -118,76 +102,162 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void initToggleForDrawerAndToolbar() {
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.syncState();
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void configureFragmentManager() {
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                adjustDisplayingDrawerIndicator();
+            }
+        });
+    }
+
+    private void adjustDisplayingDrawerIndicator() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            toggle.setDrawerIndicatorEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        } else {
+            toggle.setDrawerIndicatorEnabled(true);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            toggle.syncState();
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        Fragment fragment = null;
-
-        if (id == R.id.nav_setting) {
-            fragment = new SettingsFragment();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).addToBackStack(null).commit();
-        } else {
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-            if (id == R.id.nav_all_songs) {
-                fragment = SongListFragment.newInstance(null, null, false, id);
-            } else if (id == R.id.nav_favourite_songs) {
-                fragment = SongListFragment.newInstance(null, null, true, id);
-            } else if (id == R.id.nav_artists) {
-                fragment = ArtistListFragment.newInstance(id);
-            } else if (id == R.id.nav_polish_songs) {
-                fragment = SongListFragment.newInstance(Kind.POLISH, null, false, id);
-            } else if (id == R.id.nav_foreign) {
-                fragment = SongListFragment.newInstance(Kind.FOREIGN, null, false, id);
-            } else if (id == R.id.nav_rock) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.ROCK, false, id);
-            } else if (id == R.id.nav_pop) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.POP, false, id);
-            } else if (id == R.id.nav_folk) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.FOLK, false, id);
-            } else if (id == R.id.nav_disco_polo) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.DISCO_POLO, false, id);
-            }else if (id == R.id.nav_country) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.COUNTRY, false, id);
-            }else if (id == R.id.nav_reggea) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.REGGAE, false, id);
-            }else if (id == R.id.nav_festive) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.FESTIVE, false, id);
-            }else if (id == R.id.nav_shanty) {
-                fragment = SongListFragment.newInstance(null, MusicGenre.SHANTY, false, id);
-            }
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            if (fragment != null) {
-                fragmentTransaction.replace(R.id.fragment_container_fl_, fragment).commit();
-            }
+        if (currentItemId == null || currentItemId != item.getItemId()) {
+            chosenItemId = item.getItemId();
         }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void checkItem(int itemId){
+    public void setCurrentItemId(int itemId) {
+        currentItemId = itemId;
+        uncheckAllItemInNavigationDrawer();
         navigationView.getMenu().findItem(itemId).setChecked(true);
     }
 
-    public void unCheckAllItemInNavigationDrawer(){
-        unCheckAllMenuItems(navigationView.getMenu());
+    public void uncheckAllItemInNavigationDrawer() {
+        currentItemId = null;
+        uncheckAllMenuItems(navigationView.getMenu());
     }
 
-    private void unCheckAllMenuItems(Menu menu){
+    private void uncheckAllMenuItems(Menu menu) {
         int size = menu.size();
         for (int i = 0; i < size; i++) {
             MenuItem item = menu.getItem(i);
-            if(item.hasSubMenu()) {
-                // Un check sub menu items
-                unCheckAllMenuItems(item.getSubMenu());
+            if (item.hasSubMenu()) {
+                uncheckAllMenuItems(item.getSubMenu());
             } else {
                 item.setChecked(false);
             }
         }
+    }
+
+    @Override
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(@NonNull View drawerView) {
+        if (chosenItemId != null) {
+            Fragment fragment = getFragmentForItemId();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            if (fragment != null) {
+                if (chosenItemId == R.id.nav_setting) {
+                    setTransactionForSettingFragment(fragmentTransaction);
+                } else {
+                    setTransactionForNoSettingFragments(fragmentTransaction);
+                }
+                fragmentTransaction
+                        .replace(R.id.fragment_container_fl_, fragment)
+                        .commit();
+                currentItemId = chosenItemId;
+                chosenItemId = null;
+            }
+        }
+    }
+
+    private Fragment getFragmentForItemId() {
+        Fragment fragment = null;
+
+        if (chosenItemId == R.id.nav_setting) {
+            fragment = new SettingsFragment();
+        } else if (chosenItemId == R.id.nav_all_songs) {
+            fragment = SongListFragment.newInstance(chosenItemId);
+        } else if (chosenItemId == R.id.nav_favourite_songs) {
+            fragment = SongListFragment.newInstance(true, chosenItemId);
+        } else if (chosenItemId == R.id.nav_artists) {
+            fragment = ArtistListFragment.newInstance(chosenItemId);
+        } else if (chosenItemId == R.id.nav_polish_songs) {
+            fragment = SongListFragment.newInstance(Kind.POLISH, chosenItemId);
+        } else if (chosenItemId == R.id.nav_foreign) {
+            fragment = SongListFragment.newInstance(Kind.FOREIGN, chosenItemId);
+        } else if (chosenItemId == R.id.nav_rock) {
+            fragment = SongListFragment.newInstance(MusicGenre.ROCK, chosenItemId);
+        } else if (chosenItemId == R.id.nav_pop) {
+            fragment = SongListFragment.newInstance(MusicGenre.POP, chosenItemId);
+        } else if (chosenItemId == R.id.nav_folk) {
+            fragment = SongListFragment.newInstance(MusicGenre.FOLK, chosenItemId);
+        } else if (chosenItemId == R.id.nav_disco_polo) {
+            fragment = SongListFragment.newInstance(MusicGenre.DISCO_POLO, chosenItemId);
+        } else if (chosenItemId == R.id.nav_country) {
+            fragment = SongListFragment.newInstance(MusicGenre.COUNTRY, chosenItemId);
+        } else if (chosenItemId == R.id.nav_reggea) {
+            fragment = SongListFragment.newInstance(MusicGenre.REGGAE, chosenItemId);
+        } else if (chosenItemId == R.id.nav_festive) {
+            fragment = SongListFragment.newInstance(MusicGenre.FESTIVE, chosenItemId);
+        } else if (chosenItemId == R.id.nav_shanty) {
+            fragment = SongListFragment.newInstance(MusicGenre.SHANTY, chosenItemId);
+        }
+        return fragment;
+    }
+
+    private void setTransactionForSettingFragment(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                R.anim.enter_from_left, R.anim.exit_to_right);
+    }
+
+    private void setTransactionForNoSettingFragments(FragmentTransaction fragmentTransaction) {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+    }
+
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 }

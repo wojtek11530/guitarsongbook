@@ -20,7 +20,7 @@ public class ChordDialogFragment extends DialogFragment {
 
 
     private TextView mChordSymbolTextView;
-    private ViewPager mChordDiagramPager;
+    private ViewPager mChordDiagramViewPager;
     private ChordDiagramPagerAdapter mChordDiagramPagerAdapter;
     private CircleIndicator mCircleIndicator;
 
@@ -44,7 +44,7 @@ public class ChordDialogFragment extends DialogFragment {
         View dialogView = requireActivity().getLayoutInflater().inflate(R.layout.dialog_chord_diagram, null);
 
         mChordSymbolTextView = dialogView.findViewById(R.id.chord_in_dialog_symbol_txt_);
-        mChordDiagramPager = dialogView.findViewById(R.id.chordDiagramPager);
+        mChordDiagramViewPager = dialogView.findViewById(R.id.chordDiagramPager);
         mCircleIndicator = dialogView.findViewById(R.id.indicator);
 
         String chordDialogTitle;
@@ -59,9 +59,9 @@ public class ChordDialogFragment extends DialogFragment {
             chordDiagramDrawableIds = (ArrayList<Integer>) getArguments().getSerializable(DIAGRAM_DRAWABLE_IDS);
             mChordDiagramPagerAdapter = new ChordDiagramPagerAdapter(getContext(),
                     chordDiagramDrawableIds);
-            mChordDiagramPager.setAdapter(mChordDiagramPagerAdapter);
+            mChordDiagramViewPager.setAdapter(mChordDiagramPagerAdapter);
 
-            mCircleIndicator.setViewPager(mChordDiagramPager);
+            mCircleIndicator.setViewPager(mChordDiagramViewPager);
         }
 
 

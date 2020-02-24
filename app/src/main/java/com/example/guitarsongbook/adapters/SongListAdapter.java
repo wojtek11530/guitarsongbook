@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +44,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     @Override
     public void onBindViewHolder(@NonNull final SongViewHolder holder, int position) {
         if (mSongs != null) {
-            Song current = mSongs.get(position);
-            holder.mTitleTextView.setText(current.getMTitle());
+            Song currentSong = mSongs.get(position);
+            holder.mTitleTextView.setText(currentSong.getMTitle());
 
-            if (current.getMArtistId() != null) {
-                Artist artist = findArtistById(current.getMArtistId());
+            if (currentSong.getMArtistId() != null) {
+                Artist artist = findArtistById(currentSong.getMArtistId());
                 if (artist != null) {
                     holder.mArtistTextView.setText(artist.getMName());
                 }
@@ -55,7 +56,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
                 holder.mArtistTextView.setText("");
             }
         } else {
-            // Covers the case of data not being ready yet.
             holder.mTitleTextView.setText("No Song");
         }
     }
@@ -72,17 +72,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     public void setSongs(List<Song> songs) {
         mSongs = songs;
-        notifyDataSetChanged();
+        if (mArtists!=null) {
+            notifyDataSetChanged();
+        }
     }
 
     public void setArtists(List<Artist> artists) {
         mArtists = artists;
-        notifyDataSetChanged();
+        if (mSongs!=null) {
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (mSongs != null)
+        if (mSongs != null && mArtists != null)
             return mSongs.size();
         else return 0;
     }
@@ -108,19 +112,42 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-
-            Song songToDisplay = mSongs.get(position);
-            Long songId = songToDisplay.getMId();
-            Long artistId = songToDisplay.getMArtistId();
-            SongDisplayFragment songDisplayFragment;
-            if (artistId == null){
-                songDisplayFragment = SongDisplayFragment.newInstance(songId);
-            }else{
-                songDisplayFragment = SongDisplayFragment.newInstance(songId, artistId);
-            }
-
-            ((MainActivity) context).getSupportFragmentManager().beginTransaction().
-                    replace(R.id.fragment_container_fl_, songDisplayFragment).addToBackStack(null).commit();
+            startSongDisplayFragment(position);
         }
     }
+
+    private void startSongDisplayFragment(int position) {
+        SongDisplayFragment songDisplayFragment = getSongDisplayFragment(position);
+        changeFragmentWithDelay(songDisplayFragment);
+    }
+
+    private SongDisplayFragment getSongDisplayFragment(int position) {
+        Song songToDisplay = mSongs.get(position);
+        Long songId = songToDisplay.getMId();
+        Long artistId = songToDisplay.getMArtistId();
+        SongDisplayFragment songDisplayFragment;
+        if (artistId == null){
+            songDisplayFragment = SongDisplayFragment.newInstance(songId);
+        }else{
+            songDisplayFragment = SongDisplayFragment.newInstance(songId, artistId);
+        }
+        return songDisplayFragment;
+    }
+
+    private void changeFragmentWithDelay(final SongDisplayFragment songDisplayFragment) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((MainActivity) context).getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                                R.anim.enter_from_left, R.anim.exit_to_right)
+                        .addToBackStack(null)
+                        .replace(R.id.fragment_container_fl_, songDisplayFragment)
+                        .commit();
+            }
+        }, 250);
+    }
+
+
 }
