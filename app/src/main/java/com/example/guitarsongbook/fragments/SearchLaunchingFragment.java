@@ -40,7 +40,9 @@ public class SearchLaunchingFragment extends Fragment {
     private void runSearchViewFragment() {
         SearchFragment searchFragment = SearchFragment.newInstance();
         FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container_fl_, searchFragment).
-                addToBackStack(null).commit();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.fragment_container_fl_, searchFragment)
+                .addToBackStack(null).commit();
     }
 }
