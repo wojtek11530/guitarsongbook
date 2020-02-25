@@ -29,6 +29,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -215,32 +216,41 @@ public class MainActivity extends AppCompatActivity
 
         if (chosenItemId == R.id.nav_setting) {
             fragment = new SettingsFragment();
-        } else if (chosenItemId == R.id.nav_all_songs) {
-            fragment = SongListFragment.newInstance(chosenItemId);
-        } else if (chosenItemId == R.id.nav_favourite_songs) {
-            fragment = SongListFragment.newInstance(true, chosenItemId);
-        } else if (chosenItemId == R.id.nav_artists) {
-            fragment = ArtistListFragment.newInstance(chosenItemId);
-        } else if (chosenItemId == R.id.nav_polish_songs) {
-            fragment = SongListFragment.newInstance(Kind.POLISH, chosenItemId);
-        } else if (chosenItemId == R.id.nav_foreign) {
-            fragment = SongListFragment.newInstance(Kind.FOREIGN, chosenItemId);
-        } else if (chosenItemId == R.id.nav_rock) {
-            fragment = SongListFragment.newInstance(MusicGenre.ROCK, chosenItemId);
-        } else if (chosenItemId == R.id.nav_pop) {
-            fragment = SongListFragment.newInstance(MusicGenre.POP, chosenItemId);
-        } else if (chosenItemId == R.id.nav_folk) {
-            fragment = SongListFragment.newInstance(MusicGenre.FOLK, chosenItemId);
-        } else if (chosenItemId == R.id.nav_disco_polo) {
-            fragment = SongListFragment.newInstance(MusicGenre.DISCO_POLO, chosenItemId);
-        } else if (chosenItemId == R.id.nav_country) {
-            fragment = SongListFragment.newInstance(MusicGenre.COUNTRY, chosenItemId);
-        } else if (chosenItemId == R.id.nav_reggea) {
-            fragment = SongListFragment.newInstance(MusicGenre.REGGAE, chosenItemId);
-        } else if (chosenItemId == R.id.nav_festive) {
-            fragment = SongListFragment.newInstance(MusicGenre.FESTIVE, chosenItemId);
-        } else if (chosenItemId == R.id.nav_shanty) {
-            fragment = SongListFragment.newInstance(MusicGenre.SHANTY, chosenItemId);
+        } else {
+
+            List fragments = getSupportFragmentManager().getFragments();
+            Fragment currentFragment = (Fragment) fragments.get(fragments.size() - 1);
+            if (currentFragment instanceof SongListFragment){
+                SongListFragment.mBundleRecyclerViewState = null;
+                ((SongListFragment) currentFragment).setSaveRecyclerViewState(false);
+            }
+            if (chosenItemId == R.id.nav_all_songs) {
+                fragment = SongListFragment.newInstance(chosenItemId);
+            } else if (chosenItemId == R.id.nav_favourite_songs) {
+                fragment = SongListFragment.newInstance(true, chosenItemId);
+            } else if (chosenItemId == R.id.nav_artists) {
+                fragment = ArtistListFragment.newInstance(chosenItemId);
+            } else if (chosenItemId == R.id.nav_polish_songs) {
+                fragment = SongListFragment.newInstance(Kind.POLISH, chosenItemId);
+            } else if (chosenItemId == R.id.nav_foreign) {
+                fragment = SongListFragment.newInstance(Kind.FOREIGN, chosenItemId);
+            } else if (chosenItemId == R.id.nav_rock) {
+                fragment = SongListFragment.newInstance(MusicGenre.ROCK, chosenItemId);
+            } else if (chosenItemId == R.id.nav_pop) {
+                fragment = SongListFragment.newInstance(MusicGenre.POP, chosenItemId);
+            } else if (chosenItemId == R.id.nav_folk) {
+                fragment = SongListFragment.newInstance(MusicGenre.FOLK, chosenItemId);
+            } else if (chosenItemId == R.id.nav_disco_polo) {
+                fragment = SongListFragment.newInstance(MusicGenre.DISCO_POLO, chosenItemId);
+            } else if (chosenItemId == R.id.nav_country) {
+                fragment = SongListFragment.newInstance(MusicGenre.COUNTRY, chosenItemId);
+            } else if (chosenItemId == R.id.nav_reggea) {
+                fragment = SongListFragment.newInstance(MusicGenre.REGGAE, chosenItemId);
+            } else if (chosenItemId == R.id.nav_festive) {
+                fragment = SongListFragment.newInstance(MusicGenre.FESTIVE, chosenItemId);
+            } else if (chosenItemId == R.id.nav_shanty) {
+                fragment = SongListFragment.newInstance(MusicGenre.SHANTY, chosenItemId);
+            }
         }
         return fragment;
     }
@@ -262,7 +272,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void setAppBarTitle(String title){
+    public void setAppBarTitle(String title) {
         Objects.requireNonNull(getSupportActionBar()).setTitle(title);
     }
 }

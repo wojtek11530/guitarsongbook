@@ -1,13 +1,13 @@
 package com.example.guitarsongbook.fragments;
 
 
-import android.app.Activity;
+
 import android.os.Bundle;
 
+
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,8 +51,9 @@ public class SongListFragment extends SearchLaunchingFragment {
 
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
-    private static Bundle mBundleRecyclerViewState;
+    public static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
+    private boolean saveRecyclerViewState = true;
 
     public static SongListFragment newInstance(int checkedMenuItemId) {
         SongListFragment fragment = new SongListFragment();
@@ -100,7 +101,6 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     public SongListFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -121,6 +121,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     @Override
     public void onResume() {
         super.onResume();
+
         if (mBundleRecyclerViewState != null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -130,6 +131,7 @@ public class SongListFragment extends SearchLaunchingFragment {
                 }
             }, 50);
         }
+
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -319,11 +321,15 @@ public class SongListFragment extends SearchLaunchingFragment {
 
     @Override
     public void onPause() {
-        mBundleRecyclerViewState = new Bundle();
-        mListState = songListRecyclerView.getLayoutManager().onSaveInstanceState();
-        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
+        if (saveRecyclerViewState) {
+            mBundleRecyclerViewState = new Bundle();
+            mListState = songListRecyclerView.getLayoutManager().onSaveInstanceState();
+            mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
+        }
         super.onPause();
     }
 
-
+    public void setSaveRecyclerViewState(boolean saveRecyclerViewState) {
+        this.saveRecyclerViewState = saveRecyclerViewState;
+    }
 }
