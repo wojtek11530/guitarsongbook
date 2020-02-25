@@ -1,10 +1,13 @@
 package com.example.guitarsongbook.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -108,6 +111,7 @@ public class SongListFragment extends SearchLaunchingFragment {
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
         initViews(view);
         configureRecyclerView();
+        configureAppBarTitle();
         configureViewModelObservers();
         handleMainActivityFeatures();
 
@@ -140,13 +144,84 @@ public class SongListFragment extends SearchLaunchingFragment {
         //songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
+    private void configureAppBarTitle() {
+
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+
+        assert getArguments() != null;
+        if (getArguments().containsKey(SONGS_KIND_KEY)) {
+            Kind kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
+            configureAppBarTitleForKind(kind);
+        } else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
+            MusicGenre genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
+            configureAppBarTitleForMusicGenre(genre);
+
+        } else if (getArguments().containsKey(ARTIST_ID_KEY)) {
+            Long artistId = getArguments().getLong(ARTIST_ID_KEY);
+            configureAppBarTitleForArtistId(artistId);
+
+        } else if (getArguments().containsKey(IS_FAVOURITE_SONG_LIST_KEY)) {
+            boolean isFavouriteSongList = getArguments().getBoolean(IS_FAVOURITE_SONG_LIST_KEY);
+            if (isFavouriteSongList) {
+                activity.setAppBarTitle(getResources().getString(R.string.favourite_songs));
+            }
+        } else {
+            activity.setAppBarTitle(getResources().getString(R.string.all_songs));
+        }
+
+    }
+
+    private void configureAppBarTitleForKind(Kind kind) {
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        if (kind == Kind.POLISH) {
+            activity.setAppBarTitle(getResources().getString(R.string.polish));
+        } else if (kind == Kind.FOREIGN) {
+            activity.setAppBarTitle(getResources().getString(R.string.foreign));
+        }
+    }
+
+    private void configureAppBarTitleForMusicGenre(MusicGenre genre) {
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+
+        if (genre == MusicGenre.ROCK) {
+            activity.setAppBarTitle(getResources().getString(R.string.rock));
+        } else if (genre == MusicGenre.POP) {
+            activity.setAppBarTitle(getResources().getString(R.string.pop));
+        } else if (genre == MusicGenre.FOLK) {
+            activity.setAppBarTitle(getResources().getString(R.string.folk));
+        } else if (genre == MusicGenre.DISCO_POLO) {
+            activity.setAppBarTitle(getResources().getString(R.string.disco_polo));
+        } else if (genre == MusicGenre.COUNTRY) {
+            activity.setAppBarTitle(getResources().getString(R.string.country));
+        } else if (genre == MusicGenre.REGGAE) {
+            activity.setAppBarTitle(getResources().getString(R.string.reggae));
+        } else if (genre == MusicGenre.FESTIVE) {
+            activity.setAppBarTitle(getResources().getString(R.string.festive));
+        } else if (genre == MusicGenre.SHANTY) {
+            activity.setAppBarTitle(getResources().getString(R.string.shanty));
+        }
+    }
+
+    private void configureAppBarTitleForArtistId(Long artistId) {
+        mGuitarSongbookViewModel.getArtistById(artistId).observe(this, new Observer<Artist>() {
+            @Override
+            public void onChanged(Artist artist) {
+                MainActivity activity = (MainActivity) getActivity();
+                assert activity != null;
+                activity.setAppBarTitle(artist.getMName());
+            }
+        });
+    }
+
     private void configureViewModelObservers() {
 
         assert getArguments() != null;
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             Kind kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
             configureSongsObserverForKind(kind);
-
         } else if (getArguments().containsKey(SONGS_GENRE_KEY)) {
             MusicGenre genre = (MusicGenre) getArguments().getSerializable(SONGS_GENRE_KEY);
             configureSongsObserverForMusicGenre(genre);
@@ -237,7 +312,7 @@ public class SongListFragment extends SearchLaunchingFragment {
         if (getArguments() != null && getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
             int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
             mainActivity.setCurrentItemId(itemId);
-        }else {
+        } else {
             mainActivity.uncheckAllItemInNavigationDrawer();
         }
     }

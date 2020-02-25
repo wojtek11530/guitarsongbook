@@ -4,6 +4,7 @@ package com.example.guitarsongbook.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -52,13 +53,20 @@ public class ArtistListFragment extends SearchLaunchingFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_artist_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_artist_list, container, false);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        setTitle();
         initRecyclerView(view);
         setViewModelObservers();
         handleMainActivityFeatures();
 
         return view;
+    }
+
+    private void setTitle() {
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        activity.setAppBarTitle(getResources().getString(R.string.artists));
     }
 
     private void initRecyclerView(View view) {
@@ -98,7 +106,6 @@ public class ArtistListFragment extends SearchLaunchingFragment {
             mainActivity.setCurrentItemId(itemId);
         }
     }
-
 
 
 }

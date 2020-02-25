@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity
 
     private void startFragmentForLaunchedApp() {
         fragmentManager.popBackStack();
+
+
         SongListFragment songListFragment =
                 SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -66,7 +68,6 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container_fl_, songListFragment)
                 .commit();
     }
-
 
     private void initializeViews() {
         setContentView(R.layout.activity_main);
@@ -259,5 +260,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDrawerStateChanged(int newState) {
 
+    }
+
+    public void setAppBarTitle(String title){
+        Objects.requireNonNull(getSupportActionBar()).setTitle(title);
     }
 }

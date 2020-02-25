@@ -3,10 +3,12 @@ package com.example.guitarsongbook.fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 
 
+import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 
 import java.util.Objects;
@@ -23,7 +25,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        Objects.requireNonNull(getActivity()).setTitle(Objects.requireNonNull(getContext()).getString(R.string.settings));
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        activity.setAppBarTitle(getResources().getString(R.string.settings));
         setPreferencesFromResource(R.xml.preferences, rootKey);
     }
 
