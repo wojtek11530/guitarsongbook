@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.guitarsongbook.daos.ArtistDao;
 import com.example.guitarsongbook.daos.ChordDao;
@@ -49,17 +51,16 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
-    private static String databaseDir = "database/guitar_songbook_database.db";
+    private static String databaseDir = "database/guitar_songbook_database1.db";
 
     public static GuitarSongbookRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (GuitarSongbookRoomDatabase.class) {
                 if (INSTANCE == null) {
                     // Create database here
-
                     INSTANCE = Room
                             .databaseBuilder(context.getApplicationContext(),
-                            GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
+                                    GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
                             .createFromAsset(databaseDir)
                             .build();
 
@@ -69,15 +70,15 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                             .fallbackToDestructiveMigration()
                             .addCallback(new Callback() {
                                 @Override
-                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                                    super.onCreate(db);
+                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                                    super.onOpen(db);
                                     new PopulateDbAsync(INSTANCE, context.getResources()).execute();
 
                                 }
                             })
                             .build();
-                     */
 
+                    */
                 }
             }
         }
@@ -157,13 +158,15 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         }
 
         private ArrayList<Song> getSongsFromJsonString(String jsonString) {
-            Type songsListType = new TypeToken<ArrayList<Song>>() {}.getType();
+            Type songsListType = new TypeToken<ArrayList<Song>>() {
+            }.getType();
             Gson gson = new GsonBuilder().create();
             return gson.fromJson(jsonString, songsListType);
         }
 
         private ArrayList<Chord> getChordsFromJsonString(String chordsJsonString) {
-            Type chordsListType = new TypeToken<ArrayList<Chord>>() {}.getType();
+            Type chordsListType = new TypeToken<ArrayList<Chord>>() {
+            }.getType();
             Gson gson = new GsonBuilder().create();
             return gson.fromJson(chordsJsonString, chordsListType);
         }
@@ -237,9 +240,9 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         private Long getSongArtistId(Song song) {
             Long artistId;
             String artistName = song.getMArtistName();
-            if (artistName == null){
+            if (artistName == null) {
                 artistId = null;
-            }else {
+            } else {
                 Artist artist = mArtistDao.getArtistByName(artistName);
                 if (artist == null) {
                     artistId = mArtistDao.insert(new Artist(artistName));
