@@ -31,4 +31,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preferences, rootKey);
     }
 
+    @Override
+    public void onStop() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        assert mainActivity != null;
+        mainActivity.manageSharedPreferences();
+        super.onStop();
+    }
 }

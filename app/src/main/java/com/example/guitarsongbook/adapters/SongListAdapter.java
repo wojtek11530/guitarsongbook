@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
@@ -19,19 +22,27 @@ import com.example.guitarsongbook.fragments.SongDisplayFragment;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Song;
 import com.l4digital.fastscroll.FastScroller;
+
 import java.util.List;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder> implements FastScroller.SectionIndexer {
+
 
     private Context context;
     private final LayoutInflater mInflater;
     private List<Song> mSongs;
     private List<Artist> mArtists;
+    private boolean animateTransition;
 
 
     public SongListAdapter(Context context) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        animateTransition = sharedPref.getBoolean(
+                context.getResources().getString(R.string.switch_animation_pref_key),
+                true);
     }
 
     @NonNull
@@ -52,7 +63,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
                 if (artist != null) {
                     holder.mArtistTextView.setText(artist.getMName());
                 }
-            }else{
+            } else {
                 holder.mArtistTextView.setText("");
             }
         } else {
@@ -72,14 +83,14 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     public void setSongs(List<Song> songs) {
         mSongs = songs;
-        if (mArtists!=null) {
+        if (mArtists != null) {
             notifyDataSetChanged();
         }
     }
 
     public void setArtists(List<Artist> artists) {
         mArtists = artists;
-        if (mSongs!=null) {
+        if (mSongs != null) {
             notifyDataSetChanged();
         }
     }
@@ -93,7 +104,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     @Override
     public CharSequence getSectionText(int position) {
-        return mSongs.get(position).getMTitle().substring(0,1).toUpperCase();
+        return mSongs.get(position).getMTitle().substring(0, 1).toUpperCase();
     }
 
     public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -126,9 +137,9 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         Long songId = songToDisplay.getMId();
         Long artistId = songToDisplay.getMArtistId();
         SongDisplayFragment songDisplayFragment;
-        if (artistId == null){
+        if (artistId == null) {
             songDisplayFragment = SongDisplayFragment.newInstance(songId);
-        }else{
+        } else {
             songDisplayFragment = SongDisplayFragment.newInstance(songId, artistId);
         }
         return songDisplayFragment;
@@ -139,9 +150,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((MainActivity) context).getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                        .addToBackStack(null)
+                FragmentTransaction fragmentTransaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+                if (animateTransition) {
+                    fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+                }
+                fragmentTransaction.addToBackStack(null)
                         .replace(R.id.fragment_container_fl_, songDisplayFragment)
                         .commit();
             }

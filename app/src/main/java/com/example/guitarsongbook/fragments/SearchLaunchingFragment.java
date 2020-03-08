@@ -1,5 +1,7 @@
 package com.example.guitarsongbook.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -8,6 +10,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.example.guitarsongbook.R;
 
@@ -15,10 +19,20 @@ import java.util.Objects;
 
 public class SearchLaunchingFragment extends Fragment {
 
+    private boolean animateTransition;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        Context context = getContext();
+        assert context != null;
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        animateTransition = sharedPref.getBoolean(
+                context.getResources().getString(R.string.switch_animation_pref_key),
+                true);
+
     }
 
     @Override
@@ -40,9 +54,12 @@ public class SearchLaunchingFragment extends Fragment {
     private void runSearchViewFragment() {
         SearchFragment searchFragment = SearchFragment.newInstance();
         FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.fragment_container_fl_, searchFragment)
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (animateTransition) {
+            fragmentTransaction.
+                    setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+        }
+        fragmentTransaction.replace(R.id.fragment_container_fl_, searchFragment)
                 .addToBackStack(null).commit();
     }
 }

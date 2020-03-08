@@ -60,6 +60,9 @@
     <string name="songs_plural_for_2_3_4">piosenki</string>
     <string name="no_favourite_songs_communicate">Brak ulubionych piosenek.</string>
     <string name="search">Search</string>
+    <string name="switch_animation_pref_key">switch_animation</string>
+    <string name="animation_preference_summary">Wyświetlaj animacje przejścia przy zmianie okien aplikacji</string>
+    <string name="animation_preference_title">Animacje przejścia</string>
 
 
     <string-array name="font_size_entries">

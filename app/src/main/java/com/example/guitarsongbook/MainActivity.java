@@ -1,5 +1,6 @@
 package com.example.guitarsongbook;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.ArtistListFragment;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fragmentManager;
     private Integer chosenItemId;
     private Integer currentItemId;
+    private boolean animateTransition;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 
         initializeViews();
         configureFragmentManager();
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        manageSharedPreferences();
 
         if (savedInstanceState == null) {
             startFragmentForLaunchedApp();
@@ -58,17 +61,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void startFragmentForLaunchedApp() {
-        fragmentManager.popBackStack();
 
 
-        SongListFragment songListFragment =
-                SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction
-                .replace(R.id.fragment_container_fl_, songListFragment)
-                .commit();
-    }
 
     private void initializeViews() {
         setContentView(R.layout.activity_main);
@@ -135,6 +129,30 @@ public class MainActivity extends AppCompatActivity
                 adjustDisplayingDrawerIndicator();
             }
         });
+    }
+
+
+    public void manageSharedPreferences() {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        setAnimateTransitionFromPreferences();
+
+    }
+
+    private void setAnimateTransitionFromPreferences() {
+        animateTransition = sharedPref.getBoolean(
+                getResources().getString(R.string.switch_animation_pref_key),
+                true);
+    }
+
+    private void startFragmentForLaunchedApp() {
+        fragmentManager.popBackStack();
+        SongListFragment songListFragment =
+                SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction
+                .replace(R.id.fragment_container_fl_, songListFragment)
+                .commit();
     }
 
     private void adjustDisplayingDrawerIndicator() {
@@ -257,13 +275,17 @@ public class MainActivity extends AppCompatActivity
 
     private void setTransactionForSettingFragment(FragmentTransaction fragmentTransaction) {
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.setCustomAnimations(
-                R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+        if (animateTransition) {
+            fragmentTransaction.setCustomAnimations(
+                    R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
     private void setTransactionForNoSettingFragments(FragmentTransaction fragmentTransaction) {
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+        if (animateTransition) {
+            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
 
