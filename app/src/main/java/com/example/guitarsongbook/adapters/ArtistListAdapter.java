@@ -1,6 +1,7 @@
 package com.example.guitarsongbook.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.MainActivity;
@@ -27,12 +29,18 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
     private Context context;
     private final LayoutInflater mInflater;
     private List<Artist> mArtists;
+    private boolean animateTransition;
 
     private Map<Long, Integer> artistIdToSongsCountMap = new HashMap<>();
 
     public ArtistListAdapter(Context context) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        animateTransition = sharedPref.getBoolean(
+                context.getResources().getString(R.string.switch_animation_pref_key),
+                true);
     }
 
     @NonNull
@@ -141,10 +149,11 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((MainActivity) context).getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                                R.anim.enter_from_left, R.anim.exit_to_right)
-                        .addToBackStack(null)
+                FragmentTransaction fragmentTransaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+                if (animateTransition) {
+                    fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+                }
+                fragmentTransaction.addToBackStack(null)
                         .replace(R.id.fragment_container_fl_, songListFragment)
                         .commit();
             }

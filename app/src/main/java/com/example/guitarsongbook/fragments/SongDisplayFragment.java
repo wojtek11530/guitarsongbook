@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -138,8 +139,8 @@ public class SongDisplayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_song_display, container, false);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
 
-        getActivity().setTitle("");
 
+        setTitle("");
         initLyricsRecyclerView(view);
         initBottomNavigationView(view);
         initAutoScrollBar(view, savedInstanceState);
@@ -161,6 +162,7 @@ public class SongDisplayFragment extends Fragment {
                         mSongToDisplay = song;
                         mSongDisplayAdapter.setSong(song);
                         mFavourite = mSongToDisplay.getMIsFavourite();
+                        setTitle(song.getMTitle());
                         adjustAddToFavouriteMenuItem();
                     }
                 });
@@ -201,6 +203,12 @@ public class SongDisplayFragment extends Fragment {
         return view;
     }
 
+    private void setTitle(String title) {
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        activity.setAppBarTitle(title);
+    }
+
 
     private void restoreDataFromSavedInstanceState(Bundle savedInstanceState) {
         mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
@@ -210,6 +218,7 @@ public class SongDisplayFragment extends Fragment {
         mTransposableSpecificChordsInSong = savedInstanceState.getParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY);
         mTransposeValue = savedInstanceState.getInt(TRANSPOSE_VALUE_KEY);
 
+        setTitle(mSongToDisplay.getMTitle());
         mSongDisplayAdapter.setSong(mSongToDisplay);
         mSongDisplayAdapter.setArtist(mArtistOfSong);
         mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);

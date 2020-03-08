@@ -27,4 +27,11 @@
         android:title="@string/screen_blanking_preference_title"
         app:iconSpaceReserved="false" />
 
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/switch_animation_pref_key"
+        android:summary="@string/animation_preference_summary"
+        android:title="@string/animation_preference_title"
+        app:iconSpaceReserved="false" />
+
 </PreferenceScreen>
