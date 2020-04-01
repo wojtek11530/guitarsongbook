@@ -1,26 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="vertical"
-    android:paddingStart="20dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="20dp"
-    android:paddingBottom="6dp">
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="3dp"
+    app:cardMaxElevation="3dp"
+    app:cardPreventCornerOverlap="false"
+    app:contentPadding="8dp">
 
-    <TextView
-        android:id="@+id/song_title_txt_"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Material.Title"
-        tools:text="placeholder text" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/artist_txt_"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-        tools:text="placeholder text" />
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/artist_img_"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="Icon of song"
+            app:layout_constraintBottom_toBottomOf="@+id/artist_txt_"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/song_title_txt_"
+            app:srcCompat="@drawable/ic_songs" />
+
+        <TextView
+            android:id="@+id/song_title_txt_"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/ListItemTitle"
+            app:layout_constraintEnd_toStartOf="@+id/favourite_btn_"
+            app:layout_constraintStart_toEndOf="@+id/artist_img_"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="placeholder text" />
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintBottom_toBottomOf="@+id/song_title_txt_"
+            app:layout_constraintStart_toStartOf="@+id/song_title_txt_" />
+
+        <TextView
+            android:id="@+id/artist_txt_"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/ListItemSubtitle"
+            app:layout_constraintEnd_toStartOf="@+id/favourite_btn_"
+            app:layout_constraintStart_toEndOf="@+id/artist_img_"
+            app:layout_constraintTop_toBottomOf="@+id/space"
+            tools:text="placeholder text" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/favourite_btn_"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/artist_txt_"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/song_title_txt_"
+            app:srcCompat="@drawable/ic_heart" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

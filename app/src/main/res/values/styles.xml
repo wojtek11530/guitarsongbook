@@ -38,6 +38,26 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="ListItemTitle"  parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="ListItemSubtitle"  parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="AppBarTitle"  parent="android:Widget.TextView">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/pt_sans</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
     <style name="ChordOfDisplayedSong" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>

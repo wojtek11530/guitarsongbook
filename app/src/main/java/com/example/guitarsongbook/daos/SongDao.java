@@ -23,6 +23,9 @@ public interface SongDao {
     @Update
     public void update(Song song);
 
+    @Query("UPDATE song_table SET is_favourite = :isFavourite WHERE song_id =:songId")
+    void updateIsFavourite(Long songId, boolean isFavourite);
+
     @Query("DELETE FROM song_table")
     void deleteAll();
 
@@ -48,23 +51,23 @@ public interface SongDao {
     LiveData<List<Song>> getFavouriteSongs();
 
 
-    @Query("SELECT song_id, title, artist_id from song_table ORDER BY title COLLATE LOCALIZED")
-    LiveData<List<Song>> getAllSongsTitleAndArtistId();
+    @Query("SELECT song_id, title, artist_id, music_genre, is_favourite from song_table ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getAllSongsTitleArtistIdGenreAndIsFavourite();
 
-    @Query("SELECT song_id, title, artist_id FROM song_table WHERE kind = :kind ORDER BY title COLLATE LOCALIZED")
-    LiveData<List<Song>> getSongsTitleAndArtistIdByKind(Kind kind);
+    @Query("SELECT song_id, title, artist_id, music_genre, is_favourite FROM song_table WHERE kind = :kind ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByKind(Kind kind);
 
-    @Query("SELECT song_id, title, artist_id FROM song_table WHERE music_genre = :genre ORDER BY title COLLATE LOCALIZED")
-    LiveData<List<Song>> getSongTitleAndArtistIdByMusicGenre(MusicGenre genre);
+    @Query("SELECT song_id, title, artist_id, music_genre, is_favourite FROM song_table WHERE music_genre = :genre ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(MusicGenre genre);
 
-    @Query("SELECT song_id, title, artist_id FROM song_table WHERE title LIKE :query ORDER BY title COLLATE LOCALIZED")
-    LiveData<List<Song>> getSongTitleAndArtistIdByQuery(String query);
+    @Query("SELECT song_id, title, artist_id, music_genre, is_favourite FROM song_table WHERE title LIKE :query ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByQuery(String query);
 
-    @Query("SELECT song_id, title, artist_id FROM song_table WHERE artist_id = :artistId ORDER BY title COLLATE LOCALIZED")
-    LiveData<List<Song>> getSongTitleAndArtistIdByArtistId(Long artistId);
+    @Query("SELECT song_id, title, artist_id, music_genre, is_favourite FROM song_table WHERE artist_id = :artistId ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(Long artistId);
 
-    @Query("SELECT song_id, title, artist_id FROM song_table WHERE is_favourite = 1 ORDER BY title COLLATE LOCALIZED")
-    LiveData<List<Song>> getFavouriteSongsTitleAndArtistId();
+    @Query("SELECT song_id, title, artist_id, music_genre, is_favourite FROM song_table WHERE is_favourite = 1 ORDER BY title COLLATE LOCALIZED")
+    LiveData<List<Song>> getFavouriteSongsTitleArtistIdGenreAndIsFavourite();
 
     @Query("SELECT artist_id, COUNT(song_id) AS song_number FROM song_table GROUP BY artist_id")
     LiveData<List<ArtistSongsCount>> getArtistSongsCount();

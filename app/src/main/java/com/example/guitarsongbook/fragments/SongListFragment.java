@@ -141,7 +141,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureRecyclerView() {
-        adapter = new SongListAdapter(getContext());
+        adapter = new SongListAdapter(getContext(), this);
         songListRecyclerView.setAdapter(adapter);
         //songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -166,10 +166,10 @@ public class SongListFragment extends SearchLaunchingFragment {
         } else if (getArguments().containsKey(IS_FAVOURITE_SONG_LIST_KEY)) {
             boolean isFavouriteSongList = getArguments().getBoolean(IS_FAVOURITE_SONG_LIST_KEY);
             if (isFavouriteSongList) {
-                activity.setAppBarTitle(getResources().getString(R.string.favourite_songs));
+                activity.setAppBarTitle(getResources().getString(R.string.favourite));
             }
         } else {
-            activity.setAppBarTitle(getResources().getString(R.string.all_songs));
+            activity.setAppBarTitle(getResources().getString(R.string.all));
         }
 
     }
@@ -254,7 +254,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureAllSongsObserver() {
-        mGuitarSongbookViewModel.getAllSongsTitleAndArtistsId().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getAllSongsTitleArtistIdGenreAndIsFavourite().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -263,7 +263,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureFavouriteSongsViewModelObserver() {
-        mGuitarSongbookViewModel.getFavouriteSongsTitleAndArtistId().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getFavouriteSongsTitleArtistIdGenreAndIsFavourite().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 int visibility = 0;
@@ -277,7 +277,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForArtistId(Long artistId) {
-        mGuitarSongbookViewModel.getSongTitleAndAuthorIdByArtistId(artistId).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(artistId).observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -286,7 +286,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForMusicGenre(MusicGenre genre) {
-        mGuitarSongbookViewModel.getSongTitleAndArtistIdByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -295,7 +295,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForKind(Kind kind) {
-        mGuitarSongbookViewModel.getSongsTitleAndArtistIdByKind(kind).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByKind(kind).observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);

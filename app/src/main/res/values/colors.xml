@@ -3,8 +3,9 @@
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryLight">#64b5f6</color>
     <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorAccent">#FFFF9800</color>
+    <color name="colorAccent">#FCC05C</color>
     <color name="colorTextPrimary">@android:color/black</color>
+    <color name="colorTextSecondary">#313131</color>
     <color name="colorScreenBackground">#fff3e0</color>
     <color name="bottomNavigationColor">#292929</color>
     <color name="disabledButton">#5C5C5C</color>

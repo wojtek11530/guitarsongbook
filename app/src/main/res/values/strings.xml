@@ -63,6 +63,8 @@
     <string name="switch_animation_pref_key">switch_animation</string>
     <string name="animation_preference_summary">Wyświetlaj animacje przejścia przy zmianie okien aplikacji</string>
     <string name="animation_preference_title">Animacje przejścia</string>
+    <string name="all">wszystkie</string>
+    <string name="favourite">ulubione</string>
 
 
     <string-array name="font_size_entries">

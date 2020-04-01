@@ -151,7 +151,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void configureFoundArtistRecyclerView() {
-        mSongListAdapter = new SongListAdapter(getContext());
+        mSongListAdapter = new SongListAdapter(getContext(), this);
         mFoundSongsRecyclerView.setAdapter(mSongListAdapter);
         mFoundSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
