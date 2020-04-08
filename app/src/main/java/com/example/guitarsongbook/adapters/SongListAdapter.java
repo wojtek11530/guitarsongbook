@@ -28,6 +28,7 @@ import com.l4digital.fastscroll.FastScroller;
 
 
 import java.util.List;
+import java.util.Random;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>
         implements FastScroller.SectionIndexer {
@@ -205,8 +206,9 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             songDisplayFragment = SongDisplayFragment.newInstance(songId, artistId);
         }
         return songDisplayFragment;
-
     }
+
+
 
     private void changeFragmentWithDelay(final SongDisplayFragment songDisplayFragment) {
         Handler handler = new Handler();
@@ -224,5 +226,10 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         }, 250);
     }
 
+    public SongDisplayFragment getRandomSongDisplayFragment() {
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(getItemCount());
+        return getSongDisplayFragment(randomInt);
+    }
 
 }
