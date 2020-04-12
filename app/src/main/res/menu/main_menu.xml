@@ -5,6 +5,7 @@
     <item
         android:id="@+id/begin_searching"
         app:showAsAction="ifRoom|collapseActionView"
-        android:icon="@drawable/ic_search_white_24dp"
+        android:icon="@drawable/ic_search_32dp"
+        app:iconTint="@android:color/white"
         android:title="Search"/>
 </menu>

@@ -28,12 +28,13 @@
 
         <TextView
             android:id="@+id/found_songs_header_txt_"
-            style="@style/ArtistOfDisplayedSong"
+            style="@style/CategoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
             android:text="@string/songs" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/found_songs_rv_"
@@ -46,7 +47,7 @@
 
         <TextView
             android:id="@+id/found_artists_header_txt_"
-            style="@style/ArtistOfDisplayedSong"
+            style="@style/CategoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"

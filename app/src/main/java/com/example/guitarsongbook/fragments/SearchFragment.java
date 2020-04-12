@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -90,6 +91,14 @@ public class SearchFragment extends Fragment {
         searchItem.setOnActionExpandListener(onActionExpandListener);
 
         searchView = (SearchView) searchItem.getActionView();
+
+        ImageView icon = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        icon.setImageResource(R.drawable.ic_close_white_32dp);
+
+        SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
+
+        theTextArea.setHintTextColor(getResources().getColor(R.color.textColorHint));
+
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));
         searchView.setOnQueryTextListener(onQueryTextListener);
