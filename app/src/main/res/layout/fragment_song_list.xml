@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SongListFragment">
 
-    <com.l4digital.fastscroll.FastScrollRecyclerView
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/song_list_rv_"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:scrollbars="none"/>
+
+
+    <com.l4digital.fastscroll.FastScroller
+        android:id="@+id/fast_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         app:bubbleColor="@color/colorPrimary"
         app:bubbleSize="small"
         app:bubbleTextColor="#ffffff"
@@ -20,13 +33,23 @@
         android:id="@+id/no_favourite_song_txt_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="56dp"
         android:layout_marginBottom="8dp"
-        android:layout_gravity="center_horizontal"
         android:text="@string/no_favourite_songs_communicate"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="italic"
         android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_random"
+        app:maxImageSize="32dp"
+        app:tint="@android:color/white" />
 
 
 </FrameLayout>

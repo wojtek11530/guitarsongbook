@@ -1,15 +1,18 @@
 package com.example.guitarsongbook.fragments;
 
 
-
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +31,8 @@ import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.l4digital.fastscroll.FastScroller;
 
 import java.util.List;
 import java.util.Objects;
@@ -38,10 +43,16 @@ import java.util.Objects;
 public class SongListFragment extends SearchLaunchingFragment {
 
     private RecyclerView songListRecyclerView;
+    private FastScroller fastScroller;
+    private FloatingActionButton floatingActionButton;
     private TextView noFavouriteSongTextView;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
     private SongListAdapter adapter;
+    private boolean animateTransition;
+    private boolean firstOnScrollInvoke = true;
+    private boolean fabOnScreen = true;
+    private boolean fastScrolling = false;
 
     private static final String SONGS_KIND_KEY = "SONGS_KIND_KEY";
     private static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
@@ -110,13 +121,20 @@ public class SongListFragment extends SearchLaunchingFragment {
         View view = inflater.inflate(R.layout.fragment_song_list, container, false);
         mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
         initViews(view);
-        configureRecyclerView();
-        configureAppBarTitle();
         configureViewModelObservers();
+        configureRecyclerView();
+        configureFastScroller();
+        configureAppBarTitle();
+        configureFloatingActionButton();
         handleMainActivityFeatures();
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        animateTransition = sharedPref.getBoolean(
+                getContext().getResources().getString(R.string.switch_animation_pref_key),
+                true);
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -128,23 +146,114 @@ public class SongListFragment extends SearchLaunchingFragment {
                 public void run() {
                     mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
                     songListRecyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+
                 }
             }, 50);
         }
-
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    public void onDestroy() {
+        fastScroller.detachRecyclerView();
+        super.onDestroy();
     }
 
     private void initViews(View view) {
         songListRecyclerView = view.findViewById(R.id.song_list_rv_);
+        fastScroller = view.findViewById(R.id.fast_scroll);
         noFavouriteSongTextView = view.findViewById(R.id.no_favourite_song_txt_);
+        floatingActionButton = view.findViewById(R.id.fab);
     }
 
     private void configureRecyclerView() {
-        adapter = new SongListAdapter(getContext());
+        adapter = new SongListAdapter(getContext(), this);
         songListRecyclerView.setAdapter(adapter);
-        //songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        songListRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (fastScrolling || isRecyclerViewAtTheBottom(recyclerView)) {
+                    if (firstOnScrollInvoke) {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                    setFabVisibility(false);
+                } else {
+                    setFabVisibility(true);
+                }
+                if (firstOnScrollInvoke) {
+                    firstOnScrollInvoke = false;
+                }
+            }
+        });
     }
+
+    private void setFabVisibility(boolean show) {
+        if (show && !fabOnScreen) {
+            floatingActionButton.animate().translationY(0);
+            fabOnScreen = true;
+        } else if (!show && fabOnScreen) {
+            floatingActionButton.animate()
+                    .translationY(floatingActionButton.getHeight() + floatingActionButton.getPaddingBottom());
+            fabOnScreen = false;
+        }
+    }
+
+    private boolean isRecyclerViewAtTheBottom(RecyclerView recyclerView) {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        assert layoutManager != null;
+        int visibleItemCount = layoutManager.getChildCount();
+        int totalItemCount = layoutManager.getItemCount();
+        int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+        return pastVisibleItems + visibleItemCount >= totalItemCount;
+    }
+
+    private void configureFastScroller() {
+        fastScroller.setSectionIndexer(adapter);
+        fastScroller.attachRecyclerView(songListRecyclerView);
+
+
+        fastScroller.setFastScrollListener(new FastScroller.FastScrollListener() {
+            @Override
+            public void onFastScrollStart(FastScroller fastScroller) {
+                fastScrolling = true;
+            }
+
+            @Override
+            public void onFastScrollStop(FastScroller fastScroller) {
+                fastScrolling = false;
+                setFabVisibility(true);
+            }
+        });
+
+    }
+
+    private void configureFloatingActionButton() {
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SongDisplayFragment songDisplayFragment = adapter.getRandomSongDisplayFragment();
+                changeFragmentWithDelay(songDisplayFragment);
+            }
+        });
+    }
+
+    private void changeFragmentWithDelay(final SongDisplayFragment songDisplayFragment) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                if (animateTransition) {
+                    fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+                }
+                fragmentTransaction.addToBackStack(null)
+                        .replace(R.id.fragment_container_fl_, songDisplayFragment)
+                        .commit();
+            }
+        }, 250);
+    }
+
 
     private void configureAppBarTitle() {
 
@@ -166,10 +275,10 @@ public class SongListFragment extends SearchLaunchingFragment {
         } else if (getArguments().containsKey(IS_FAVOURITE_SONG_LIST_KEY)) {
             boolean isFavouriteSongList = getArguments().getBoolean(IS_FAVOURITE_SONG_LIST_KEY);
             if (isFavouriteSongList) {
-                activity.setAppBarTitle(getResources().getString(R.string.favourite_songs));
+                activity.setAppBarTitle(getResources().getString(R.string.favourite));
             }
         } else {
-            activity.setAppBarTitle(getResources().getString(R.string.all_songs));
+            activity.setAppBarTitle(getResources().getString(R.string.all));
         }
 
     }
@@ -254,7 +363,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureAllSongsObserver() {
-        mGuitarSongbookViewModel.getAllSongsTitleAndArtistsId().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getAllSongsTitleArtistIdGenreAndIsFavourite().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -263,21 +372,25 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureFavouriteSongsViewModelObserver() {
-        mGuitarSongbookViewModel.getFavouriteSongsTitleAndArtistId().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getFavouriteSongsTitleArtistIdGenreAndIsFavourite().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
-                int visibility = 0;
+                int noFavSongTextViewVisibility = 0;
+                int fabVisibility = 0;
                 if (songs != null) {
-                    visibility = songs.isEmpty() ? View.VISIBLE : View.GONE;
+                    noFavSongTextViewVisibility = songs.isEmpty() ? View.VISIBLE : View.GONE;
+                    fabVisibility = songs.isEmpty() ? View.GONE : View.VISIBLE;
                 }
-                noFavouriteSongTextView.setVisibility(visibility);
+
+                noFavouriteSongTextView.setVisibility(noFavSongTextViewVisibility);
+                floatingActionButton.setVisibility(fabVisibility);
                 adapter.setSongs(songs);
             }
         });
     }
 
     private void configureSongsObserverForArtistId(Long artistId) {
-        mGuitarSongbookViewModel.getSongTitleAndAuthorIdByArtistId(artistId).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(artistId).observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -286,7 +399,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForMusicGenre(MusicGenre genre) {
-        mGuitarSongbookViewModel.getSongTitleAndArtistIdByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -295,7 +408,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForKind(Kind kind) {
-        mGuitarSongbookViewModel.getSongsTitleAndArtistIdByKind(kind).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByKind(kind).observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);

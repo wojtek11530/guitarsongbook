@@ -32,6 +32,11 @@ public class SongRepository {
         new SongRepository.updateAsyncTask(mSongDao).execute(song);
     }
 
+    public void updateIsFavourite(Long songId, boolean isFavourite){
+        UpdateIsFavouriteTaskParameters parameters = new UpdateIsFavouriteTaskParameters(songId, isFavourite);
+        new SongRepository.updateIsFavouriteAsyncTask(mSongDao).execute(parameters);
+    }
+
     public LiveData<List<Song>> getAllSongs() {
         return mAllSongs;
     }
@@ -62,29 +67,29 @@ public class SongRepository {
         return mSongDao.getSongByQuery(query);
     }
 
-    public LiveData<List<Song>> getAllSongsTitleAndArtistsId() {
-        return mSongDao.getAllSongsTitleAndArtistId();
+    public LiveData<List<Song>> getAllSongsTitleArtistIdGenreAndIsFavourite() {
+        return mSongDao.getAllSongsTitleArtistIdGenreAndIsFavourite();
     }
 
-    public LiveData<List<Song>> getSongTitleAndArtistIdByArtistId(Long artistId) {
-        return mSongDao.getSongTitleAndArtistIdByArtistId(artistId);
+    public LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(Long artistId) {
+        return mSongDao.getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(artistId);
     }
 
-    public LiveData<List<Song>> getFavouriteSongsTitleAndArtistId() {
-        return mSongDao.getFavouriteSongsTitleAndArtistId();
+    public LiveData<List<Song>> getFavouriteSongsTitleArtistIdGenreAndIsFavourite() {
+        return mSongDao.getFavouriteSongsTitleArtistIdGenreAndIsFavourite();
     }
 
-    public LiveData<List<Song>> getSongsTitleAndArtistIdByKind(Kind kind) {
-        return mSongDao.getSongsTitleAndArtistIdByKind(kind);
+    public LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByKind(Kind kind) {
+        return mSongDao.getSongsTitleArtistIdGenreAndIsFavouriteByKind(kind);
     }
 
-    public LiveData<List<Song>> getSongTitleAndArtistIdByMusicGenre(MusicGenre genre) {
-        return mSongDao.getSongTitleAndArtistIdByMusicGenre(genre);
+    public LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(MusicGenre genre) {
+        return mSongDao.getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(genre);
     }
 
     public LiveData<List<Song>> getSongTitleAndArtistIdByQuery(String query) {
         query = "%" + query + "%";
-        return mSongDao.getSongTitleAndArtistIdByQuery(query);
+        return mSongDao.getSongsTitleArtistIdGenreAndIsFavouriteByQuery(query);
     }
 
     public LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount(){
@@ -119,6 +124,35 @@ public class SongRepository {
         protected Void doInBackground(final Song... params) {
             mAsyncTaskDao.update(params[0]);
             return null;
+        }
+    }
+
+    private static class updateIsFavouriteAsyncTask extends AsyncTask<UpdateIsFavouriteTaskParameters, Void, Void> {
+        private SongDao mAsyncTaskDao;
+
+
+        updateIsFavouriteAsyncTask(SongDao mSongDao) {
+            mAsyncTaskDao = mSongDao;
+        }
+
+        @Override
+        protected Void doInBackground(UpdateIsFavouriteTaskParameters... params) {
+            UpdateIsFavouriteTaskParameters parameters = params[0];
+            Long songId = parameters.songId;
+            boolean isFavourite = parameters.isFavourite;
+            mAsyncTaskDao.updateIsFavourite(songId, isFavourite);
+            return null;
+        }
+
+    }
+
+    private class UpdateIsFavouriteTaskParameters {
+        Long songId;
+        boolean isFavourite;
+
+        public UpdateIsFavouriteTaskParameters(Long songId, boolean isFavourite) {
+            this.songId = songId;
+            this.isFavourite = isFavourite;
         }
     }
 }

@@ -6,12 +6,14 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,12 +22,16 @@ import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.fragments.SongDisplayFragment;
 import com.example.guitarsongbook.model.Artist;
+import com.example.guitarsongbook.model.MusicGenre;
 import com.example.guitarsongbook.model.Song;
 import com.l4digital.fastscroll.FastScroller;
 
-import java.util.List;
 
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder> implements FastScroller.SectionIndexer {
+import java.util.List;
+import java.util.Random;
+
+public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>
+        implements FastScroller.SectionIndexer {
 
 
     private Context context;
@@ -33,10 +39,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     private List<Song> mSongs;
     private List<Artist> mArtists;
     private boolean animateTransition;
+    private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
-
-    public SongListAdapter(Context context) {
+    public SongListAdapter(Context context, Fragment fragment) {
         this.context = context;
+        mGuitarSongbookViewModel = ViewModelProviders.of(fragment).get(GuitarSongbookViewModel.class);
         mInflater = LayoutInflater.from(context);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -53,10 +60,58 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SongViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SongViewHolder holder, final int position) {
         if (mSongs != null) {
-            Song currentSong = mSongs.get(position);
+            final Song currentSong = mSongs.get(position);
             holder.mTitleTextView.setText(currentSong.getMTitle());
+
+            MusicGenre musicGenre = currentSong.getMMusicGenre();
+            if (musicGenre == null) {
+                System.out.println("bla");
+            } else {
+                switch (musicGenre) {
+                    case ROCK:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_rock);
+                        break;
+                    case POP:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_pop);
+                        break;
+                    case FOLK:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_folk);
+                        break;
+                    case DISCO_POLO:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_disco_polo);
+                        break;
+                    case COUNTRY:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_country);
+                        break;
+                    case REGGAE:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_reggae);
+                        break;
+                    case FESTIVE:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_festive);
+                        break;
+                    case SHANTY:
+                        holder.mMusicGenreImageView.setImageResource(R.drawable.ic_shanty);
+                        break;
+                }
+            }
+            boolean favourite = currentSong.getMIsFavourite();
+            if (favourite) {
+                holder.mFavouriteImageButton.setImageResource(R.drawable.ic_heart);
+            } else {
+                holder.mFavouriteImageButton.setImageResource(R.drawable.ic_heart_border);
+            }
+
+            holder.mFavouriteImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentSong.switchIsFavourite();
+                    mGuitarSongbookViewModel.updateIsFavourite(currentSong.getMId(), currentSong.getMIsFavourite());
+                    notifyItemChanged(position);
+                }
+            });
+
 
             if (currentSong.getMArtistId() != null) {
                 Artist artist = findArtistById(currentSong.getMArtistId());
@@ -66,6 +121,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             } else {
                 holder.mArtistTextView.setText("");
             }
+
         } else {
             holder.mTitleTextView.setText("No Song");
         }
@@ -107,15 +163,22 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         return mSongs.get(position).getMTitle().substring(0, 1).toUpperCase();
     }
 
+
     public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView mTitleTextView;
         private final TextView mArtistTextView;
+        private final ImageButton mFavouriteImageButton;
+        private final ImageView mMusicGenreImageView;
+        private final View itemView;
 
         public SongViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.itemView = itemView;
             mTitleTextView = itemView.findViewById(R.id.song_title_txt_);
             mArtistTextView = itemView.findViewById(R.id.artist_txt_);
+            mFavouriteImageButton = itemView.findViewById(R.id.favourite_btn_);
+            mMusicGenreImageView = itemView.findViewById(R.id.artist_img_);
             itemView.setOnClickListener(this);
 
         }
@@ -145,6 +208,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         return songDisplayFragment;
     }
 
+
+
     private void changeFragmentWithDelay(final SongDisplayFragment songDisplayFragment) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -161,5 +226,10 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         }, 250);
     }
 
+    public SongDisplayFragment getRandomSongDisplayFragment() {
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(getItemCount());
+        return getSongDisplayFragment(randomInt);
+    }
 
 }

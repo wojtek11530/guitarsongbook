@@ -97,24 +97,24 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
         return mSongRepository.getFavouriteSongs();
     }
 
-    public LiveData<List<Song>> getAllSongsTitleAndArtistsId() {
-        return mSongRepository.getAllSongsTitleAndArtistsId();
+    public LiveData<List<Song>> getAllSongsTitleArtistIdGenreAndIsFavourite() {
+        return mSongRepository.getAllSongsTitleArtistIdGenreAndIsFavourite();
     }
 
-    public LiveData<List<Song>> getSongTitleAndAuthorIdByArtistId(Long artistId) {
-        return mSongRepository.getSongTitleAndArtistIdByArtistId(artistId);
+    public LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(Long artistId) {
+        return mSongRepository.getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(artistId);
     }
 
-    public LiveData<List<Song>> getFavouriteSongsTitleAndArtistId() {
-        return mSongRepository.getFavouriteSongsTitleAndArtistId();
+    public LiveData<List<Song>> getFavouriteSongsTitleArtistIdGenreAndIsFavourite() {
+        return mSongRepository.getFavouriteSongsTitleArtistIdGenreAndIsFavourite();
     }
 
-    public LiveData<List<Song>> getSongsTitleAndArtistIdByKind(Kind kind) {
-        return mSongRepository.getSongsTitleAndArtistIdByKind(kind);
+    public LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByKind(Kind kind) {
+        return mSongRepository.getSongsTitleArtistIdGenreAndIsFavouriteByKind(kind);
     }
 
-    public LiveData<List<Song>> getSongTitleAndArtistIdByMusicGenre(MusicGenre genre) {
-        return mSongRepository.getSongTitleAndArtistIdByMusicGenre(genre);
+    public LiveData<List<Song>> getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(MusicGenre genre) {
+        return mSongRepository.getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(genre);
     }
 
     public  LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount(){
@@ -152,6 +152,10 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
 
     public void update(Song song) {
         mSongRepository.update(song);
+    }
+
+    public void updateIsFavourite(Long songId, boolean isFavourite){
+        mSongRepository.updateIsFavourite(songId, isFavourite);
     }
 
     public void searchByQuery(String query) {

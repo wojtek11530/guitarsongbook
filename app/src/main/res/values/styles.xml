@@ -7,16 +7,24 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="searchViewStyle">@style/SearchViewStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
+        <item name="windowActionBar">false</item>n
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_white_32dp</item>
+    </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:closeIcon">@drawable/ic_close_white_32dp</item>
+    </style>
 
     <style name="TitleOfDisplayedSong" parent="TextAppearance.AppCompat.Title">
         <item name="android:textSize">30sp</item>
@@ -37,6 +45,37 @@
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+
+    <style name="ListItemTitle"  parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="ListItemSubtitle"  parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="AppBarTitle"  parent="android:Widget.TextView">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/pt_sans</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="CategoryTitle"  parent="android:Widget.TextView">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="android:textColor">@color/colorTextThird</item>
+        <item name="android:shadowColor">@color/text_shadow</item>
+        <item name="android:shadowDx">2.0</item>
+        <item name="android:shadowDy">2.0</item>
+        <item name="android:shadowRadius">6.0</item>
+    </style>
+
 
     <style name="ChordOfDisplayedSong" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textStyle">bold</item>
