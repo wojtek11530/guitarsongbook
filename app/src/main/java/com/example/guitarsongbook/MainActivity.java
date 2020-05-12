@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.guitarsongbook.fragments.ArtistListFragment;
+import com.example.guitarsongbook.fragments.NavigationFragment;
 import com.example.guitarsongbook.fragments.SettingsFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Kind;
@@ -147,11 +148,14 @@ public class MainActivity extends AppCompatActivity
 
     private void startFragmentForLaunchedApp() {
         fragmentManager.popBackStack();
-        SongListFragment songListFragment =
-                SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
+//        SongListFragment songListFragment =
+//                SongListFragment.newInstance(Objects.requireNonNull(navigationView.getCheckedItem()).getItemId());
+
+        NavigationFragment navigationFragment = NavigationFragment.newInstance();
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction
-                .replace(R.id.fragment_container_fl_, songListFragment)
+                .replace(R.id.fragment_container_fl_, navigationFragment)
                 .commit();
     }
 

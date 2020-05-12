@@ -1,4 +1,4 @@
-package com.example.guitarsongbook;
+package com.example.guitarsongbook.fragments;
 
 import android.os.Bundle;
 
@@ -8,11 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.guitarsongbook.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationFragment extends Fragment {
+public class NavigationFragment extends SearchLaunchingFragment {
+
+
+    public static NavigationFragment newInstance() { //String query) {
+        return new NavigationFragment();
+    }
+
 
     public NavigationFragment() {
         // Required empty public constructor
