@@ -118,9 +118,6 @@ public class SearchFragment extends Fragment {
 
         configureRecyclerViews();
         configureViewModelObservers();
-
-        ((MainActivity) requireActivity()).uncheckAllItemInNavigationDrawer();
-
         return view;
     }
 

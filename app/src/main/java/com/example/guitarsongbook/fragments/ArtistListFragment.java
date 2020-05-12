@@ -37,10 +37,9 @@ public class ArtistListFragment extends SearchLaunchingFragment {
 
     private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
 
-    public static ArtistListFragment newInstance(int checkedMenuItemId) {
+    public static ArtistListFragment newInstance() {
         ArtistListFragment fragment = new ArtistListFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -102,14 +101,6 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         assert mainActivity != null;
         mainActivity.setTitle(requireContext().getString(R.string.app_name));
-        setCurrentItemInNavigationView(mainActivity);
-    }
-
-    private void setCurrentItemInNavigationView(MainActivity mainActivity) {
-        if (getArguments() != null && getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
-            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
-            mainActivity.setCurrentItemId(itemId);
-        }
     }
 
 }

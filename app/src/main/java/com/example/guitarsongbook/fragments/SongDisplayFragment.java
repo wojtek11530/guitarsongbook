@@ -196,8 +196,6 @@ public class SongDisplayFragment extends Fragment {
                     }
                 });
             }
-
-            ((MainActivity) requireActivity()).uncheckAllItemInNavigationDrawer();
         }
 
         initToolBarFeatures(savedInstanceState);

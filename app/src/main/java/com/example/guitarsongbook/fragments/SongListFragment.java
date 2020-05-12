@@ -58,46 +58,40 @@ public class SongListFragment extends SearchLaunchingFragment {
     private static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
     private static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
     private static final String IS_FAVOURITE_SONG_LIST_KEY = "IS_FAVOURITE_SONG_LIST_KEY";
-    private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
-
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
     public static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
     private boolean saveRecyclerViewState = true;
 
-    public static SongListFragment newInstance(int checkedMenuItemId) {
+    public static SongListFragment newInstance() {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public static SongListFragment newInstance(MusicGenre genre, int checkedMenuItemId) {
+    public static SongListFragment newInstance(MusicGenre genre) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         arguments.putSerializable(SONGS_GENRE_KEY, genre);
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public static SongListFragment newInstance(Kind kind, int checkedMenuItemId) {
+    public static SongListFragment newInstance(Kind kind) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         arguments.putSerializable(SONGS_KIND_KEY, kind);
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
 
 
-    public static SongListFragment newInstance(boolean isFavouriteSongList, int checkedMenuItemId) {
+    public static SongListFragment newInstance(boolean isFavouriteSongList) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         arguments.putBoolean(IS_FAVOURITE_SONG_LIST_KEY, isFavouriteSongList);
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -424,16 +418,6 @@ public class SongListFragment extends SearchLaunchingFragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         assert mainActivity != null;
         mainActivity.setTitle(requireContext().getString(R.string.app_name));
-        setCurrentItemInNavigationView(mainActivity);
-    }
-
-    private void setCurrentItemInNavigationView(MainActivity mainActivity) {
-        if (getArguments() != null && getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
-            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
-            mainActivity.setCurrentItemId(itemId);
-        } else {
-            mainActivity.uncheckAllItemInNavigationDrawer();
-        }
     }
 
     @Override
