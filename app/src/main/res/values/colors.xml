@@ -8,7 +8,8 @@
     <color name="colorTextPrimary">@android:color/black</color>
     <color name="colorTextSecondary">#313131</color>
     <color name="colorTextThird">#707070</color>
-    <color name="colorScreenBackground">#fff3e0</color>
+    <color name="greyIconColor">#C4C4C4</color>
+    <color name="colorScreenBackground">#fffafafa</color>
     <color name="bottomNavigationColor">#292929</color>
     <color name="disabledButton">#5C5C5C</color>
     <color name="text_shadow">#29000000</color>

@@ -155,7 +155,9 @@ public class SongListFragment extends SearchLaunchingFragment {
 
     @Override
     public void onDestroy() {
-        fastScroller.detachRecyclerView();
+        if (fastScroller != null) {
+            fastScroller.detachRecyclerView();
+        }
         super.onDestroy();
     }
 
