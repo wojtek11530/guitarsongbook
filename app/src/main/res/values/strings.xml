@@ -65,6 +65,7 @@
     <string name="animation_preference_title">Animacje przejścia</string>
     <string name="all">wszystkie</string>
     <string name="favourite">ulubione</string>
+    <string name="genres">Gatunki</string>
 
 
     <string-array name="font_size_entries">
@@ -83,8 +84,7 @@
         <item>24</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 
 </resources>

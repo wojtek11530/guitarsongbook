@@ -77,6 +77,12 @@
         <item name="android:shadowRadius">6.0</item>
     </style>
 
+    <style name="TileTitle"  parent="android:Widget.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorTextThird</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/open_sans</item>
+    </style>
 
     <style name="ChordOfDisplayedSong" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textStyle">bold</item>
