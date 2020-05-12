@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,7 +43,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     public SongListAdapter(Context context, Fragment fragment) {
         this.context = context;
-        mGuitarSongbookViewModel = ViewModelProviders.of(fragment).get(GuitarSongbookViewModel.class);
+        mGuitarSongbookViewModel = new ViewModelProvider(fragment).get(GuitarSongbookViewModel.class);
         mInflater = LayoutInflater.from(context);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);

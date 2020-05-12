@@ -6,15 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ArtistListFragment">
 
-    <com.l4digital.fastscroll.FastScrollRecyclerView
+    <!--    <com.l4digital.fastscroll.FastScrollRecyclerView-->
+    <!--        android:id="@+id/artist_list_rv_"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:scrollbars="none"-->
+    <!--        android:clipToPadding="false"-->
+    <!--        android:overScrollMode="never"-->
+    <!--        android:paddingTop="6dp"-->
+    <!--        android:paddingBottom="6dp"-->
+    <!--        app:bubbleColor="@color/colorPrimary"-->
+    <!--        app:bubbleSize="small"-->
+    <!--        app:bubbleTextColor="#ffffff"-->
+    <!--        app:handleColor="#999999" />-->
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/artist_list_rv_"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
+        android:scrollbars="none" />
+
+
+    <com.l4digital.fastscroll.FastScroller
+        android:id="@+id/fast_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         app:bubbleColor="@color/colorPrimary"
         app:bubbleSize="small"
         app:bubbleTextColor="#ffffff"

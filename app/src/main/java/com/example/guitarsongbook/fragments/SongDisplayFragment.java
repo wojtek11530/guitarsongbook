@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -137,7 +138,7 @@ public class SongDisplayFragment extends Fragment {
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_display, container, false);
-        mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        mGuitarSongbookViewModel = new ViewModelProvider(this).get(GuitarSongbookViewModel.class);
 
 
         setTitle("");
@@ -156,18 +157,19 @@ public class SongDisplayFragment extends Fragment {
             }
 
             if (songId != null) {
-                mGuitarSongbookViewModel.getSongById(songId).observe(this, new Observer<Song>() {
+                mGuitarSongbookViewModel.getSongById(songId).observe(getViewLifecycleOwner(), new Observer<Song>() {
                     @Override
                     public void onChanged(@Nullable final Song song) {
                         mSongToDisplay = song;
                         mSongDisplayAdapter.setSong(song);
                         mFavourite = mSongToDisplay.getMIsFavourite();
+                        assert song != null;
                         setTitle(song.getMTitle());
                         adjustAddToFavouriteMenuItem();
                     }
                 });
 
-                mGuitarSongbookViewModel.getChordsInSongBySongId(songId).observe(this, new Observer<List<SongChordJoinDao.ChordInSong>>() {
+                mGuitarSongbookViewModel.getChordsInSongBySongId(songId).observe(getViewLifecycleOwner(), new Observer<List<SongChordJoinDao.ChordInSong>>() {
                     @Override
                     public void onChanged(@Nullable final List<SongChordJoinDao.ChordInSong> chords) {
                         mSpecificChordsInSong = chords;
@@ -186,7 +188,7 @@ public class SongDisplayFragment extends Fragment {
             }
 
             if (artistId != null) {
-                mGuitarSongbookViewModel.getArtistById(artistId).observe(this, new Observer<Artist>() {
+                mGuitarSongbookViewModel.getArtistById(artistId).observe(getViewLifecycleOwner(), new Observer<Artist>() {
                     @Override
                     public void onChanged(@Nullable final Artist artist) {
                         mArtistOfSong = artist;
@@ -195,7 +197,7 @@ public class SongDisplayFragment extends Fragment {
                 });
             }
 
-            ((MainActivity) Objects.requireNonNull(getActivity())).uncheckAllItemInNavigationDrawer();
+            ((MainActivity) requireActivity()).uncheckAllItemInNavigationDrawer();
         }
 
         initToolBarFeatures(savedInstanceState);
@@ -236,9 +238,9 @@ public class SongDisplayFragment extends Fragment {
 
     private void adjustAddToFavouriteMenuItem() {
         if (mFavourite) {
-            mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.added_to_favourite));
+            mAddToFavouriteMenuItem.setTitle(requireContext().getString(R.string.added_to_favourite));
         } else {
-            mAddToFavouriteMenuItem.setTitle(getContext().getString(R.string.add_to_favourite));
+            mAddToFavouriteMenuItem.setTitle(requireContext().getString(R.string.add_to_favourite));
         }
         mAddToFavouriteMenuItem.setChecked(mFavourite);
     }
@@ -290,7 +292,6 @@ public class SongDisplayFragment extends Fragment {
     private void initTransposeBar(View view, Bundle savedInstanceState) {
         findTransposeBarViews(view);
         setOnClickListenersForTransposeBarViews();
-
     }
 
 
@@ -400,7 +401,7 @@ public class SongDisplayFragment extends Fragment {
     }
 
     private boolean areAllChordsTransposed() {
-        return !chordToIsTransposed.values().contains(false);
+        return !chordToIsTransposed.containsValue(false);
     }
 
     private void adjustTransposeBar() {
@@ -418,14 +419,15 @@ public class SongDisplayFragment extends Fragment {
 
         String semitone;
         if (mTransposeValue == 0 || Math.abs(mTransposeValue) >= 5) {
-            semitone = getContext().getString(R.string.semitones);
+            semitone = requireContext().getString(R.string.semitones);
         } else if (Math.abs(mTransposeValue) == 1) {
-            semitone = getContext().getString(R.string.semitone);
+            semitone = requireContext().getString(R.string.semitone);
         } else {
-            semitone = getContext().getString(R.string.semitones_plural_for_2_3_4);
+            semitone = requireContext().getString(R.string.semitones_plural_for_2_3_4);
         }
 
-        mTransposeValueTextView.setText(sign + mTransposeValue);
+        String transposeText = sign + mTransposeValue;
+        mTransposeValueTextView.setText(transposeText);
         mTransposeSemiToneTextView.setText(semitone);
 
     }
