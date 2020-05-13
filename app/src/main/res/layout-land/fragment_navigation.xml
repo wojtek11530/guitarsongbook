@@ -40,6 +40,9 @@
                 app:srcCompat="@drawable/ic_guitar_horizontal_cut" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
+
         <androidx.cardview.widget.CardView
             android:id="@+id/all_songs_card_view"
             android:layout_width="0dp"
@@ -103,7 +106,6 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -160,8 +162,8 @@
             android:id="@+id/artists_card_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -171,7 +173,7 @@
             app:cardPreventCornerOverlap="false"
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/polish_card_view"
             app:layout_constraintStart_toEndOf="@+id/fav_songs_card_view"
             app:layout_constraintTop_toBottomOf="@+id/upper_space">
 
@@ -216,21 +218,22 @@
             android:id="@+id/polish_card_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="@dimen/navigation_cardview_radius"
+
             app:cardElevation="@dimen/navigation_cardview_elevation"
             app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
             app:cardPreventCornerOverlap="false"
-
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/foreign_card_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/all_songs_card_view">
+            app:layout_constraintStart_toEndOf="@+id/artists_card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upper_space">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -274,9 +277,8 @@
             android:id="@+id/foreign_card_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -286,8 +288,8 @@
             app:cardPreventCornerOverlap="true"
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/settings_card_view"
-            app:layout_constraintStart_toEndOf="@+id/polish_card_view"
             app:layout_constraintTop_toBottomOf="@id/all_songs_card_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -334,6 +336,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
@@ -344,7 +347,7 @@
             app:cardPreventCornerOverlap="false"
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/artists_card_view"
             app:layout_constraintStart_toEndOf="@+id/foreign_card_view"
             app:layout_constraintTop_toBottomOf="@id/all_songs_card_view">
 
@@ -394,7 +397,7 @@
             android:text="@string/genres"
             android:textAppearance="@style/CategoryTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/polish_card_view" />
+            app:layout_constraintTop_toBottomOf="@+id/foreign_card_view" />
 
 
         <androidx.cardview.widget.CardView
@@ -461,7 +464,6 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -518,8 +520,8 @@
             android:id="@+id/folk_card_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -529,7 +531,7 @@
             app:cardPreventCornerOverlap="false"
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/disco_polo_card_view"
             app:layout_constraintStart_toEndOf="@+id/pop_card_view"
             app:layout_constraintTop_toBottomOf="@+id/genres_txt_">
 
@@ -574,8 +576,9 @@
             android:id="@+id/disco_polo_card_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -583,12 +586,11 @@
             app:cardElevation="@dimen/navigation_cardview_elevation"
             app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
             app:cardPreventCornerOverlap="false"
-
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/country_card_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
+            app:layout_constraintStart_toEndOf="@+id/folk_card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genres_txt_">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -634,7 +636,6 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -645,7 +646,7 @@
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/reggae_card_view"
-            app:layout_constraintStart_toEndOf="@+id/disco_polo_card_view"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -691,8 +692,8 @@
             android:id="@+id/reggae_card_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -702,7 +703,7 @@
             app:cardPreventCornerOverlap="false"
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/festive_card_view"
             app:layout_constraintStart_toEndOf="@+id/country_card_view"
             app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
 
@@ -760,8 +761,8 @@
             app:contentPadding="@dimen/navigation_cardview_content_padding"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/shanty_card_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/disco_polo_card_view">
+            app:layout_constraintStart_toEndOf="@+id/reggae_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -818,9 +819,9 @@
             app:contentPadding="@dimen/navigation_cardview_content_padding"
 
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/reggae_card_view"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/festive_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/disco_polo_card_view">
+            app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
