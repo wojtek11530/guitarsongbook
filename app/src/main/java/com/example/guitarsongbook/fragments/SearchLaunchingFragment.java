@@ -53,7 +53,7 @@ public class SearchLaunchingFragment extends Fragment {
 
     private void runSearchViewFragment() {
         SearchFragment searchFragment = SearchFragment.newInstance();
-        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (animateTransition) {
             fragmentTransaction.

@@ -112,8 +112,8 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
 
                     }
 
-                    DialogFragment newFragment = ChordDialogFragment.newInstance(chordDialogTitle, chordDiagramDrawableIds);
-                    newFragment.show(((MainActivity) context).getSupportFragmentManager(), null);
+                    DialogFragment newDialogFragment = ChordDialogFragment.newInstance(chordDialogTitle, chordDiagramDrawableIds);
+                    newDialogFragment.show(((MainActivity) context).getSupportFragmentManager(), null);
                 }
             });
         }

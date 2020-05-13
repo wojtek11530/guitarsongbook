@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    android:overScrollMode="never"
+    tools:context=".fragments.NavigationFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/upper_space"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/gradient_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/guitar_img_"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="Guitar Image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_guitar_horizontal_cut" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/all_songs_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/fav_songs_card_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upper_space">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/all_songs_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/all_songs_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_songs"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/all_songs_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/all"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fav_songs_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/artists_card_view"
+            app:layout_constraintStart_toEndOf="@+id/all_songs_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/upper_space">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/fav_songs_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/fav_songs_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_heart"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/fav_songs_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/favourite"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/artists_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/polish_card_view"
+            app:layout_constraintStart_toEndOf="@+id/fav_songs_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/upper_space">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/artist_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/artist_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_artist" />
+
+                <TextView
+                    android:id="@+id/artist_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/artists"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/polish_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toEndOf="@+id/artists_card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upper_space">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/polish_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/polish_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_polish"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/polish_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/polish"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/foreign_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="true"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/settings_card_view"
+            app:layout_constraintTop_toBottomOf="@id/all_songs_card_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/foreign_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/foreign_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_foreign"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/foreign_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/foreign"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/settings_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/artists_card_view"
+            app:layout_constraintStart_toEndOf="@+id/foreign_card_view"
+            app:layout_constraintTop_toBottomOf="@id/all_songs_card_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/setting_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/setting_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_settings_black_24dp"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/setting_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/settings"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/genres_txt_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/genres"
+            android:textAppearance="@style/CategoryTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/foreign_card_view" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/rock_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/pop_card_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genres_txt_">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/rock_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/rock_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_rock"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/rock_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/rock"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/pop_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/folk_card_view"
+            app:layout_constraintStart_toEndOf="@+id/rock_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/genres_txt_">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/pop_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/pop_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_pop"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/pop_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/pop"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/folk_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/disco_polo_card_view"
+            app:layout_constraintStart_toEndOf="@+id/pop_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/genres_txt_">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/folk_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/folk_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_folk" />
+
+                <TextView
+                    android:id="@+id/folk_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/folk"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/disco_polo_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toEndOf="@+id/folk_card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genres_txt_">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/disco_polo_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/disco_polo_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_disco_polo"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/disco_polo_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/disco_polo"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/country_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/reggae_card_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/country_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/country_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_country"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/country_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/country"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/reggae_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/festive_card_view"
+            app:layout_constraintStart_toEndOf="@+id/country_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/reggae_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/reggae_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_reggae" />
+
+                <TextView
+                    android:id="@+id/reggae_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/reggae"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/festive_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/shanty_card_view"
+            app:layout_constraintStart_toEndOf="@+id/reggae_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/festive_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/festive_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_festive"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/festive_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/festive"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/shanty_card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/navigation_cardview_radius"
+            app:cardElevation="@dimen/navigation_cardview_elevation"
+            app:cardMaxElevation="@dimen/navigation_cardview_max_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/navigation_cardview_content_padding"
+
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/festive_card_view"
+            app:layout_constraintTop_toBottomOf="@+id/rock_card_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/shanty_img_"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/icon_tile_margin_top"
+                    android:layout_marginBottom="@dimen/icon_tile_margin_bottom"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Icon of song"
+                    app:layout_constraintBottom_toTopOf="@+id/shanty_txt_"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_shanty"
+                    app:tint="@color/greyIconColor" />
+
+                <TextView
+                    android:id="@+id/shanty_txt_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/icon_text_margin_bottom"
+                    android:text="@string/shanty"
+                    android:textAppearance="@style/TileTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/festive_card_view" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,46 +58,40 @@ public class SongListFragment extends SearchLaunchingFragment {
     private static final String SONGS_GENRE_KEY = "SONGS_GENRE_KEY";
     private static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
     private static final String IS_FAVOURITE_SONG_LIST_KEY = "IS_FAVOURITE_SONG_LIST_KEY";
-    private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
-
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
     public static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
     private boolean saveRecyclerViewState = true;
 
-    public static SongListFragment newInstance(int checkedMenuItemId) {
+    public static SongListFragment newInstance() {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public static SongListFragment newInstance(MusicGenre genre, int checkedMenuItemId) {
+    public static SongListFragment newInstance(MusicGenre genre) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         arguments.putSerializable(SONGS_GENRE_KEY, genre);
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public static SongListFragment newInstance(Kind kind, int checkedMenuItemId) {
+    public static SongListFragment newInstance(Kind kind) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         arguments.putSerializable(SONGS_KIND_KEY, kind);
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
 
 
-    public static SongListFragment newInstance(boolean isFavouriteSongList, int checkedMenuItemId) {
+    public static SongListFragment newInstance(boolean isFavouriteSongList) {
         SongListFragment fragment = new SongListFragment();
         Bundle arguments = new Bundle();
         arguments.putBoolean(IS_FAVOURITE_SONG_LIST_KEY, isFavouriteSongList);
-        arguments.putInt(CHECKED_MENU_ITEM_ID_KEY, checkedMenuItemId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -119,7 +113,7 @@ public class SongListFragment extends SearchLaunchingFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_list, container, false);
-        mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        mGuitarSongbookViewModel = new ViewModelProvider(this).get(GuitarSongbookViewModel.class);
         initViews(view);
         configureViewModelObservers();
         configureRecyclerView();
@@ -128,9 +122,9 @@ public class SongListFragment extends SearchLaunchingFragment {
         configureFloatingActionButton();
         handleMainActivityFeatures();
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
         animateTransition = sharedPref.getBoolean(
-                getContext().getResources().getString(R.string.switch_animation_pref_key),
+                requireContext().getResources().getString(R.string.switch_animation_pref_key),
                 true);
         return view;
     }
@@ -145,7 +139,7 @@ public class SongListFragment extends SearchLaunchingFragment {
                 @Override
                 public void run() {
                     mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
-                    songListRecyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+                    Objects.requireNonNull(songListRecyclerView.getLayoutManager()).onRestoreInstanceState(mListState);
 
                 }
             }, 50);
@@ -172,7 +166,7 @@ public class SongListFragment extends SearchLaunchingFragment {
         adapter = new SongListAdapter(getContext(), this);
         songListRecyclerView.setAdapter(adapter);
 
-        songListRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        songListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (fastScrolling || isRecyclerViewAtTheBottom(recyclerView)) {
@@ -195,8 +189,10 @@ public class SongListFragment extends SearchLaunchingFragment {
             floatingActionButton.animate().translationY(0);
             fabOnScreen = true;
         } else if (!show && fabOnScreen) {
+
+
             floatingActionButton.animate()
-                    .translationY(floatingActionButton.getHeight() + floatingActionButton.getPaddingBottom());
+                    .translationY(floatingActionButton.getHeight() + 2*floatingActionButton.getPaddingBottom());
             fabOnScreen = false;
         }
     }
@@ -245,7 +241,7 @@ public class SongListFragment extends SearchLaunchingFragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 if (animateTransition) {
                     fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                 }
@@ -319,7 +315,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureAppBarTitleForArtistId(Long artistId) {
-        mGuitarSongbookViewModel.getArtistById(artistId).observe(this, new Observer<Artist>() {
+        mGuitarSongbookViewModel.getArtistById(artistId).observe(getViewLifecycleOwner(), new Observer<Artist>() {
             @Override
             public void onChanged(Artist artist) {
                 MainActivity activity = (MainActivity) getActivity();
@@ -356,7 +352,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureAllArtistObserver() {
-        mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
+        mGuitarSongbookViewModel.getAllArtists().observe(getViewLifecycleOwner(), new Observer<List<Artist>>() {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
                 adapter.setArtists(artists);
@@ -365,7 +361,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureAllSongsObserver() {
-        mGuitarSongbookViewModel.getAllSongsTitleArtistIdGenreAndIsFavourite().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getAllSongsTitleArtistIdGenreAndIsFavourite().observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -374,7 +370,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureFavouriteSongsViewModelObserver() {
-        mGuitarSongbookViewModel.getFavouriteSongsTitleArtistIdGenreAndIsFavourite().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getFavouriteSongsTitleArtistIdGenreAndIsFavourite().observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 int noFavSongTextViewVisibility = 0;
@@ -392,7 +388,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForArtistId(Long artistId) {
-        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(artistId).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByArtistId(artistId).observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -401,7 +397,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForMusicGenre(MusicGenre genre) {
-        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(genre).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(genre).observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -410,7 +406,7 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureSongsObserverForKind(Kind kind) {
-        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByKind(kind).observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getSongsTitleArtistIdGenreAndIsFavouriteByKind(kind).observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 adapter.setSongs(songs);
@@ -421,24 +417,13 @@ public class SongListFragment extends SearchLaunchingFragment {
     private void handleMainActivityFeatures() {
         MainActivity mainActivity = (MainActivity) getActivity();
         assert mainActivity != null;
-        mainActivity.setTitle(Objects.requireNonNull(getContext()).getString(R.string.app_name));
-        setCurrentItemInNavigationView(mainActivity);
-    }
-
-    private void setCurrentItemInNavigationView(MainActivity mainActivity) {
-        if (getArguments() != null && getArguments().containsKey(CHECKED_MENU_ITEM_ID_KEY)) {
-            int itemId = getArguments().getInt(CHECKED_MENU_ITEM_ID_KEY);
-            mainActivity.setCurrentItemId(itemId);
-        } else {
-            mainActivity.uncheckAllItemInNavigationDrawer();
-        }
     }
 
     @Override
     public void onPause() {
         if (saveRecyclerViewState) {
             mBundleRecyclerViewState = new Bundle();
-            mListState = songListRecyclerView.getLayoutManager().onSaveInstanceState();
+            mListState = Objects.requireNonNull(songListRecyclerView.getLayoutManager()).onSaveInstanceState();
             mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
         }
         super.onPause();

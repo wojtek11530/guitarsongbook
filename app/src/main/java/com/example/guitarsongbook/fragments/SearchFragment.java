@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +32,6 @@ import com.example.guitarsongbook.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SearchFragment extends Fragment {
 
@@ -82,7 +81,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void configureSearching(Menu menu) {
-        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getActivity()).getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
         configureSearchView(menu, searchManager);
     }
 
@@ -95,12 +94,12 @@ public class SearchFragment extends Fragment {
         ImageView icon = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
         icon.setImageResource(R.drawable.ic_close_white_32dp);
 
-        SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
+        SearchView.SearchAutoComplete theTextArea = searchView.findViewById(R.id.search_src_text);
 
         theTextArea.setHintTextColor(getResources().getColor(R.color.textColorHint));
 
         searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(Objects.requireNonNull(getActivity()).getComponentName()));
+                searchManager.getSearchableInfo(requireActivity().getComponentName()));
         searchView.setOnQueryTextListener(onQueryTextListener);
 
         searchItem.expandActionView();
@@ -115,13 +114,10 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         intiViews(view);
-        mGuitarSongbookViewModel = ViewModelProviders.of(this).get(GuitarSongbookViewModel.class);
+        mGuitarSongbookViewModel = new ViewModelProvider(this).get(GuitarSongbookViewModel.class);
 
         configureRecyclerViews();
         configureViewModelObservers();
-
-        ((MainActivity) Objects.requireNonNull(getActivity())).uncheckAllItemInNavigationDrawer();
-
         return view;
     }
 
@@ -166,14 +162,14 @@ public class SearchFragment extends Fragment {
     }
 
     private void configureViewModelObservers() {
-        mGuitarSongbookViewModel.getAllArtists().observe(this, new Observer<List<Artist>>() {
+        mGuitarSongbookViewModel.getAllArtists().observe(getViewLifecycleOwner(), new Observer<List<Artist>>() {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
                 mSongListAdapter.setArtists(artists);
             }
         });
 
-        mGuitarSongbookViewModel.getArtistSongsCount().observe(this, new Observer<List<SongDao.ArtistSongsCount>>() {
+        mGuitarSongbookViewModel.getArtistSongsCount().observe(getViewLifecycleOwner(), new Observer<List<SongDao.ArtistSongsCount>>() {
             @Override
             public void onChanged(@Nullable final List<SongDao.ArtistSongsCount> artistSongsCounts) {
                 assert artistSongsCounts != null;
@@ -181,7 +177,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        mGuitarSongbookViewModel.getQueriedSongs().observe(this, new Observer<List<Song>>() {
+        mGuitarSongbookViewModel.getQueriedSongs().observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable final List<Song> songs) {
                 mSongListAdapter.setSongs(songs);
@@ -190,7 +186,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        mGuitarSongbookViewModel.getQueriedArtists().observe(SearchFragment.this, new Observer<List<Artist>>() {
+        mGuitarSongbookViewModel.getQueriedArtists().observe(getViewLifecycleOwner(), new Observer<List<Artist>>() {
             @Override
             public void onChanged(@Nullable final List<Artist> artists) {
                 mArtistListAdapter.setArtists(artists);
@@ -279,7 +275,7 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public boolean onMenuItemActionCollapse(MenuItem item) {
-                    Objects.requireNonNull(getActivity()).onBackPressed();
+                    requireActivity().onBackPressed();
                     return true;
                 }
             };

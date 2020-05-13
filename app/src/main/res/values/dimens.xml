@@ -10,7 +10,10 @@
     <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
     <dimen name="navigation_cardview_radius">12dp</dimen>
-    <dimen name="navigation_cardview_elevation">3dp</dimen>
-    <dimen name="navigation_cardview_max_elevation">3dp</dimen>
-    <dimen name="navigation_cardview_content_padding">8dp</dimen>
+    <dimen name="navigation_cardview_elevation">5dp</dimen>
+    <dimen name="navigation_cardview_max_elevation">5dp</dimen>
+    <dimen name="navigation_cardview_content_padding">4dp</dimen>
+    <dimen name="icon_tile_margin_top">4dp</dimen>
+    <dimen name="icon_tile_margin_bottom">4dp</dimen>
+    <dimen name="icon_text_margin_bottom">4dp</dimen>
 </resources>

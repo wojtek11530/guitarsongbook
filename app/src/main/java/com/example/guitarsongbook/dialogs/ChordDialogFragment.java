@@ -2,6 +2,8 @@ package com.example.guitarsongbook.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -40,8 +42,9 @@ public class ChordDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
         View dialogView = requireActivity().getLayoutInflater().inflate(R.layout.dialog_chord_diagram, null);
+
 
         mChordSymbolTextView = dialogView.findViewById(R.id.chord_in_dialog_symbol_txt_);
         mChordDiagramViewPager = dialogView.findViewById(R.id.chordDiagramPager);
@@ -53,7 +56,6 @@ public class ChordDialogFragment extends DialogFragment {
             mChordSymbolTextView.setText(chordDialogTitle);
         }
 
-
         ArrayList<Integer> chordDiagramDrawableIds = null;
         if (getArguments().containsKey(DIAGRAM_DRAWABLE_IDS)) {
             chordDiagramDrawableIds = (ArrayList<Integer>) getArguments().getSerializable(DIAGRAM_DRAWABLE_IDS);
@@ -63,7 +65,6 @@ public class ChordDialogFragment extends DialogFragment {
 
             mCircleIndicator.setViewPager(mChordDiagramViewPager);
         }
-
 
         builder.setView(dialogView);
         return builder.create();

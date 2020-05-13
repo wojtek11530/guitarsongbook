@@ -14,4 +14,7 @@
     <color name="disabledButton">#5C5C5C</color>
     <color name="text_shadow">#29000000</color>
 
+    <color name="colorCenterGradient">#1664A2</color>
+    <color name="coloEndGradient">#114B7A</color>
+
 </resources>
