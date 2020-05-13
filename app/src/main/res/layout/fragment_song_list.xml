@@ -48,7 +48,8 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/ic_random"
-        app:maxImageSize="32dp"
+        app:fabCustomSize="64dp"
+        app:maxImageSize="36dp"
         app:tint="@android:color/white" />
 
 

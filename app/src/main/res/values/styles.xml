@@ -96,4 +96,8 @@
         <item name="android:progressTint">@color/bottomNavigationColor</item>
         <item name="android:colorControlActivated">@color/bottomNavigationColor</item>
     </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
 </resources>
