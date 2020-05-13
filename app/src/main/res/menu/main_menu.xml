@@ -7,5 +7,5 @@
         app:showAsAction="ifRoom|collapseActionView"
         android:icon="@drawable/ic_search_32dp"
         app:iconTint="@android:color/white"
-        android:title="Search"/>
+        android:title="@string/search"/>
 </menu>

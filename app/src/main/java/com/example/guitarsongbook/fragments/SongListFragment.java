@@ -417,7 +417,6 @@ public class SongListFragment extends SearchLaunchingFragment {
     private void handleMainActivityFeatures() {
         MainActivity mainActivity = (MainActivity) getActivity();
         assert mainActivity != null;
-        mainActivity.setTitle(requireContext().getString(R.string.app_name));
     }
 
     @Override

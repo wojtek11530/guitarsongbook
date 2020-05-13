@@ -13,12 +13,12 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,11 +49,16 @@ public class NavigationFragment extends SearchLaunchingFragment {
                 context.getResources().getString(R.string.switch_animation_pref_key),
                 true);
 
+//        configureScrollView(view);
         addOnCardViewsClickListeners(view);
-
         handleMainActivityFeatures();
         return view;
     }
+
+//    private void configureScrollView(View view) {
+//        ScrollView scrollView = view.findViewById(R.id.scroll_view);
+//        scrollView.setOverScrollMode(View.OVER);
+//    }
 
     private void addOnCardViewsClickListeners(View view) {
         CardView allSongsCardView = view.findViewById(R.id.all_songs_card_view);

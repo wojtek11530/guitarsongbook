@@ -54,15 +54,13 @@ public class ArtistListFragment extends SearchLaunchingFragment {
 
         View view = inflater.inflate(R.layout.fragment_artist_list, container, false);
         mGuitarSongbookViewModel = new ViewModelProvider(this).get(GuitarSongbookViewModel.class);
-        setTitle();
+        setAppBarTitle();
         initRecyclerView(view);
         setViewModelObservers();
-        handleMainActivityFeatures();
-
         return view;
     }
 
-    private void setTitle() {
+    private void setAppBarTitle() {
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
         activity.setAppBarTitle(getResources().getString(R.string.artists));
@@ -97,10 +95,5 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         });
     }
 
-    private void handleMainActivityFeatures() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        assert mainActivity != null;
-        mainActivity.setTitle(requireContext().getString(R.string.app_name));
-    }
 
 }
