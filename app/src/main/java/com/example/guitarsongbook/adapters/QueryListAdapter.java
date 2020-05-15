@@ -10,18 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.R;
+import com.example.guitarsongbook.fragments.SearchFragment;
 import com.example.guitarsongbook.model.SearchQuery;
 
 import java.util.List;
 
 public class QueryListAdapter extends RecyclerView.Adapter<QueryListAdapter.QueryViewHolder>{
 
+    private final SearchFragment searchFragment;
     private Context context;
     private final LayoutInflater mInflater;
     private List<SearchQuery> mSearchQueries;
 
-    public QueryListAdapter(Context context) {
+    public QueryListAdapter(Context context, SearchFragment searchFragment) {
         this.context = context;
+        this.searchFragment = searchFragment;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -55,13 +58,21 @@ public class QueryListAdapter extends RecyclerView.Adapter<QueryListAdapter.Quer
         else return 0;
     }
 
-    public class QueryViewHolder extends RecyclerView.ViewHolder {
+    public class QueryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView mQueryTextView;
 
         public QueryViewHolder(@NonNull View itemView) {
             super(itemView);
             mQueryTextView = itemView.findViewById(R.id.query_txt_);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            SearchQuery searchQuery = mSearchQueries.get(position);
+            searchFragment.setQuery(searchQuery.getMQueryText());
         }
     }
 }

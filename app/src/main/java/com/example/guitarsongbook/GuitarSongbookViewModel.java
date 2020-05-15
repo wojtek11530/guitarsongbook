@@ -188,4 +188,16 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     {
         return mSearchQueryRepository.getRecentQueries();
     }
+
+    public SearchQuery getSearchQueryByText(String query) {
+        return mSearchQueryRepository.getQueryByText(query);
+    }
+
+    public void update(SearchQuery searchQuery) {
+        mSearchQueryRepository.update(searchQuery);
+    }
+
+    public void insertNewOrUpdate(String query) {
+        mSearchQueryRepository.insertNewOrUpdate(query);
+    }
 }

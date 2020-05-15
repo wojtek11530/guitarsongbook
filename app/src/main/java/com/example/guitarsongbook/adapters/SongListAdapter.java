@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
+import com.example.guitarsongbook.fragments.SearchFragment;
 import com.example.guitarsongbook.fragments.SongDisplayFragment;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.MusicGenre;
@@ -35,6 +36,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
 
     private Context context;
+    private SearchFragment searchFragment;
     private final LayoutInflater mInflater;
     private List<Song> mSongs;
     private List<Artist> mArtists;
@@ -43,6 +45,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     public SongListAdapter(Context context, Fragment fragment) {
         this.context = context;
+        this.searchFragment = fragment instanceof SearchFragment? (SearchFragment) fragment: null;
+
         mGuitarSongbookViewModel = new ViewModelProvider(fragment).get(GuitarSongbookViewModel.class);
         mInflater = LayoutInflater.from(context);
 
@@ -186,6 +190,9 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
+            if (searchFragment != null) {
+                searchFragment.insertCurrentQueryToDatabase();
+            }
             startSongDisplayFragment(position);
         }
     }

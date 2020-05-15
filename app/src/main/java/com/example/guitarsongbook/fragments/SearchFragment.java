@@ -61,7 +61,6 @@ public class SearchFragment extends Fragment {
     private static final String QUERY_KEY = "QUERY_KEY";
 
 
-
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -159,7 +158,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void configureFoundSongsRecyclerView() {
-        mArtistListAdapter = new ArtistListAdapter(getContext());
+        mArtistListAdapter = new ArtistListAdapter(getContext(), this);
         mFoundArtistsRecyclerView.setAdapter(mArtistListAdapter);
         mFoundArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -171,7 +170,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void configureRecentQueriesRecyclerView() {
-        mQueryListAdapter = new QueryListAdapter(getContext());
+        mQueryListAdapter = new QueryListAdapter(getContext(), this);
         mRecentQueriesRecyclerView.setAdapter(mQueryListAdapter);
         mRecentQueriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -272,6 +271,8 @@ public class SearchFragment extends Fragment {
                     }
                     if (!query.equals("")) {
                         mNotEmptyQuery = query;
+                    } else {
+                        mNotEmptyQuery = null;
                     }
                     performSearching(query);
                     return true;
@@ -280,7 +281,6 @@ public class SearchFragment extends Fragment {
                 private void performSearching(String query) {
                     if (query.length() > 0) {
                         setNewQuery(query);
-                        insertQueryToDatabase(query);
                     } else {
                         adjustViewsToNoSearching();
                     }
@@ -291,9 +291,14 @@ public class SearchFragment extends Fragment {
                 }
             };
 
-    private void insertQueryToDatabase(String query) {
-        SearchQuery searchQuery = new SearchQuery(query, new Date());
-        mGuitarSongbookViewModel.insertSearchQuery(searchQuery);
+    public void insertCurrentQueryToDatabase() {
+        mGuitarSongbookViewModel.insertNewOrUpdate(mNotEmptyQuery.toString());
+    }
+
+    public void setQuery(String query) {
+        if (searchView != null) {
+            searchView.setQuery(query, false);
+        }
     }
 
     private MenuItem.OnActionExpandListener onActionExpandListener =

@@ -24,17 +24,17 @@ public class SongRepository {
         mAllSongs = mSongDao.getAllSongs();
     }
 
-    public void insert (Song song) {
+    public void insert(Song song) {
         new InsertAsyncTask(mSongDao).execute(song);
     }
 
     public void update(Song song) {
-        new SongRepository.updateAsyncTask(mSongDao).execute(song);
+        new UpdateAsyncTask(mSongDao).execute(song);
     }
 
-    public void updateIsFavourite(Long songId, boolean isFavourite){
+    public void updateIsFavourite(Long songId, boolean isFavourite) {
         UpdateIsFavouriteTaskParameters parameters = new UpdateIsFavouriteTaskParameters(songId, isFavourite);
-        new SongRepository.updateIsFavouriteAsyncTask(mSongDao).execute(parameters);
+        new UpdateIsFavouriteAsyncTask(mSongDao).execute(parameters);
     }
 
     public LiveData<List<Song>> getAllSongs() {
@@ -92,7 +92,7 @@ public class SongRepository {
         return mSongDao.getSongsTitleArtistIdGenreAndIsFavouriteByQuery(query);
     }
 
-    public LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount(){
+    public LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount() {
         return mSongDao.getArtistSongsCount();
     }
 
@@ -112,11 +112,11 @@ public class SongRepository {
         }
     }
 
-    private static class updateAsyncTask extends AsyncTask<Song, Void, Void> {
+    private static class UpdateAsyncTask extends AsyncTask<Song, Void, Void> {
 
         private SongDao mAsyncTaskDao;
 
-        updateAsyncTask(SongDao dao) {
+        UpdateAsyncTask(SongDao dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -127,11 +127,10 @@ public class SongRepository {
         }
     }
 
-    private static class updateIsFavouriteAsyncTask extends AsyncTask<UpdateIsFavouriteTaskParameters, Void, Void> {
+    private static class UpdateIsFavouriteAsyncTask extends AsyncTask<UpdateIsFavouriteTaskParameters, Void, Void> {
         private SongDao mAsyncTaskDao;
 
-
-        updateIsFavouriteAsyncTask(SongDao mSongDao) {
+        UpdateIsFavouriteAsyncTask(SongDao mSongDao) {
             mAsyncTaskDao = mSongDao;
         }
 
@@ -143,7 +142,6 @@ public class SongRepository {
             mAsyncTaskDao.updateIsFavourite(songId, isFavourite);
             return null;
         }
-
     }
 
     private class UpdateIsFavouriteTaskParameters {

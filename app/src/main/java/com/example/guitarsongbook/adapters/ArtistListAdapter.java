@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.daos.SongDao;
+import com.example.guitarsongbook.fragments.SearchFragment;
 import com.example.guitarsongbook.fragments.SongListFragment;
 import com.example.guitarsongbook.model.Artist;
 import com.l4digital.fastscroll.FastScroller;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ArtistViewHolder> implements FastScroller.SectionIndexer {
 
     private Context context;
+    private SearchFragment searchFragment;
     private final LayoutInflater mInflater;
     private List<Artist> mArtists;
     private boolean animateTransition;
@@ -34,7 +36,12 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
     private Map<Long, Integer> artistIdToSongsCountMap = new HashMap<>();
 
     public ArtistListAdapter(Context context) {
+        this(context, null);
+    }
+
+    public ArtistListAdapter(Context context, SearchFragment searchFragment) {
         this.context = context;
+        this.searchFragment = searchFragment;
         mInflater = LayoutInflater.from(context);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -135,6 +142,9 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
+            if (searchFragment != null) {
+                searchFragment.insertCurrentQueryToDatabase();
+            }
             startSongListFragment(position);
         }
     }
