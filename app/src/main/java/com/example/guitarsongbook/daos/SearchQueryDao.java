@@ -27,6 +27,6 @@ public interface SearchQueryDao {
     @Query("SELECT * FROM search_query_table ORDER BY date")
     LiveData<List<SearchQuery>> getAllQueries();
 
-    @Query("SELECT * FROM search_query_table ORDER BY date DESC LIMIT 4")
+    @Query("SELECT * FROM search_query_table ORDER BY date DESC LIMIT 6")
     LiveData<List<SearchQuery>> getRecentQueries();
 }

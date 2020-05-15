@@ -44,6 +44,7 @@
     <string name="semitones">półtonów</string>
     <string name="semitones_plural_for_2_3_4">półtony</string>
     <string name="no_results_communicate">Nie znaleziono wyników.</string>
+    <string name="too_many_results_communicate">Znaleziono zbyt wiele wyników. Zaktualizuj słowo kluczowe.</string>
     <string name="screen_blanking_preference_summary">Wygaszaj ekran podczas wyświetlania piosenki.</string>
     <string name="screen_blanking_preference_title">Wygaszanie ekranu</string>
 

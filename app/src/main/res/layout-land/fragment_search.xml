@@ -24,7 +24,7 @@
             android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/no_results_txt_"
+            android:id="@+id/search_msg_txt_"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"

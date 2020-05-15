@@ -24,12 +24,13 @@
             android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/no_results_txt_"
+            android:id="@+id/search_msg_txt_"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:layout_marginBottom="8dp"
             android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:text="@string/no_results_communicate"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textStyle="italic"
