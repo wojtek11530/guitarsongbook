@@ -25,7 +25,7 @@ public class SongRepository {
     }
 
     public void insert (Song song) {
-        new SongRepository.insertAsyncTask(mSongDao).execute(song);
+        new InsertAsyncTask(mSongDao).execute(song);
     }
 
     public void update(Song song) {
@@ -97,11 +97,11 @@ public class SongRepository {
     }
 
 
-    private static class insertAsyncTask extends AsyncTask<Song, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<Song, Void, Void> {
 
         private SongDao mAsyncTaskDao;
 
-        insertAsyncTask(SongDao dao) {
+        InsertAsyncTask(SongDao dao) {
             mAsyncTaskDao = dao;
         }
 

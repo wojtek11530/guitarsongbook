@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface SearchQueryDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     long insert(SearchQuery searchQuery);
 
     @Query("DELETE FROM search_query_table")
@@ -23,6 +23,6 @@ public interface SearchQueryDao {
     @Query("SELECT * from search_query_table ORDER BY date")
     LiveData<List<SearchQuery>> getAllQueries();
 
-    @Query("SELECT * from search_query_table ORDER BY date LIMIT 4")
+    @Query("SELECT * from search_query_table ORDER BY date DESC LIMIT 4")
     LiveData<List<SearchQuery>> getRecentQueries();
 }

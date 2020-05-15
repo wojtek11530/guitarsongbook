@@ -26,18 +26,18 @@ public class SearchQueryRepository {
     }
 
     public void insert (SearchQuery searchQuery) {
-        new SearchQueryRepository.insertAsyncTask(mSearchQueryDao).execute(searchQuery);
+        new InsertAsyncTask(mSearchQueryDao).execute(searchQuery);
     }
 
     public LiveData<List<SearchQuery>> getRecentQueries() {
         return mSearchQueryDao.getRecentQueries();
     }
 
-    private static class insertAsyncTask extends AsyncTask<SearchQuery, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<SearchQuery, Void, Void> {
 
         private SearchQueryDao mAsyncTaskDao;
 
-        insertAsyncTask(SearchQueryDao dao) {
+        InsertAsyncTask(SearchQueryDao dao) {
             mAsyncTaskDao = dao;
         }
 

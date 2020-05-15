@@ -66,6 +66,7 @@
     <string name="all">wszystkie</string>
     <string name="favourite">ulubione</string>
     <string name="genres">Gatunki</string>
+    <string name="query_placeholder">Some query</string>
 
 
     <string-array name="font_size_entries">

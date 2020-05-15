@@ -22,15 +22,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
-import com.example.guitarsongbook.MainActivity;
 import com.example.guitarsongbook.R;
 import com.example.guitarsongbook.adapters.ArtistListAdapter;
+import com.example.guitarsongbook.adapters.QueryListAdapter;
 import com.example.guitarsongbook.adapters.SongListAdapter;
 import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
+import com.example.guitarsongbook.model.SearchQuery;
 import com.example.guitarsongbook.model.Song;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
@@ -46,6 +48,8 @@ public class SearchFragment extends Fragment {
     private SongListAdapter mSongListAdapter;
     private RecyclerView mFoundArtistsRecyclerView;
     private ArtistListAdapter mArtistListAdapter;
+    private RecyclerView mRecentQueriesRecyclerView;
+    private QueryListAdapter mQueryListAdapter;
 
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
 
@@ -55,6 +59,8 @@ public class SearchFragment extends Fragment {
     private CharSequence mNotEmptyQuery;
 
     private static final String QUERY_KEY = "QUERY_KEY";
+
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -129,6 +135,7 @@ public class SearchFragment extends Fragment {
     private void findViews(View view) {
         mFoundSongsRecyclerView = view.findViewById(R.id.found_songs_rv_);
         mFoundArtistsRecyclerView = view.findViewById(R.id.found_artists_rv_);
+        mRecentQueriesRecyclerView = view.findViewById(R.id.recent_queries_rv_);
 
         mFoundSongsHeader = view.findViewById(R.id.found_songs_header_txt_);
         mFoundArtistsHeader = view.findViewById(R.id.found_artists_header_txt_);
@@ -136,6 +143,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void adjustViewsToNoSearching() {
+        mRecentQueriesRecyclerView.setVisibility(View.VISIBLE);
         mFoundSongsHeader.setVisibility(View.GONE);
         mFoundSongsRecyclerView.setVisibility(View.GONE);
         mFoundArtistsHeader.setVisibility(View.GONE);
@@ -147,6 +155,7 @@ public class SearchFragment extends Fragment {
     private void configureRecyclerViews() {
         configureFoundArtistRecyclerView();
         configureFoundSongsRecyclerView();
+        configureRecentQueriesRecyclerView();
     }
 
     private void configureFoundSongsRecyclerView() {
@@ -159,6 +168,12 @@ public class SearchFragment extends Fragment {
         mSongListAdapter = new SongListAdapter(getContext(), this);
         mFoundSongsRecyclerView.setAdapter(mSongListAdapter);
         mFoundSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void configureRecentQueriesRecyclerView() {
+        mQueryListAdapter = new QueryListAdapter(getContext());
+        mRecentQueriesRecyclerView.setAdapter(mQueryListAdapter);
+        mRecentQueriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void configureViewModelObservers() {
@@ -194,6 +209,14 @@ public class SearchFragment extends Fragment {
                 adjustResultsViewsVisibility();
             }
         });
+
+        mGuitarSongbookViewModel.getRecentQueries().observe(getViewLifecycleOwner(), new Observer<List<SearchQuery>>() {
+            @Override
+            public void onChanged(@Nullable final List<SearchQuery> queries) {
+                mQueryListAdapter.setQueries(queries);
+            }
+        });
+
     }
 
     private void setFoundSongs(List<Song> mFoundSong) {
@@ -232,6 +255,7 @@ public class SearchFragment extends Fragment {
         } else {
             mNoResultsCommunicateTextView.setVisibility(View.GONE);
         }
+        mRecentQueriesRecyclerView.setVisibility(View.GONE);
     }
 
     private SearchView.OnQueryTextListener onQueryTextListener =
@@ -256,6 +280,7 @@ public class SearchFragment extends Fragment {
                 private void performSearching(String query) {
                     if (query.length() > 0) {
                         setNewQuery(query);
+                        insertQueryToDatabase(query);
                     } else {
                         adjustViewsToNoSearching();
                     }
@@ -265,6 +290,11 @@ public class SearchFragment extends Fragment {
                     mGuitarSongbookViewModel.searchByQuery(query);
                 }
             };
+
+    private void insertQueryToDatabase(String query) {
+        SearchQuery searchQuery = new SearchQuery(query, new Date());
+        mGuitarSongbookViewModel.insertSearchQuery(searchQuery);
+    }
 
     private MenuItem.OnActionExpandListener onActionExpandListener =
             new MenuItem.OnActionExpandListener() {

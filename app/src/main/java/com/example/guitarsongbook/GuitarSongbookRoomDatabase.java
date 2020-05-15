@@ -55,7 +55,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
-    private static String databaseDir = "database/guitar_songbook_database1.db";
+    private static String databaseDir = "database/guitar_songbook_database.db";
 
     public static GuitarSongbookRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -68,18 +68,18 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                             .createFromAsset(databaseDir)
                             .build();
 
-                   /* INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
-                            .fallbackToDestructiveMigration()
-                            .addCallback(new Callback() {
-                                @Override
-                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                                    super.onOpen(db);
-                                    new PopulateDbAsync(INSTANCE, context.getResources()).execute();
-                                }
-                            })
-                            .build();
-*/
+//                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+//                            GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
+//                            .fallbackToDestructiveMigration()
+//                            .addCallback(new Callback() {
+//                                @Override
+//                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+//                                    super.onOpen(db);
+//                                    new PopulateDbAsync(INSTANCE, context.getResources()).execute();
+//                                }
+//                            })
+//                            .build();
+
                 }
             }
         }

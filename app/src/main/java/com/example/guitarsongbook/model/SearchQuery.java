@@ -2,7 +2,6 @@ package com.example.guitarsongbook.model;
 
 
 import androidx.room.ColumnInfo;
-import androidx.room.Dao;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -24,6 +23,12 @@ public class SearchQuery {
 
     public SearchQuery(Long mId, String mQueryText, Date mDate) {
         this.mId = mId;
+        this.mQueryText = mQueryText;
+        this.mDate = mDate;
+    }
+
+    @Ignore
+    public SearchQuery(String mQueryText, Date mDate) {
         this.mQueryText = mQueryText;
         this.mDate = mDate;
     }

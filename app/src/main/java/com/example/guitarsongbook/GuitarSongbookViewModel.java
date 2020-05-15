@@ -15,9 +15,11 @@ import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Kind;
 import com.example.guitarsongbook.model.MusicGenre;
+import com.example.guitarsongbook.model.SearchQuery;
 import com.example.guitarsongbook.model.Song;
 import com.example.guitarsongbook.repositories.ArtistRepository;
 import com.example.guitarsongbook.repositories.ChordRepository;
+import com.example.guitarsongbook.repositories.SearchQueryRepository;
 import com.example.guitarsongbook.repositories.SongRepository;
 
 import java.util.List;
@@ -27,10 +29,12 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
     private ArtistRepository mArtistRepository;
     private SongRepository mSongRepository;
     private ChordRepository mChordRepository;
+    private SearchQueryRepository mSearchQueryRepository;
 
     private LiveData<List<Artist>> mAllArtists;
     private LiveData<List<Song>> mAllSongs;
     private LiveData<List<Chord>> mAllChords;
+    private LiveData<List<SearchQuery>> mAllQueries;
 
     private MutableLiveData<String> mQuery = new MutableLiveData<>();
     private LiveData<List<Song>> mQueriedSongs;
@@ -63,6 +67,8 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
                     }
                 });
 
+        mSearchQueryRepository = new SearchQueryRepository(application);
+        mAllQueries = mSearchQueryRepository.getAllQueries();
     }
 
     public LiveData<List<Artist>> getAllArtists() {
@@ -75,6 +81,10 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
 
     public LiveData<List<Chord>> getAllChords() {
         return mAllChords;
+    }
+
+    public LiveData<List<SearchQuery>> getAllQueries() {
+        return mAllQueries;
     }
 
     public LiveData<Song> getSongById(Long id) {
@@ -150,6 +160,10 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
         mChordRepository.insert(chord);
     }
 
+    public void insertSearchQuery(SearchQuery searchQuery) {
+        mSearchQueryRepository.insert(searchQuery);
+    }
+
     public void update(Song song) {
         mSongRepository.update(song);
     }
@@ -170,5 +184,8 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
         return mQueriedArtists;
     }
 
-
+    public LiveData<List<SearchQuery>> getRecentQueries()
+    {
+        return mSearchQueryRepository.getRecentQueries();
+    }
 }
