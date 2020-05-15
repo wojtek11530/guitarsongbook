@@ -143,8 +143,6 @@ public class Song implements Parcelable {
     }
 
 
-
-
     public void switchIsFavourite() {
         mIsFavourite = !mIsFavourite;
     }

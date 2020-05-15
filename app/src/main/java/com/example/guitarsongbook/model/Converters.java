@@ -1,12 +1,19 @@
 package com.example.guitarsongbook.model;
 
+import android.provider.SyncStateContract;
+
 import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.example.guitarsongbook.model.Kind.FOREIGN;
 import static com.example.guitarsongbook.model.Kind.POLISH;
@@ -21,6 +28,8 @@ import static com.example.guitarsongbook.model.MusicGenre.SHANTY;
 
 public class Converters {
 
+    static DateFormat dataFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.US);
+
     @TypeConverter
     public static ArrayList<String> fromString(String value) {
         Type listType = new TypeToken<ArrayList<String>>() {
@@ -32,6 +41,16 @@ public class Converters {
     public static String fromArrayList(ArrayList<String> list) {
         Gson gson = new Gson();
         return gson.toJson(list);
+    }
+
+    @TypeConverter
+    public static Date fromTimestamp(Long value) {
+        return value == null ? null : new Date(value);
+    }
+
+    @TypeConverter
+    public static Long dateToTimestamp(Date date) {
+        return date == null ? null : date.getTime();
     }
 
     @TypeConverter

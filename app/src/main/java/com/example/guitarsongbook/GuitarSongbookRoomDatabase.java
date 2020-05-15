@@ -14,11 +14,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.guitarsongbook.daos.ArtistDao;
 import com.example.guitarsongbook.daos.ChordDao;
+import com.example.guitarsongbook.daos.SearchQueryDao;
 import com.example.guitarsongbook.daos.SongChordJoinDao;
 import com.example.guitarsongbook.daos.SongDao;
 import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Converters;
+import com.example.guitarsongbook.model.SearchQuery;
 import com.example.guitarsongbook.model.Song;
 import com.example.guitarsongbook.model.SongChordJoin;
 import com.google.gson.Gson;
@@ -37,7 +39,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class}, version = 13, exportSchema = false)
+@Database(entities = {Artist.class, Song.class, Chord.class, SongChordJoin.class, SearchQuery.class}, version = 14, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
@@ -48,6 +50,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
     public abstract ChordDao chordDao();
 
     public abstract SongChordJoinDao songChordJoinDao();
+
+    public abstract SearchQueryDao searchQueryDao();
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
@@ -64,8 +68,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                             .createFromAsset(databaseDir)
                             .build();
 
-                    /*
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                   /* INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
                             .fallbackToDestructiveMigration()
                             .addCallback(new Callback() {
@@ -73,12 +76,10 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                                 public void onOpen(@NonNull SupportSQLiteDatabase db) {
                                     super.onOpen(db);
                                     new PopulateDbAsync(INSTANCE, context.getResources()).execute();
-
                                 }
                             })
                             .build();
-
-                    */
+*/
                 }
             }
         }
@@ -91,6 +92,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
         private final ArtistDao mArtistDao;
         private final ChordDao mChordDao;
         private final SongChordJoinDao mSongChordJoinDao;
+        private final SearchQueryDao mSearchQueryDao;
 
         Resources resources;
 
@@ -99,6 +101,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             mArtistDao = db.artistDao();
             mChordDao = db.chordDao();
             mSongChordJoinDao = db.songChordJoinDao();
+            mSearchQueryDao = db.searchQueryDao();
             this.resources = resources;
         }
 
@@ -118,6 +121,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             mArtistDao.deleteAll();
             mChordDao.deleteAll();
             mSongChordJoinDao.deleteAll();
+            mSearchQueryDao.deleteAll();
         }
 
         private void initializeChordsData() {
@@ -143,8 +147,6 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
                 while ((numberOfCharactersRead = reader.read(buffer)) != -1) {
                     writer.write(buffer, 0, numberOfCharactersRead);
                 }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
