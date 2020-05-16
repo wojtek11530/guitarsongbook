@@ -68,6 +68,9 @@
     <string name="favourite">ulubione</string>
     <string name="genres">Gatunki</string>
     <string name="query_placeholder">Some query</string>
+    <string name="other_that_artist">Piosenki artysty</string>
+    <string name="listen_at_youtube">Posłuchaj na YouTube</string>
+    <string name="listen_at_spotify">Posłuchaj na Spotify</string>
 
 
     <string-array name="font_size_entries">
