@@ -21,7 +21,7 @@ public interface SongDao {
     long insert(Song song);
 
     @Update
-    public void update(Song song);
+    void update(Song song);
 
     @Query("UPDATE song_table SET is_favourite = :isFavourite WHERE song_id =:songId")
     void updateIsFavourite(Long songId, boolean isFavourite);

@@ -45,8 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:singleLine="true"
             android:textAppearance="@style/ListItemTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/artist_img_"
@@ -67,15 +66,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:singleLine="true"
             android:textAppearance="@style/ListItemSubtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/artist_img_"
             app:layout_constraintTop_toBottomOf="@+id/space"
             tools:text="placeholder text" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

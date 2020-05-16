@@ -27,7 +27,7 @@ public class ArtistRepository{
     }
 
     public void insert (Artist artist) {
-        new insertAsyncTask(mArtistDao).execute(artist);
+        new InsertAsyncTask(mArtistDao).execute(artist);
     }
 
     public LiveData<Artist> getArtistById(Long id) {
@@ -39,11 +39,11 @@ public class ArtistRepository{
         return mArtistDao.getArtistsByQuery(query);
     }
 
-    private static class insertAsyncTask extends AsyncTask<Artist, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<Artist, Void, Void> {
 
         private ArtistDao mAsyncTaskDao;
 
-        insertAsyncTask(ArtistDao dao) {
+        InsertAsyncTask(ArtistDao dao) {
             mAsyncTaskDao = dao;
         }
 
