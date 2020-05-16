@@ -1,31 +1,38 @@
 package com.example.guitarsongbook.fragments;
 
 
+import android.app.SearchManager;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.guitarsongbook.GuitarSongbookViewModel;
 import com.example.guitarsongbook.MainActivity;
@@ -37,11 +44,11 @@ import com.example.guitarsongbook.model.Chord;
 import com.example.guitarsongbook.model.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,6 +95,10 @@ public class SongDisplayFragment extends Fragment {
 
     private int mTransposeValue = 0;
     private Map<SongChordJoinDao.ChordInSong, Boolean> chordToIsTransposed = new HashMap<SongChordJoinDao.ChordInSong, Boolean>();
+
+    private Menu optionsMenu;
+    private boolean animateTransition;
+
     private static final int MAX_TRANSPOSE_VALUE = 6;
     private static final int MIN_TRANSPOSE_VALUE = -6;
 
@@ -130,7 +141,7 @@ public class SongDisplayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -139,7 +150,6 @@ public class SongDisplayFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_song_display, container, false);
         mGuitarSongbookViewModel = new ViewModelProvider(this).get(GuitarSongbookViewModel.class);
-
 
         setTitle("");
         initLyricsRecyclerView(view);
@@ -193,6 +203,10 @@ public class SongDisplayFragment extends Fragment {
                     public void onChanged(@Nullable final Artist artist) {
                         mArtistOfSong = artist;
                         mSongDisplayAdapter.setArtist(artist);
+                        if (optionsMenu != null) {
+                            optionsMenu.findItem(R.id.other_from_artist)
+                                    .setVisible(true);
+                        }
                     }
                 });
             }
@@ -200,8 +214,64 @@ public class SongDisplayFragment extends Fragment {
 
         initToolBarFeatures(savedInstanceState);
         configureBlankingScreen();
+
+        Context context = getContext();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        animateTransition = sharedPref.getBoolean(
+                context.getResources().getString(R.string.switch_animation_pref_key),
+                true);
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        optionsMenu = menu;
+
+        inflater.inflate(R.menu.song_display_menu, menu);
+
+        if (mArtistOfSong == null) {
+            optionsMenu.findItem(R.id.other_from_artist)
+                    .setVisible(false);
+        } else {
+            optionsMenu.findItem(R.id.other_from_artist)
+                    .setVisible(true);
+        }
+        if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+            try {
+                Method m = menu.getClass().getDeclaredMethod(
+                        "setOptionalIconsVisible", Boolean.TYPE);
+                m.setAccessible(true);
+                m.invoke(menu, true);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTransposeMenuItem.setChecked(mTransposeBarOn);
+        mAutoScrollMenuItem.setChecked(mAutoScrollBarOn);
+        mAddToFavouriteMenuItem.setChecked(mFavourite);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.other_from_artist) {
+            runSongFromArtistListFragment();
+            return true;
+        } else if (item.getItemId() == R.id.youtube) {
+            searchSongAtYouTube();
+            return true;
+        } else if (item.getItemId() == R.id.spotify) {
+            searchSongAtSpotify();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void setTitle(String title) {
         MainActivity activity = (MainActivity) getActivity();
@@ -223,6 +293,10 @@ public class SongDisplayFragment extends Fragment {
         mSongDisplayAdapter.setArtist(mArtistOfSong);
         mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
 
+        if (mArtistOfSong != null && optionsMenu != null) {
+            optionsMenu.findItem(R.id.other_from_artist)
+                    .setVisible(true);
+        }
         mFavourite = mSongToDisplay.getMIsFavourite();
     }
 
@@ -565,13 +639,6 @@ public class SongDisplayFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mTransposeMenuItem.setChecked(mTransposeBarOn);
-        mAutoScrollMenuItem.setChecked(mAutoScrollBarOn);
-        mAddToFavouriteMenuItem.setChecked(mFavourite);
-    }
 
     private void configureBlankingScreen() {
         Context context = getContext();
@@ -582,6 +649,65 @@ public class SongDisplayFragment extends Fragment {
                 true);
         mSongLyricsRecyclerView.setKeepScreenOn(!blankingScreenOn);
     }
+
+    private void runSongFromArtistListFragment() {
+        if (mArtistOfSong != null) {
+            Long artistId = mArtistOfSong.getMId();
+            SongListFragment songListFragment = SongListFragment.newInstance(artistId);
+            FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            if (animateTransition) {
+                fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+            }
+            fragmentTransaction.addToBackStack(null)
+                    .replace(R.id.fragment_container_fl_, songListFragment)
+                    .commit();
+        } else {
+            Toast.makeText(requireContext(), "Brak artysty", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void searchSongAtYouTube() {
+        Intent intent = new Intent(Intent.ACTION_SEARCH);
+        intent.setPackage("com.google.android.youtube");
+
+        String query = getQueryForSong();
+        intent.putExtra("query", query);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(requireContext(), "Operacja nie powiodła się", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void searchSongAtSpotify() {
+        String query = getQueryForSong();
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setAction(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH);
+        intent.setComponent(new ComponentName("com.spotify.music",
+                "com.spotify.music.MainActivity"));
+        intent.putExtra(SearchManager.QUERY, query);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(requireContext(), "Operacja nie powiodła się", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private String getQueryForSong() {
+        StringBuilder sb = new StringBuilder();
+        if (mArtistOfSong != null) {
+            sb.append(mArtistOfSong.getMName());
+            sb.append(" ");
+        }
+        if (mSongToDisplay != null) {
+            sb.append(mSongToDisplay.getMTitle());
+        }
+        return sb.toString();
+    }
+
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
