@@ -28,7 +28,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -155,7 +154,7 @@ public class SongDisplayFragment extends Fragment {
         initLyricsRecyclerView(view);
         initBottomNavigationView(view);
         initAutoScrollBar(view, savedInstanceState);
-        initTransposeBar(view, savedInstanceState);
+        initTransposeBar(view);
 
         if (savedInstanceState != null) {
             restoreDataFromSavedInstanceState(savedInstanceState);
@@ -216,6 +215,7 @@ public class SongDisplayFragment extends Fragment {
         configureBlankingScreen();
 
         Context context = getContext();
+        assert context != null;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         animateTransition = sharedPref.getBoolean(
                 context.getResources().getString(R.string.switch_animation_pref_key),
@@ -361,7 +361,7 @@ public class SongDisplayFragment extends Fragment {
         mTransposeBar.setVisibility(mTransposeBarOn ? View.VISIBLE : View.GONE);
     }
 
-    private void initTransposeBar(View view, Bundle savedInstanceState) {
+    private void initTransposeBar(View view) {
         findTransposeBarViews(view);
         setOnClickListenersForTransposeBarViews();
     }
@@ -669,14 +669,13 @@ public class SongDisplayFragment extends Fragment {
     private void searchSongAtYouTube() {
         Intent intent = new Intent(Intent.ACTION_SEARCH);
         intent.setPackage("com.google.android.youtube");
-
         String query = getQueryForSong();
         intent.putExtra("query", query);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException ex) {
-            Toast.makeText(requireContext(), "Operacja nie powiodła się", Toast.LENGTH_SHORT).show();
+            showIntentFailureMessage();
         }
     }
 
@@ -691,8 +690,13 @@ public class SongDisplayFragment extends Fragment {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(requireContext(), "Operacja nie powiodła się", Toast.LENGTH_SHORT).show();
+            showIntentFailureMessage();
         }
+    }
+
+    private void showIntentFailureMessage() {
+        Toast toast = Toast.makeText(requireContext(), R.string.intent_failure_message, Toast.LENGTH_LONG);
+        toast.show();
     }
 
 

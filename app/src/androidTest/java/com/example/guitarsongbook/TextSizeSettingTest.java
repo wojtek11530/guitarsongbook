@@ -69,13 +69,12 @@ public class TextSizeSettingTest {
         appCompatCheckedTextView.perform(click());
 
         ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Przejdź wyżej"),
-                        childAtPosition(
-                                allOf(withId(R.id.toolbar),
-                                        childAtPosition(
-                                                withId(R.id.app_bar_layout),
-                                                0)),
-                                2),
+                allOf(childAtPosition(
+                        allOf(withId(R.id.toolbar),
+                                childAtPosition(
+                                        withId(R.id.app_bar_layout),
+                                        0)),
+                        2),
                         isDisplayed()));
         appCompatImageButton.perform(click());
 

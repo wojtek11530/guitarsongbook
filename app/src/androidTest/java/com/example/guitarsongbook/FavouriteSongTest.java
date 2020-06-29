@@ -49,7 +49,7 @@ public class FavouriteSongTest {
                                 1)));
         cardView.perform(scrollTo(), click());
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         String songTitle = "A wszystko to, bo Ciebie kocham!";
 
@@ -60,7 +60,7 @@ public class FavouriteSongTest {
         appCompatImageButton.perform(click());
 
         ViewInteraction appCompatImageButton2 = onView(
-                allOf(withContentDescription("Przejdź wyżej"),
+                allOf(
                         childAtPosition(
                                 allOf(withId(R.id.toolbar),
                                         childAtPosition(
@@ -79,7 +79,7 @@ public class FavouriteSongTest {
                                 2)));
         cardView2.perform(scrollTo(), click());
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.song_title_txt_), withText(songTitle),
