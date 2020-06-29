@@ -22,20 +22,4 @@
         android:icon="@drawable/ic_spotify"
         app:iconTint="@android:color/darker_gray"
         android:title="@string/listen_at_spotify"/>
-
-   <!-- <item
-        android:id="@+id/action_more"
-        android:icon="@drawable/ic_more_vert_black_24dp"
-        android:title=""
-        app:showAsAction="always">
-    <menu>
-        <item
-            android:id="@+id/other_from_artist"
-            app:showAsAction="ifRoom"
-            android:icon="@drawable/ic_artist"
-            app:iconTint="@color/colorTextSecondary"
-            android:title="@string/other_that_artist"/>
-    </menu>
-
-    </item>-->
 </menu>

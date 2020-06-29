@@ -71,6 +71,7 @@
     <string name="other_that_artist">Piosenki artysty</string>
     <string name="listen_at_youtube">Posłuchaj na YouTube</string>
     <string name="listen_at_spotify">Posłuchaj na Spotify</string>
+    <string name="intent_failure_message">Niepowodzenie. Nie znaleziono aplikacji.</string>
 
 
     <string-array name="font_size_entries">
