@@ -1,5 +1,6 @@
 package com.example.guitarsongbook.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,17 +24,21 @@ public class ChordDiagramPagerAdapter extends PagerAdapter {
         this.chordDiagramDrawableIds = chordDiagramDrawableIds;
     }
 
+    @NonNull
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.chord_diagram_pager_item, null);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.chord_diagram_pager_item, null);
         ImageView imageView = view.findViewById(R.id.chord_diagram_img_);
-        imageView.setImageDrawable(context.getResources().getDrawable(chordDiagramDrawableIds.get(position)));
+        imageView.setImageDrawable(
+                context.getResources().getDrawable(chordDiagramDrawableIds.get(position)));
         container.addView(view);
         return view;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object view) {
+    public void destroyItem(ViewGroup container, int position, @NonNull Object view) {
         container.removeView((View) view);
     }
 

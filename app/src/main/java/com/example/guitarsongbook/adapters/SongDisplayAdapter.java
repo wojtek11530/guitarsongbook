@@ -32,7 +32,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
     private Song mSong;
     private Artist mArtist;
-    private ArrayList<ArrayList<Chord>> mChords;
     private List<SongChordJoinDao.ChordInSong> mSpecificChords;
 
     private List<ListItem> mItems;
@@ -105,7 +104,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             this.lyricsInLine = lyricsInLine;
         }
 
-
         public ArrayList<Chord> getChordsInLine() {
             return chordsInLine;
         }
@@ -129,8 +127,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         String fontSizePreferenceValue = sharedPref.getString(
                 context.getResources().getString(R.string.lyrics_text_size_key),
                 context.getResources().getString(R.string.lyrics_and_chords_default_text_size));
-        assert fontSizePreferenceValue != null;
-        mFontSize = Integer.valueOf(fontSizePreferenceValue);
+        mFontSize = Integer.parseInt(fontSizePreferenceValue);
     }
 
     public void setSong(Song song) {
@@ -162,16 +159,13 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             ArrayList<TypeLineOfLyrics> typeLineOfLyricsArrayList = new ArrayList<>();
 
             for (int i = 0; i < lyrics.size(); i++) {
-                //mChords.add(new ArrayList<Chord>());
                 TypeLineOfLyrics typeLineOfLyrics = new TypeLineOfLyrics(lyrics.get(i));
-                //typeLineOfLyrics.setLyricsInLine(lyrics.get(i));
                 typeLineOfLyricsArrayList.add(typeLineOfLyrics);
             }
 
-            for (SongChordJoinDao.ChordInSong specyficChord : mSpecificChords) {
-                int lineNumber = specyficChord.getLineNumber();
-                //int chordNumber = specyficChord.getChordNumber();
-                Chord chord = specyficChord.getChord();
+            for (SongChordJoinDao.ChordInSong specificChord : mSpecificChords) {
+                int lineNumber = specificChord.getLineNumber();
+                Chord chord = specificChord.getChord();
 
                 TypeLineOfLyrics typeLineOfLyrics = typeLineOfLyricsArrayList.get(lineNumber);
                 typeLineOfLyrics.getChordsInLine().add(chord);
@@ -287,7 +281,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
             final ArrayList<Chord> chordsInLine = typeLineOfLyricsItem.getChordsInLine();
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(
+                    context, RecyclerView.HORIZONTAL, false);
             mChordsLineRecyclerView.setLayoutManager(layoutManager);
             mChordsLineAdapter.setChordsInLine(chordsInLine);
 
@@ -301,7 +296,10 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             }
 
             @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            public void getItemOffsets(Rect outRect,
+                                       @NonNull View view,
+                                       @NonNull RecyclerView parent,
+                                       @NonNull RecyclerView.State state) {
                 outRect.left = space;
                 outRect.right = space;
             }

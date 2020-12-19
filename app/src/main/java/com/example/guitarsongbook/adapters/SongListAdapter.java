@@ -174,22 +174,19 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         private final TextView mArtistTextView;
         private final ImageButton mFavouriteImageButton;
         private final ImageView mMusicGenreImageView;
-        private final View itemView;
 
         public SongViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.itemView = itemView;
             mTitleTextView = itemView.findViewById(R.id.song_title_txt_);
             mArtistTextView = itemView.findViewById(R.id.artist_txt_);
             mFavouriteImageButton = itemView.findViewById(R.id.favourite_btn_);
             mMusicGenreImageView = itemView.findViewById(R.id.artist_img_);
             itemView.setOnClickListener(this);
-
         }
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
+            int position = getAbsoluteAdapterPosition();
             if (searchFragment != null) {
                 searchFragment.insertCurrentQueryToDatabase();
             }
@@ -222,9 +219,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                FragmentTransaction fragmentTransaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction =
+                        ((MainActivity) context).getSupportFragmentManager().beginTransaction();
                 if (animateTransition) {
-                    fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+                    fragmentTransaction.setCustomAnimations(R.anim.fade_in,
+                            R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                 }
                 fragmentTransaction.addToBackStack(null)
                         .replace(R.id.fragment_container_fl_, songDisplayFragment)
