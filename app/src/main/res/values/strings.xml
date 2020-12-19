@@ -72,6 +72,9 @@
     <string name="listen_at_youtube">Posłuchaj na YouTube</string>
     <string name="listen_at_spotify">Posłuchaj na Spotify</string>
     <string name="intent_failure_message">Niepowodzenie. Nie znaleziono aplikacji.</string>
+    <string name="about_application">O aplikacji</string>
+    <string name="version">Wersja</string>
+    <string name="app_author">Autor</string>
 
 
     <string-array name="font_size_entries">

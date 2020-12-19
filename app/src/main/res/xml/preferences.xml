@@ -21,7 +21,7 @@
         app:iconSpaceReserved="false" />
 
     <SwitchPreferenceCompat
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="@string/switch_screen_blanking_pref_key"
         android:summary="@string/screen_blanking_preference_summary"
         android:title="@string/screen_blanking_preference_title"
@@ -34,4 +34,23 @@
         android:title="@string/animation_preference_title"
         app:iconSpaceReserved="false" />
 
+    <PreferenceCategory
+        app:key="app_info"
+        android:layout="@layout/preferences_category"
+        app:title="@string/about_application"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:key="version"
+            app:summary="v1.0"
+            app:title="@string/version"
+            app:iconSpaceReserved="false"/>
+
+        <Preference
+            app:key="author"
+            app:summary="Wojciech Korczyński"
+            app:title="@string/app_author"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>
