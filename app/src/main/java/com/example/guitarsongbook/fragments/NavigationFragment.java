@@ -163,8 +163,6 @@ public class NavigationFragment extends SearchLaunchingFragment {
                 changeFragmentWithDelay(SongListFragment.newInstance(MusicGenre.SHANTY));
             }
         });
-
-
     }
 
     private void handleMainActivityFeatures() {
