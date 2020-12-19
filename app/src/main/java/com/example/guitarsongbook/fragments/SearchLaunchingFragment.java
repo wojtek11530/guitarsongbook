@@ -15,8 +15,6 @@ import androidx.preference.PreferenceManager;
 
 import com.example.guitarsongbook.R;
 
-import java.util.Objects;
-
 public class SearchLaunchingFragment extends Fragment {
 
     private boolean animateTransition;
@@ -32,7 +30,6 @@ public class SearchLaunchingFragment extends Fragment {
         animateTransition = sharedPref.getBoolean(
                 context.getResources().getString(R.string.switch_animation_pref_key),
                 true);
-
     }
 
     @Override

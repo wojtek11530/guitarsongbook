@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -225,7 +224,6 @@ public class SongListFragment extends SearchLaunchingFragment {
         }, 250);
     }
 
-
     private void configureAppBarTitle() {
 
         MainActivity activity = (MainActivity) getActivity();
@@ -320,7 +318,6 @@ public class SongListFragment extends SearchLaunchingFragment {
             configureAllSongsObserver();
         }
         configureAllArtistObserver();
-
     }
 
     private void configureAllArtistObserver() {

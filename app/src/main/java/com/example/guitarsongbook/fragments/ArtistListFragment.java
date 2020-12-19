@@ -4,7 +4,6 @@ package com.example.guitarsongbook.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,18 +23,12 @@ import com.l4digital.fastscroll.FastScroller;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ArtistListFragment extends SearchLaunchingFragment {
-
 
     private RecyclerView artistListRecyclerView;
     private FastScroller fastScroller;
     private ArtistListAdapter adapter;
     private GuitarSongbookViewModel mGuitarSongbookViewModel;
-
-    private static final String CHECKED_MENU_ITEM_ID_KEY = "CHECKED_MENU_ITEM_ID_KEY";
 
     public static ArtistListFragment newInstance() {
         ArtistListFragment fragment = new ArtistListFragment();
@@ -58,6 +51,14 @@ public class ArtistListFragment extends SearchLaunchingFragment {
         initRecyclerView(view);
         setViewModelObservers();
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (fastScroller != null) {
+            fastScroller.detachRecyclerView();
+        }
+        super.onDestroy();
     }
 
     private void setAppBarTitle() {
@@ -94,6 +95,4 @@ public class ArtistListFragment extends SearchLaunchingFragment {
             }
         });
     }
-
-
 }

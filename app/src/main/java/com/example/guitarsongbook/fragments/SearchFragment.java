@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SearchFragment newInstance() { //String query) {
+    public static SearchFragment newInstance() {
         return new SearchFragment();
     }
 
@@ -88,6 +88,7 @@ public class SearchFragment extends Fragment {
 
     private void configureSearching(Menu menu) {
         SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
+        assert searchManager != null;
         configureSearchView(menu, searchManager);
     }
 
@@ -235,12 +236,10 @@ public class SearchFragment extends Fragment {
 
     private void setFoundSongs(List<Song> mFoundSong) {
         this.mFoundSongs = mFoundSong;
-//        adjustSongViewsVisibility();
     }
 
     private void setFoundArtists(List<Artist> mFoundArtists) {
         this.mFoundArtists = mFoundArtists;
-//        adjustArtistViewsVisibility();
     }
 
     private void adjustSongViewsVisibility() {
@@ -292,9 +291,7 @@ public class SearchFragment extends Fragment {
                     if (searchView.isIconified()) {
                         return true;
                     }
-//                    if (!query.equals("")) {
                     mNotEmptyQuery = query;
-//                    }
                     performSearching(query);
                     return true;
                 }
