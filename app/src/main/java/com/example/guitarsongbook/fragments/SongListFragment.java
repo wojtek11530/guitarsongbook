@@ -43,7 +43,7 @@ public class SongListFragment extends SearchLaunchingFragment {
 
     private SongListAdapter adapter;
     private boolean animateTransition;
-    private boolean firstOnScrollInvoke = true;
+    private boolean firstOnScrollInvoke;
     private boolean fabOnScreen = true;
     private boolean fastScrolling = false;
 
@@ -138,6 +138,7 @@ public class SongListFragment extends SearchLaunchingFragment {
         songListRecyclerView.setAdapter(adapter);
         songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        firstOnScrollInvoke = true;
         songListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
