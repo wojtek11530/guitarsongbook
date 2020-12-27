@@ -61,7 +61,6 @@ public class SongRepository {
         return mSongDao.getFavouriteSongs();
     }
 
-
     public LiveData<List<Song>> getSongByQuery(String query) {
         query = "%" + query + "%";
         return mSongDao.getSongByQuery(query);
