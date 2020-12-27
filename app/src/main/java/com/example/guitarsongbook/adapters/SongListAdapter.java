@@ -34,7 +34,6 @@ import java.util.Random;
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>
         implements FastScroller.SectionIndexer {
 
-
     private Context context;
     private SearchFragment searchFragment;
     private final LayoutInflater mInflater;
@@ -45,7 +44,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
     public SongListAdapter(Context context, Fragment fragment) {
         this.context = context;
-        this.searchFragment = fragment instanceof SearchFragment? (SearchFragment) fragment: null;
+        this.searchFragment = fragment instanceof SearchFragment ? (SearchFragment) fragment : null;
 
         mGuitarSongbookViewModel = new ViewModelProvider(fragment).get(GuitarSongbookViewModel.class);
         mInflater = LayoutInflater.from(context);
@@ -127,7 +126,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             }
 
         } else {
-            holder.mTitleTextView.setText("No Song");
+            holder.mTitleTextView.setText(R.string.no_songs);
         }
     }
 
@@ -211,7 +210,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         }
         return songDisplayFragment;
     }
-
 
 
     private void changeFragmentWithDelay(final SongDisplayFragment songDisplayFragment) {

@@ -75,7 +75,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
 
         } else {
             // Covers the case of data not being ready yet.
-            holder.mArtistNameTextView.setText("No Artist");
+            holder.mArtistNameTextView.setText(R.string.no_artist);
         }
     }
 

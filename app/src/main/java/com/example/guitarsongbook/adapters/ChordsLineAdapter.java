@@ -27,7 +27,7 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
 
     private ArrayList<Chord> mChordsInLine;
 
-    int mFontSize = 20;
+    int mFontSize;
 
     public ChordsLineAdapter(Context context) {
         this.context = context;
@@ -62,13 +62,6 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         return mChordsInLine.size();
     }
 
-    public int getCharAmountOfAllChords() {
-        int numberOfChars = 0;
-        for (Chord chord : mChordsInLine) {
-            numberOfChars += chord.getMSymbol().length();
-        }
-        return numberOfChars;
-    }
 
     public class ChordsLineHolder extends RecyclerView.ViewHolder {
 

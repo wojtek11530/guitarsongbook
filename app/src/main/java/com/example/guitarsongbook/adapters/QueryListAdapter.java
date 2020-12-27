@@ -45,7 +45,7 @@ public class QueryListAdapter extends RecyclerView.Adapter<QueryListAdapter.Quer
             holder.mQueryTextView.setText(currentArtist.getMQueryText());
         } else {
             // Covers the case of data not being ready yet.
-            holder.mQueryTextView.setText("No Queries");
+            holder.mQueryTextView.setText(R.string.no_queries);
         }
     }
 
