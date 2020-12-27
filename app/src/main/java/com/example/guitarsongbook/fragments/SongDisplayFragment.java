@@ -169,17 +169,7 @@ public class SongDisplayFragment extends Fragment {
             }
 
             if (songId != null) {
-                mGuitarSongbookViewModel.getSongById(songId).observe(getViewLifecycleOwner(), new Observer<Song>() {
-                    @Override
-                    public void onChanged(@Nullable final Song song) {
-                        mSongToDisplay = song;
-                        mSongDisplayAdapter.setSong(song);
-                        mFavourite = mSongToDisplay.getMIsFavourite();
-                        assert song != null;
-                        setTitle(song.getMTitle());
-                        adjustAddToFavouriteMenuItem();
-                    }
-                });
+                configureSongObserver(songId);
 
                 mGuitarSongbookViewModel.getChordsInSongBySongId(songId).observe(getViewLifecycleOwner(), new Observer<List<SongChordJoinDao.ChordInSong>>() {
                     @Override
@@ -214,7 +204,7 @@ public class SongDisplayFragment extends Fragment {
             }
         }
 
-        initToolBarFeatures(savedInstanceState);
+        initToolbarsFeatures(savedInstanceState);
         configureBlankingScreen();
 
         Context context = getContext();
@@ -253,6 +243,7 @@ public class SongDisplayFragment extends Fragment {
                     .setVisible(true);
         }
         mFavourite = mSongToDisplay.getMIsFavourite();
+        configureSongObserver(mSongToDisplay.getMId());
     }
 
     @Override
@@ -306,6 +297,20 @@ public class SongDisplayFragment extends Fragment {
         mSongDisplayAdapter = new SongDisplayAdapter(getContext());
         mSongLyricsRecyclerView.setAdapter(mSongDisplayAdapter);
         mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void configureSongObserver(Long songId) {
+        mGuitarSongbookViewModel.getSongById(songId).observe(getViewLifecycleOwner(), new Observer<Song>() {
+            @Override
+            public void onChanged(@Nullable final Song song) {
+                mSongToDisplay = song;
+                mSongDisplayAdapter.setSong(song);
+                mFavourite = mSongToDisplay.getMIsFavourite();
+                assert song != null;
+                setTitle(song.getMTitle());
+                adjustAddToFavouriteMenuItem();
+            }
+        });
     }
 
     private void adjustAddToFavouriteMenuItem() {
@@ -569,7 +574,7 @@ public class SongDisplayFragment extends Fragment {
         return mAutoScrollSeekBar.getMax() * (1 - (autoscrollDelay - MIN_AUTO_SCROLL_DELAY) / MIN_MAX_DELAY_INTERVAL);
     }
 
-    private void initToolBarFeatures(Bundle savedInstanceState) {
+    private void initToolbarsFeatures(Bundle savedInstanceState) {
 
         adjustAddToFavouriteMenuItem();
         adjustTransposeBar();
@@ -581,11 +586,9 @@ public class SongDisplayFragment extends Fragment {
             if (savedInstanceState.getBoolean(IS_AUTO_SCROLL_BAR_ON)) {
                 switchDisplayingAutoScrollBar();
             }
-
             if (savedInstanceState.getBoolean(IS_AUTO_SCROLL_RUNNING_VALUE_KEY)) {
                 runAutoScroll();
             }
-
             if (savedInstanceState.getBoolean(IS_TRANSPOSE_BAR_ON)) {
                 switchDisplayingTransposeBar();
             }
