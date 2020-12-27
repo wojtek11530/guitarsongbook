@@ -141,6 +141,9 @@ public class SongDisplayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            restoreDataFromSavedInstanceState(savedInstanceState);
+        }
         setHasOptionsMenu(true);
     }
 
@@ -158,8 +161,7 @@ public class SongDisplayFragment extends Fragment {
         initTransposeBar(view);
 
         if (savedInstanceState != null) {
-            restoreDataFromSavedInstanceState(savedInstanceState);
-
+            adjustComponentsBasedOnData();
         } else if (getArguments() != null) {
             Long songId = null;
             if (getArguments().containsKey(SONG_ID_KEY)) {
@@ -225,6 +227,35 @@ public class SongDisplayFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mTransposeMenuItem.setChecked(mTransposeBarOn);
+        mAutoScrollMenuItem.setChecked(mAutoScrollBarOn);
+        mAddToFavouriteMenuItem.setChecked(mFavourite);
+    }
+
+    private void restoreDataFromSavedInstanceState(Bundle savedInstanceState) {
+        mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
+        mArtistOfSong = savedInstanceState.getParcelable(ARTIST_DATA_KEY);
+        mSpecificChordsInSong = savedInstanceState.getParcelableArrayList(SPECIFIC_CHORDS_DATA_KEY);
+        mTransposableSpecificChordsInSong = savedInstanceState.getParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY);
+        mTransposeValue = savedInstanceState.getInt(TRANSPOSE_VALUE_KEY);
+    }
+
+    private void adjustComponentsBasedOnData() {
+        setTitle(mSongToDisplay.getMTitle());
+        mSongDisplayAdapter.setSong(mSongToDisplay);
+        mSongDisplayAdapter.setArtist(mArtistOfSong);
+        mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
+
+        if (mArtistOfSong != null && optionsMenu != null) {
+            optionsMenu.findItem(R.id.other_from_artist)
+                    .setVisible(true);
+        }
+        mFavourite = mSongToDisplay.getMIsFavourite();
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         optionsMenu = menu;
         inflater.inflate(R.menu.song_display_menu, menu);
@@ -250,17 +281,9 @@ public class SongDisplayFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        mTransposeMenuItem.setChecked(mTransposeBarOn);
-        mAutoScrollMenuItem.setChecked(mAutoScrollBarOn);
-        mAddToFavouriteMenuItem.setChecked(mFavourite);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.other_from_artist) {
-            runSongFromArtistListFragment();
+            runSongArtistListFragment();
             return true;
         } else if (item.getItemId() == R.id.youtube) {
             searchSongAtYouTube();
@@ -276,26 +299,6 @@ public class SongDisplayFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
         activity.setAppBarTitle(title);
-    }
-
-    private void restoreDataFromSavedInstanceState(Bundle savedInstanceState) {
-        mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
-        mArtistOfSong = savedInstanceState.getParcelable(ARTIST_DATA_KEY);
-        mSpecificChordsInSong = savedInstanceState.getParcelableArrayList(SPECIFIC_CHORDS_DATA_KEY);
-
-        mTransposableSpecificChordsInSong = savedInstanceState.getParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY);
-        mTransposeValue = savedInstanceState.getInt(TRANSPOSE_VALUE_KEY);
-
-        setTitle(mSongToDisplay.getMTitle());
-        mSongDisplayAdapter.setSong(mSongToDisplay);
-        mSongDisplayAdapter.setArtist(mArtistOfSong);
-        mSongDisplayAdapter.setSpecificChords(mTransposableSpecificChordsInSong);
-
-        if (mArtistOfSong != null && optionsMenu != null) {
-            optionsMenu.findItem(R.id.other_from_artist)
-                    .setVisible(true);
-        }
-        mFavourite = mSongToDisplay.getMIsFavourite();
     }
 
     private void initLyricsRecyclerView(View view) {
@@ -401,6 +404,7 @@ public class SongDisplayFragment extends Fragment {
 
     private abstract class TransposeSetButtonOnClickListener implements View.OnClickListener {
         abstract Long getDemandedChordId(Chord chord);
+
         abstract void setTransposeValue();
 
         @Override
@@ -640,7 +644,7 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView.setKeepScreenOn(!blankingScreenOn);
     }
 
-    private void runSongFromArtistListFragment() {
+    private void runSongArtistListFragment() {
         if (mArtistOfSong != null) {
             Long artistId = mArtistOfSong.getMId();
             SongListFragment songListFragment = SongListFragment.newInstance(artistId);
@@ -703,16 +707,30 @@ public class SongDisplayFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(SONG_DATA_KEY, mSongToDisplay);
-        outState.putParcelable(ARTIST_DATA_KEY, mArtistOfSong);
-        outState.putParcelableArrayList(SPECIFIC_CHORDS_DATA_KEY, new ArrayList<>(mSpecificChordsInSong));
-
+        if (mSongToDisplay != null) {
+            outState.putParcelable(SONG_DATA_KEY, mSongToDisplay);
+        }
+        if (mArtistOfSong != null) {
+            outState.putParcelable(ARTIST_DATA_KEY, mArtistOfSong);
+        }
+        if (mSpecificChordsInSong != null) {
+            outState.putParcelableArrayList(
+                    SPECIFIC_CHORDS_DATA_KEY,
+                    new ArrayList<>(mSpecificChordsInSong)
+            );
+        }
+        if (mTransposableSpecificChordsInSong != null) {
+            outState.putParcelableArrayList(
+                    TRANSPOSABLE_CHORDS_DATA_KEY,
+                    new ArrayList<>(mTransposableSpecificChordsInSong)
+            );
+        }
         outState.putInt(AUTO_SCROLL_DELAY_VALUE_KEY, timerRunnable.getAutoScrollingDelayInMilisec());
         outState.putBoolean(IS_AUTO_SCROLL_RUNNING_VALUE_KEY, mAutoScrollRunning);
         outState.putBoolean(IS_AUTO_SCROLL_BAR_ON, mAutoScrollBarOn);
 
         outState.putBoolean(IS_TRANSPOSE_BAR_ON, mTransposeBarOn);
-        outState.putParcelableArrayList(TRANSPOSABLE_CHORDS_DATA_KEY, new ArrayList<>(mTransposableSpecificChordsInSong));
+
         outState.putInt(TRANSPOSE_VALUE_KEY, mTransposeValue);
 
         super.onSaveInstanceState(outState);
