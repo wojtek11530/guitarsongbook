@@ -3,10 +3,8 @@ package com.example.guitarsongbook;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.guitarsongbook.fragments.NavigationFragment;
-import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +18,6 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final int DEFAULT_ACTION_BAR_ELEVATION = 2;
-
     Toolbar toolbar;
     FragmentManager fragmentManager;
     private SharedPreferences sharedPref;
@@ -30,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         initializeViews();
         configureFragmentManager();
@@ -64,14 +59,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (fragmentManager.getBackStackEntryCount() > 0) {
-//            fragmentManager.popBackStack();
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
 
     private void configureFragmentManager() {
         fragmentManager = getSupportFragmentManager();
@@ -113,15 +100,5 @@ public class MainActivity extends AppCompatActivity {
     public void setAppBarTitle(String title) {
         ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
         actionBar.setTitle(title);
-    }
-
-    public void removeAppBarShadow() {
-        mAppBarLayout.setElevation(0.0f);
-    }
-
-    public void addAppBarShadow() {
-        float elevationInDp = 4;
-        float elevationInPx = elevationInDp * getResources().getDisplayMetrics().density;
-        mAppBarLayout.setElevation(elevationInPx);
     }
 }

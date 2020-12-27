@@ -25,7 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ArtistViewHolder> implements FastScroller.SectionIndexer {
+public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ArtistViewHolder>
+        implements FastScroller.SectionIndexer {
 
     private Context context;
     private SearchFragment searchFragment;
@@ -141,7 +142,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
+            int position = getAbsoluteAdapterPosition();
             if (searchFragment != null) {
                 searchFragment.insertCurrentQueryToDatabase();
             }
@@ -159,9 +160,11 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                FragmentTransaction fragmentTransaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction =
+                        ((MainActivity) context).getSupportFragmentManager().beginTransaction();
                 if (animateTransition) {
-                    fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+                    fragmentTransaction.setCustomAnimations(
+                            R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                 }
                 fragmentTransaction.addToBackStack(null)
                         .replace(R.id.fragment_container_fl_, songListFragment)

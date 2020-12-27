@@ -4,10 +4,8 @@ package com.example.guitarsongbook.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.l4digital.fastscroll.FastScroller;
 
 import java.util.List;
-import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SongListFragment extends SearchLaunchingFragment {
 
     private RecyclerView songListRecyclerView;
@@ -50,7 +43,7 @@ public class SongListFragment extends SearchLaunchingFragment {
 
     private SongListAdapter adapter;
     private boolean animateTransition;
-    private boolean firstOnScrollInvoke = true;
+    private boolean firstOnScrollInvoke;
     private boolean fabOnScreen = true;
     private boolean fastScrolling = false;
 
@@ -59,10 +52,6 @@ public class SongListFragment extends SearchLaunchingFragment {
     private static final String ARTIST_ID_KEY = "ARTIST_ID_KEY";
     private static final String IS_FAVOURITE_SONG_LIST_KEY = "IS_FAVOURITE_SONG_LIST_KEY";
 
-    private final String KEY_RECYCLER_STATE = "recycler_state";
-    public static Bundle mBundleRecyclerViewState;
-    private Parcelable mListState = null;
-    private boolean saveRecyclerViewState = true;
 
     public static SongListFragment newInstance() {
         SongListFragment fragment = new SongListFragment();
@@ -120,31 +109,12 @@ public class SongListFragment extends SearchLaunchingFragment {
         configureFastScroller();
         configureAppBarTitle();
         configureFloatingActionButton();
-        handleMainActivityFeatures();
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
         animateTransition = sharedPref.getBoolean(
                 requireContext().getResources().getString(R.string.switch_animation_pref_key),
                 true);
         return view;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (mBundleRecyclerViewState != null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
-                    Objects.requireNonNull(songListRecyclerView.getLayoutManager()).onRestoreInstanceState(mListState);
-
-                }
-            }, 50);
-        }
-        songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -164,8 +134,11 @@ public class SongListFragment extends SearchLaunchingFragment {
 
     private void configureRecyclerView() {
         adapter = new SongListAdapter(getContext(), this);
+        adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         songListRecyclerView.setAdapter(adapter);
+        songListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        firstOnScrollInvoke = true;
         songListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -189,10 +162,10 @@ public class SongListFragment extends SearchLaunchingFragment {
             floatingActionButton.animate().translationY(0);
             fabOnScreen = true;
         } else if (!show && fabOnScreen) {
-
-
+            int fabYPosition = floatingActionButton.getHeight() +
+                    2 * floatingActionButton.getPaddingBottom();
             floatingActionButton.animate()
-                    .translationY(floatingActionButton.getHeight() + 2*floatingActionButton.getPaddingBottom());
+                    .translationY(fabYPosition);
             fabOnScreen = false;
         }
     }
@@ -210,7 +183,6 @@ public class SongListFragment extends SearchLaunchingFragment {
         fastScroller.setSectionIndexer(adapter);
         fastScroller.attachRecyclerView(songListRecyclerView);
 
-
         fastScroller.setFastScrollListener(new FastScroller.FastScrollListener() {
             @Override
             public void onFastScrollStart(FastScroller fastScroller) {
@@ -223,7 +195,6 @@ public class SongListFragment extends SearchLaunchingFragment {
                 setFabVisibility(true);
             }
         });
-
     }
 
     private void configureFloatingActionButton() {
@@ -241,9 +212,11 @@ public class SongListFragment extends SearchLaunchingFragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction =
+                        requireActivity().getSupportFragmentManager().beginTransaction();
                 if (animateTransition) {
-                    fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+                    fragmentTransaction.setCustomAnimations(
+                            R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                 }
                 fragmentTransaction.addToBackStack(null)
                         .replace(R.id.fragment_container_fl_, songDisplayFragment)
@@ -251,7 +224,6 @@ public class SongListFragment extends SearchLaunchingFragment {
             }
         }, 250);
     }
-
 
     private void configureAppBarTitle() {
 
@@ -326,7 +298,6 @@ public class SongListFragment extends SearchLaunchingFragment {
     }
 
     private void configureViewModelObservers() {
-
         assert getArguments() != null;
         if (getArguments().containsKey(SONGS_KIND_KEY)) {
             Kind kind = (Kind) getArguments().getSerializable(SONGS_KIND_KEY);
@@ -348,7 +319,6 @@ public class SongListFragment extends SearchLaunchingFragment {
             configureAllSongsObserver();
         }
         configureAllArtistObserver();
-
     }
 
     private void configureAllArtistObserver() {
@@ -412,24 +382,5 @@ public class SongListFragment extends SearchLaunchingFragment {
                 adapter.setSongs(songs);
             }
         });
-    }
-
-    private void handleMainActivityFeatures() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        assert mainActivity != null;
-    }
-
-    @Override
-    public void onPause() {
-        if (saveRecyclerViewState) {
-            mBundleRecyclerViewState = new Bundle();
-            mListState = Objects.requireNonNull(songListRecyclerView.getLayoutManager()).onSaveInstanceState();
-            mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
-        }
-        super.onPause();
-    }
-
-    public void setSaveRecyclerViewState(boolean saveRecyclerViewState) {
-        this.saveRecyclerViewState = saveRecyclerViewState;
     }
 }

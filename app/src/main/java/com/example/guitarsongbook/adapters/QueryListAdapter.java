@@ -18,12 +18,10 @@ import java.util.List;
 public class QueryListAdapter extends RecyclerView.Adapter<QueryListAdapter.QueryViewHolder>{
 
     private final SearchFragment searchFragment;
-    private Context context;
     private final LayoutInflater mInflater;
     private List<SearchQuery> mSearchQueries;
 
     public QueryListAdapter(Context context, SearchFragment searchFragment) {
-        this.context = context;
         this.searchFragment = searchFragment;
         mInflater = LayoutInflater.from(context);
     }
@@ -53,9 +51,11 @@ public class QueryListAdapter extends RecyclerView.Adapter<QueryListAdapter.Quer
 
     @Override
     public int getItemCount() {
-        if (mSearchQueries != null)
+        if (mSearchQueries != null) {
             return mSearchQueries.size();
-        else return 0;
+        } else{
+            return 0;
+        }
     }
 
     public class QueryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -70,7 +70,7 @@ public class QueryListAdapter extends RecyclerView.Adapter<QueryListAdapter.Quer
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
+            int position = getAbsoluteAdapterPosition();
             SearchQuery searchQuery = mSearchQueries.get(position);
             searchFragment.setQuery(searchQuery.getMQueryText());
         }

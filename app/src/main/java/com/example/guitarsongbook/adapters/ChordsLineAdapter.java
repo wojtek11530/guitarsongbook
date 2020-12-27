@@ -33,14 +33,11 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         this.context = context;
         mInflater = LayoutInflater.from(context);
 
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String fontSizePreferenceValue = sharedPref.getString(
                 context.getResources().getString(R.string.chord_text_size_pref_key),
                 context.getResources().getString(R.string.lyrics_and_chords_default_text_size));
-        assert fontSizePreferenceValue != null;
-        mFontSize = Integer.valueOf(fontSizePreferenceValue);
-
+        mFontSize = Integer.parseInt(fontSizePreferenceValue);
     }
 
     @NonNull
@@ -78,7 +75,6 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
         private final TextView mChordInLineTextView;
         private Chord mChord;
 
-
         public ChordsLineHolder(@NonNull View itemView) {
             super(itemView);
             mChordInLineTextView = itemView.findViewById(R.id.chord_in_line_txt_);
@@ -87,10 +83,6 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
-
-                    Chord chordToDisplay = mChordsInLine.get(position);
-
                     String chordDialogTitle = context.getString(R.string.chord) + " " + mChord.getSymbolToDisplay();
 
                     String chordSymbolInLowerCase = mChord.getMSymbol().toLowerCase();
@@ -109,7 +101,6 @@ public class ChordsLineAdapter extends RecyclerView.Adapter<ChordsLineAdapter.Ch
                         fileName = chordSymbolInLowerCase + "_diagram_" + numberOfDiagram;
                         diagramId = resources.getIdentifier(
                                 fileName, "drawable", packageName);
-
                     }
 
                     DialogFragment newDialogFragment = ChordDialogFragment.newInstance(chordDialogTitle, chordDiagramDrawableIds);

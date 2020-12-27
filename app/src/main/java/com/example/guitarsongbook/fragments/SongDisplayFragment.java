@@ -226,7 +226,6 @@ public class SongDisplayFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         optionsMenu = menu;
-
         inflater.inflate(R.menu.song_display_menu, menu);
 
         if (mArtistOfSong == null) {
@@ -272,13 +271,11 @@ public class SongDisplayFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void setTitle(String title) {
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
         activity.setAppBarTitle(title);
     }
-
 
     private void restoreDataFromSavedInstanceState(Bundle savedInstanceState) {
         mSongToDisplay = savedInstanceState.getParcelable(SONG_DATA_KEY);
@@ -306,7 +303,6 @@ public class SongDisplayFragment extends Fragment {
         mSongLyricsRecyclerView.setAdapter(mSongDisplayAdapter);
         mSongLyricsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
-
 
     private void adjustAddToFavouriteMenuItem() {
         if (mFavourite) {
@@ -354,7 +350,6 @@ public class SongDisplayFragment extends Fragment {
         mAutoScrollBar.setVisibility(mAutoScrollBarOn ? View.VISIBLE : View.GONE);
     }
 
-
     private void switchDisplayingTransposeBar() {
         mTransposeBarOn = !mTransposeBarOn;
         mTransposeMenuItem.setChecked(mTransposeBarOn);
@@ -365,7 +360,6 @@ public class SongDisplayFragment extends Fragment {
         findTransposeBarViews(view);
         setOnClickListenersForTransposeBarViews();
     }
-
 
     private void findTransposeBarViews(View view) {
         mTransposeBar = view.findViewById(R.id.transpose_bar);
@@ -392,7 +386,6 @@ public class SongDisplayFragment extends Fragment {
     }
 
     private class ResetTransposeButtonOnClickListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             mTransposableSpecificChordsInSong = new ArrayList<>();
@@ -406,9 +399,7 @@ public class SongDisplayFragment extends Fragment {
     }
 
     private abstract class TransposeSetButtonOnClickListener implements View.OnClickListener {
-
         abstract Long getDemandedChordId(Chord chord);
-
         abstract void setTransposeValue();
 
         @Override
@@ -517,7 +508,6 @@ public class SongDisplayFragment extends Fragment {
         mAutoScrollSeekBar = view.findViewById(R.id.autoscroll_seek_bar);
     }
 
-
     private void setAutoScrollBarViewsListeners() {
         mCloseAutoScrollBarImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -551,7 +541,6 @@ public class SongDisplayFragment extends Fragment {
             }
         });
     }
-
 
     private void restoreStateForAutoScrolling(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -699,7 +688,6 @@ public class SongDisplayFragment extends Fragment {
         toast.show();
     }
 
-
     private String getQueryForSong() {
         StringBuilder sb = new StringBuilder();
         if (mArtistOfSong != null) {
@@ -711,7 +699,6 @@ public class SongDisplayFragment extends Fragment {
         }
         return sb.toString();
     }
-
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -729,5 +716,4 @@ public class SongDisplayFragment extends Fragment {
 
         super.onSaveInstanceState(outState);
     }
-
 }
