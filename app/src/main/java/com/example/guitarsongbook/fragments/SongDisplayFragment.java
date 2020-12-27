@@ -93,7 +93,8 @@ public class SongDisplayFragment extends Fragment {
     private ImageButton mResetTransposeImageButton;
 
     private int mTransposeValue = 0;
-    private Map<SongChordJoinDao.ChordInSong, Boolean> chordToIsTransposed = new HashMap<SongChordJoinDao.ChordInSong, Boolean>();
+    private Map<SongChordJoinDao.ChordInSong, Boolean> chordToIsTransposed =
+            new HashMap<>();
 
     private Menu optionsMenu;
     private boolean animateTransition;
