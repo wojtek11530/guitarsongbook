@@ -250,7 +250,6 @@ public class SongListFragment extends SearchLaunchingFragment {
         } else {
             activity.setAppBarTitle(getResources().getString(R.string.all));
         }
-
     }
 
     private void configureAppBarTitleForKind(Kind kind) {
