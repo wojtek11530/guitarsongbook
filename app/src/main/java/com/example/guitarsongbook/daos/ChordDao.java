@@ -6,7 +6,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.guitarsongbook.model.Artist;
 import com.example.guitarsongbook.model.Chord;
 
 import java.util.List;
