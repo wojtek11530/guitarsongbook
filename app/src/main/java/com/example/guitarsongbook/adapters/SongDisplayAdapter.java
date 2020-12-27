@@ -254,7 +254,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
             mChordsLineAdapter = new ChordsLineAdapter(context);
             mChordsLineRecyclerView.setAdapter(mChordsLineAdapter);
-            mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
+            mChordsLineRecyclerView.addItemDecoration(
+                    new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
         }
 
         @Override
