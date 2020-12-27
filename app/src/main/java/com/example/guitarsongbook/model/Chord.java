@@ -45,7 +45,6 @@ public class Chord implements Parcelable {
     @ColumnInfo(name = "previous_chord_id")
     private Long mPreviousChordId;
 
-
     public Chord(Long mId, String mSymbol, String mNextChordSymbol, Long mNextChordId,
                  String mPreviousChordSymbol, Long mPreviousChordId, String mDisplaySymbol) {
         this.mId = mId;
@@ -121,10 +120,9 @@ public class Chord implements Parcelable {
         this.mPreviousChordSymbol = mPreviousChordSymbol;
     }
 
-    public String getSymbolToDisplay(){
-        return mDisplaySymbol == null? mSymbol: mDisplaySymbol;
+    public String getSymbolToDisplay() {
+        return mDisplaySymbol == null ? mSymbol : mDisplaySymbol;
     }
-
 
     @Override
     public int describeContents() {

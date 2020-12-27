@@ -142,7 +142,6 @@ public class Song implements Parcelable {
         this.mIsFavourite = mIsFavourite;
     }
 
-
     public void switchIsFavourite() {
         mIsFavourite = !mIsFavourite;
     }
@@ -175,13 +174,11 @@ public class Song implements Parcelable {
 
         int indicatorArtistIdNull = in.readInt();
         long artistIdPrimitive = in.readLong();
-        if(indicatorArtistIdNull == 0){
+        if (indicatorArtistIdNull == 0) {
             this.mArtistId = null;
-        }
-        else{
+        } else {
             this.mArtistId = artistIdPrimitive;
         }
-        //this.mArtistId = (Long) in.readValue(Long.class.getClassLoader());
         int tmpMKind = in.readInt();
         this.mKind = tmpMKind == -1 ? null : Kind.values()[tmpMKind];
         int tmpMMusicGenre = in.readInt();

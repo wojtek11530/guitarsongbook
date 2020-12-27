@@ -28,7 +28,6 @@ public class Artist implements Parcelable {
         this.mName = mName;
     }
 
-
     public long getMId() {
         return mId;
     }
@@ -44,7 +43,6 @@ public class Artist implements Parcelable {
     public void setMName(String mName) {
         this.mName = mName;
     }
-
 
     @Override
     public int describeContents() {
