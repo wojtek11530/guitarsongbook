@@ -55,7 +55,7 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
-    private static boolean LOAD_DATA_FROM_JSON = true;
+    private static boolean LOAD_DATA_FROM_JSON = false;
 
     private static String databaseDir = "database/guitar_songbook_database.db";
 
