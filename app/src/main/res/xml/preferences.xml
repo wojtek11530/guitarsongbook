@@ -40,15 +40,16 @@
         app:title="@string/about_application"
         app:iconSpaceReserved="false">
 
+        <!--suppress AndroidDomInspection -->
         <Preference
             app:key="version"
-            app:summary="v1.0"
+            app:summary="@string/versionName"
             app:title="@string/version"
             app:iconSpaceReserved="false"/>
 
         <Preference
             app:key="author"
-            app:summary="Wojciech Korczyński"
+            app:summary="@string/author_full_name"
             app:title="@string/app_author"
             app:iconSpaceReserved="false"/>
 
