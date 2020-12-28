@@ -1,7 +1,5 @@
 package com.example.guitarsongbook.model;
 
-import android.provider.SyncStateContract;
-
 import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
@@ -9,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,8 +24,6 @@ import static com.example.guitarsongbook.model.MusicGenre.ROCK;
 import static com.example.guitarsongbook.model.MusicGenre.SHANTY;
 
 public class Converters {
-
-    static DateFormat dataFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.US);
 
     @TypeConverter
     public static ArrayList<String> fromString(String value) {

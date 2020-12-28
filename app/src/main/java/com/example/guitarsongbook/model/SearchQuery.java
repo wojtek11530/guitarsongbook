@@ -33,7 +33,6 @@ public class SearchQuery {
         this.mDate = mDate;
     }
 
-
     public long getMId() {
         return mId;
     }

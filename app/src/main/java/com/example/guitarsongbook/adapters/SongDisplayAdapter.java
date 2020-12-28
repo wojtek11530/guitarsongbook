@@ -55,10 +55,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             return songTitle;
         }
 
-        public void setSongTitle(String songTitle) {
-            this.songTitle = songTitle;
-        }
-
         @Override
         public int getListItemType() {
             return ListItem.TYPE_SONG_TITLE;
@@ -76,9 +72,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             return artistName;
         }
 
-        public void setArtistName(String artistName) {
-            this.artistName = artistName;
-        }
 
         @Override
         public int getListItemType() {
@@ -100,18 +93,9 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             return lyricsInLine;
         }
 
-        public void setLyricsInLine(String lyricsInLine) {
-            this.lyricsInLine = lyricsInLine;
-        }
-
         public ArrayList<Chord> getChordsInLine() {
             return chordsInLine;
         }
-
-        public void setChordsInLine(ArrayList<Chord> chordsInLine) {
-            this.chordsInLine = chordsInLine;
-        }
-
 
         @Override
         public int getListItemType() {
@@ -270,7 +254,8 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
 
             mChordsLineAdapter = new ChordsLineAdapter(context);
             mChordsLineRecyclerView.setAdapter(mChordsLineAdapter);
-            mChordsLineRecyclerView.addItemDecoration(new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
+            mChordsLineRecyclerView.addItemDecoration(
+                    new SpacesItemDecoration((int) context.getResources().getDimension(R.dimen.space_between_chords)));
         }
 
         @Override

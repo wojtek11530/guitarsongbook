@@ -166,7 +166,6 @@ public class SearchFragment extends Fragment {
         mNoResultsCommunicateTextView.setVisibility(View.VISIBLE);
     }
 
-
     private void configureRecyclerViews() {
         configureFoundArtistRecyclerView();
         configureFoundSongsRecyclerView();

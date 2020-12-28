@@ -28,7 +28,7 @@ public class ChordDiagramPagerAdapter extends PagerAdapter {
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = LayoutInflater.from(context)
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(context)
                 .inflate(R.layout.chord_diagram_pager_item, null);
         ImageView imageView = view.findViewById(R.id.chord_diagram_img_);
         imageView.setImageDrawable(

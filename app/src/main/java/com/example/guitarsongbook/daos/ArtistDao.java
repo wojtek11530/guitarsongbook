@@ -10,7 +10,6 @@ import com.example.guitarsongbook.model.Artist;
 
 import java.util.List;
 
-
 @Dao
 public interface ArtistDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)

@@ -11,7 +11,7 @@ import com.example.guitarsongbook.model.Artist;
 
 import java.util.List;
 
-public class ArtistRepository{
+public class ArtistRepository {
 
     private ArtistDao mArtistDao;
     private LiveData<List<Artist>> mAllArtists;
@@ -26,7 +26,7 @@ public class ArtistRepository{
         return mAllArtists;
     }
 
-    public void insert (Artist artist) {
+    public void insert(Artist artist) {
         new InsertAsyncTask(mArtistDao).execute(artist);
     }
 

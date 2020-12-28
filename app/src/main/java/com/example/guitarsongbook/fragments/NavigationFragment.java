@@ -38,6 +38,7 @@ public class NavigationFragment extends SearchLaunchingFragment {
         View view = inflater.inflate(R.layout.fragment_navigation, container, false);
 
         Context context = getContext();
+        assert context != null;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         animateTransition = sharedPref.getBoolean(
                 context.getResources().getString(R.string.switch_animation_pref_key),

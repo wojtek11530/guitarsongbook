@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -35,6 +36,7 @@ public class ChordDialogFragment extends DialogFragment {
         return frag;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -56,6 +58,8 @@ public class ChordDialogFragment extends DialogFragment {
 
         ArrayList<Integer> chordDiagramDrawableIds;
         if (getArguments().containsKey(DIAGRAM_DRAWABLE_IDS)) {
+
+            //noinspection unchecked
             chordDiagramDrawableIds = (ArrayList<Integer>) getArguments().getSerializable(DIAGRAM_DRAWABLE_IDS);
             mChordDiagramPagerAdapter = new ChordDiagramPagerAdapter(getContext(),
                     chordDiagramDrawableIds);

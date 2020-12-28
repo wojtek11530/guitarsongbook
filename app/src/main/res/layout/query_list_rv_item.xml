@@ -12,18 +12,17 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/last_img_"
         android:layout_width="0dp"
-        android:layout_height="28dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:adjustViewBounds="true"
-        android:contentDescription="Icon of song"
+        android:contentDescription="Icon of recent queries"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_last"
-        app:tint="@color/colorTextThird" />
+        app:srcCompat="@drawable/ic_last"/>
 
     <TextView
         android:id="@+id/query_txt_"

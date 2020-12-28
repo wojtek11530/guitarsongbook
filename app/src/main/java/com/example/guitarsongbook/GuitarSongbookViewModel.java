@@ -127,7 +127,7 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
         return mSongRepository.getSongsTitleArtistIdGenreAndIsFavouriteByMusicGenre(genre);
     }
 
-    public  LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount(){
+    public LiveData<List<SongDao.ArtistSongsCount>> getArtistSongsCount() {
         return mSongRepository.getArtistSongsCount();
     }
 
@@ -168,7 +168,7 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
         mSongRepository.update(song);
     }
 
-    public void updateIsFavourite(Long songId, boolean isFavourite){
+    public void updateIsFavourite(Long songId, boolean isFavourite) {
         mSongRepository.updateIsFavourite(songId, isFavourite);
     }
 
@@ -184,8 +184,7 @@ public class GuitarSongbookViewModel extends AndroidViewModel {
         return mQueriedArtists;
     }
 
-    public LiveData<List<SearchQuery>> getRecentQueries()
-    {
+    public LiveData<List<SearchQuery>> getRecentQueries() {
         return mSearchQueryRepository.getRecentQueries();
     }
 

@@ -29,7 +29,7 @@ public class ChordRepository {
         return mAllChords;
     }
 
-    public void insert (Chord chord) {
+    public void insert(Chord chord) {
         new ChordRepository.insertAsyncTask(mChordDao).execute(chord);
     }
 
