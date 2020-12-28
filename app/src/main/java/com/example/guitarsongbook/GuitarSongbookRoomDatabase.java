@@ -55,6 +55,8 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
 
     private static GuitarSongbookRoomDatabase INSTANCE;
 
+    private static boolean LOAD_DATA_FROM_JSON = true;
+
     private static String databaseDir = "database/guitar_songbook_database.db";
 
     public static GuitarSongbookRoomDatabase getDatabase(final Context context) {
@@ -62,23 +64,26 @@ public abstract class GuitarSongbookRoomDatabase extends RoomDatabase {
             synchronized (GuitarSongbookRoomDatabase.class) {
                 if (INSTANCE == null) {
                     // Create database here
-                    INSTANCE = Room
-                            .databaseBuilder(context.getApplicationContext(),
-                                    GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
-                            .createFromAsset(databaseDir)
-                            .build();
-
-//                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-//                            GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
-//                            .fallbackToDestructiveMigration()
-//                            .addCallback(new Callback() {
-//                                @Override
-//                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
-//                                    super.onOpen(db);
-//                                    new PopulateDbAsync(INSTANCE, context.getResources()).execute();
-//                                }
-//                            })
-//                            .build();
+                    if (LOAD_DATA_FROM_JSON) {
+                        INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                                GuitarSongbookRoomDatabase.class, "guitar_songbook_database")
+                                .fallbackToDestructiveMigration()
+                                .addCallback(new Callback() {
+                                    @Override
+                                    public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                                        super.onOpen(db);
+                                        new PopulateDbAsync(INSTANCE, context.getResources()).execute();
+                                    }
+                                })
+                                .build();
+                    } else {
+                        INSTANCE = Room
+                                .databaseBuilder(context.getApplicationContext(),
+                                        GuitarSongbookRoomDatabase.class,
+                                        "guitar_songbook_database")
+                                .createFromAsset(databaseDir)
+                                .build();
+                    }
 
                 }
             }
