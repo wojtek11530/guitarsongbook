@@ -78,6 +78,7 @@
     <string name="no_artist">No Artist</string>
     <string name="no_queries">No Queries</string>
     <string name="no_songs">No Song</string>
+    <string name="author_full_name">Wojciech Korczyński</string>
 
 
     <string-array name="font_size_entries">
