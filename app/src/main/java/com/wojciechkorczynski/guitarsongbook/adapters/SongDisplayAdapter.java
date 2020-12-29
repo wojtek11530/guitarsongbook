@@ -178,11 +178,10 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
             case ListItem.TYPE_ARTIST_NAME:
                 itemView = mInflater.inflate(R.layout.type_song_artist_rv_item, parent, false);
                 return new SongArtistViewHolder(itemView);
-            case ListItem.TYPE_LINE_OF_LYRICS:
+            default:
                 itemView = mInflater.inflate(R.layout.type_song_lyrics_rv_item, parent, false);
                 return new SongLyricsViewHolder(itemView);
         }
-        return null;
     }
 
     @Override

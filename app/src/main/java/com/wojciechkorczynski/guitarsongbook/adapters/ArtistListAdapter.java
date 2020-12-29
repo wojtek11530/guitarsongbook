@@ -170,7 +170,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
                         .replace(R.id.fragment_container_fl_, songListFragment)
                         .commit();
             }
-        }, 250);
+        }, 150);
 
     }
 

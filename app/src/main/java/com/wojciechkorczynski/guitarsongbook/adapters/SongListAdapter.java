@@ -115,7 +115,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
                 }
             });
 
-
             if (currentSong.getMArtistId() != null) {
                 Artist artist = findArtistById(currentSong.getMArtistId());
                 if (artist != null) {
@@ -165,7 +164,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     public CharSequence getSectionText(int position) {
         return mSongs.get(position).getMTitle().substring(0, 1).toUpperCase();
     }
-
 
     public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -227,7 +225,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
                         .replace(R.id.fragment_container_fl_, songDisplayFragment)
                         .commit();
             }
-        }, 250);
+        }, 150);
     }
 
     public SongDisplayFragment getRandomSongDisplayFragment() {

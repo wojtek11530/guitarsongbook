@@ -43,7 +43,6 @@ public class ChordDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
         View dialogView = requireActivity().getLayoutInflater().inflate(R.layout.dialog_chord_diagram, null);
 
-
         mChordSymbolTextView = dialogView.findViewById(R.id.chord_in_dialog_symbol_txt_);
         mChordDiagramViewPager = dialogView.findViewById(R.id.chordDiagramPager);
         mCircleIndicator = dialogView.findViewById(R.id.indicator);
@@ -58,7 +57,6 @@ public class ChordDialogFragment extends DialogFragment {
 
         ArrayList<Integer> chordDiagramDrawableIds;
         if (getArguments().containsKey(DIAGRAM_DRAWABLE_IDS)) {
-
             //noinspection unchecked
             chordDiagramDrawableIds = (ArrayList<Integer>) getArguments().getSerializable(DIAGRAM_DRAWABLE_IDS);
             mChordDiagramPagerAdapter = new ChordDiagramPagerAdapter(getContext(),
